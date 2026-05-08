@@ -13,7 +13,7 @@ import {
 } from '../api';
 import type { ProfileSummary, InstanceSummary } from '../api';
 import Terminal from '../components/Terminal';
-import { PENTAHO_COLOR, PDC_COLOR, PENTAHO_BG, PDC_BG } from '../theme';
+import { PENTAHO_COLOR, PDC_COLOR } from '../theme';
 
 type Mode = 'new' | 'existing';
 
@@ -109,8 +109,8 @@ export default function ProvisionPage() {
           title="Create a brand-new EC2 instance and deploy from scratch"
           style={{
             ...modeTab,
-            background: mode === 'new' ? PENTAHO_COLOR : '#fff',
-            color: mode === 'new' ? '#fff' : '#5a6c7d',
+            background: mode === 'new' ? PENTAHO_COLOR : 'var(--panel-bg)',
+            color: mode === 'new' ? '#fff' : 'var(--text-muted)',
             borderRight: 'none',
             borderRadius: '6px 0 0 6px',
           }}
@@ -122,13 +122,13 @@ export default function ProvisionPage() {
           title="Run actions against an already-provisioned instance"
           style={{
             ...modeTab,
-            background: mode === 'existing' ? PENTAHO_COLOR : '#fff',
-            color: mode === 'existing' ? '#fff' : '#5a6c7d',
+            background: mode === 'existing' ? PENTAHO_COLOR : 'var(--panel-bg)',
+            color: mode === 'existing' ? '#fff' : 'var(--text-muted)',
             borderRadius: '0 6px 6px 0',
           }}
         >
           Existing Instance {instances.length > 0 && <span style={{
-            background: mode === 'existing' ? 'rgba(255,255,255,0.25)' : '#e8ecef',
+            background: mode === 'existing' ? 'rgba(255,255,255,0.25)' : 'var(--badge-gray-bg)',
             borderRadius: 10, padding: '1px 7px', fontSize: 11, marginLeft: 4,
           }}>{instances.length}</span>}
         </button>
@@ -157,8 +157,8 @@ export default function ProvisionPage() {
             const p = profiles.find((pr) => pr.name === selectedProfile)!;
             return (
               <div style={{
-                background: '#fff8e1', border: '1px solid #ffe082', borderRadius: 8,
-                padding: '10px 16px', marginBottom: 16, fontSize: 13,
+                background: 'var(--warn-banner-bg)', border: '1px solid var(--warn-banner-border)', borderRadius: 8,
+                padding: '10px 16px', marginBottom: 16, fontSize: 13, color: 'var(--warn-banner-fg)',
               }}>
                 <b>⚠ This profile already has an active instance</b> ({p.instance_ip} — {p.instance_state}).
                 Creating a new one will launch an <b>additional</b> EC2 instance, it will NOT overwrite the existing one.
@@ -277,7 +277,7 @@ export default function ProvisionPage() {
                       ...statusDot,
                       background: activeInstance.instance_state === 'running' ? '#27ae60' : '#e67e22',
                     }} />
-                    <span style={{ fontWeight: 600, fontSize: 15, color: '#2c3e50' }}>
+                    <span style={{ fontWeight: 600, fontSize: 15, color: 'var(--text-primary)' }}>
                       {activeInstance.instance_ip || 'No IP'}
                     </span>
                     <span style={{ fontSize: 12, color: '#8e9eab' }}>
@@ -286,15 +286,15 @@ export default function ProvisionPage() {
                     {activeInstance.server_type && (
                       <span style={{
                         fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5,
-                        background: activeInstance.server_type === 'pdc' ? PDC_BG : PENTAHO_BG,
-                        color: activeInstance.server_type === 'pdc' ? PDC_COLOR : PENTAHO_COLOR,
+                        background: activeInstance.server_type === 'pdc' ? 'var(--badge-purple-bg)' : 'var(--badge-blue-bg)',
+                        color: activeInstance.server_type === 'pdc' ? 'var(--badge-purple-fg)' : 'var(--badge-blue-fg)',
                         padding: '2px 8px', borderRadius: 4,
                       }}>
                         {activeInstance.server_type}
                       </span>
                     )}
                   </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, fontSize: 12, color: '#5a6c7d' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, fontSize: 12, color: 'var(--text-muted)' }}>
                     <span>State: <b>{activeInstance.instance_state || '—'}</b></span>
                     <span>Phase: <b>{phaseLabel(activeInstance.deploy_phase)}</b></span>
                     <span>Profile: <b>{activeInstance.name}</b></span>

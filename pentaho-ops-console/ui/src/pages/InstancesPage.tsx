@@ -12,7 +12,6 @@ import {
 } from '../api';
 import type { InstanceSummary, AwsDiscoveryError, ContentPreviewStatus } from '../api';
 import Terminal from '../components/Terminal';
-import { PENTAHO_COLOR, PDC_COLOR, PENTAHO_BG, PDC_BG } from '../theme';
 
 const FAVORITES_STORAGE_KEY = 'ops-console-instance-favorites-v1';
 const COMMENTS_STORAGE_KEY = 'ops-console-instance-comments-v1';
@@ -471,12 +470,12 @@ export default function InstancesPage() {
         </button>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           {runningCount > 0 && (
-            <span style={{ ...countBadge, background: '#e8f8f0', color: '#27ae60' }}>
+            <span style={{ ...countBadge, background: 'var(--badge-green-bg)', color: 'var(--badge-green-fg)' }}>
               {runningCount} running
             </span>
           )}
           {untrackedCount > 0 && (
-            <span style={{ ...countBadge, background: '#fff3cd', color: '#856404' }}>
+            <span style={{ ...countBadge, background: 'var(--badge-yellow-bg)', color: 'var(--badge-yellow-fg)' }}>
               {untrackedCount} untracked
             </span>
           )}
@@ -564,22 +563,22 @@ export default function InstancesPage() {
             const stateKey = cardStateKey(inst);
             const isUntracked = inst.tracking_status === 'untracked';
             const phaseColors: Record<string, { bg: string; fg: string }> = {
-              'ec2-created': { bg: '#fef3e2', fg: '#e67e22' },
-              'ec2-ready': { bg: '#e8f1fc', fg: '#005bb5' },
-              'pentaho-deployed': { bg: '#e8f8f0', fg: '#27ae60' },
-              'plugins-deployed': { bg: '#e8f8f0', fg: '#1a8a4a' },
+              'ec2-created': { bg: 'var(--badge-orange-bg)', fg: 'var(--badge-orange-fg)' },
+              'ec2-ready': { bg: 'var(--badge-blue-bg)', fg: 'var(--badge-blue-fg)' },
+              'pentaho-deployed': { bg: 'var(--badge-green-bg)', fg: 'var(--badge-green-fg)' },
+              'plugins-deployed': { bg: 'var(--badge-green-bg)', fg: 'var(--badge-green-fg)' },
             };
-            const phaseStyle = phaseColors[inst.deploy_phase] || { bg: '#f5f5f5', fg: '#888' };
+            const phaseStyle = phaseColors[inst.deploy_phase] || { bg: 'var(--badge-gray-bg)', fg: 'var(--badge-gray-fg)' };
             const phaseLabel = inst.deploy_phase ? inst.deploy_phase.replace(/-/g, ' ') : '';
             const displayName = isUntracked
               ? (inst.ec2_tags?.Name || inst.instance_id || 'Unknown Instance')
               : inst.name;
             const serverLabel = inst.server_type === 'pdc' ? 'PDC Server' : inst.server_type === 'pentaho' ? 'Pentaho Server' : inst.server_type === 'ops-console' ? 'Ops Console' : 'Unknown Server';
             const serverBadgeStyle = inst.server_type === 'pdc'
-              ? { background: PDC_BG, color: PDC_COLOR }
-              : inst.server_type === 'pentaho'
-                ? { background: PENTAHO_BG, color: PENTAHO_COLOR }
-                : { background: '#edf2f6', color: '#506070' };
+              ? { background: 'var(--badge-purple-bg)', color: 'var(--badge-purple-fg)' }
+              : inst.server_type === 'pentaho' || inst.server_type === 'ops-console'
+                ? { background: 'var(--badge-blue-bg)', color: 'var(--badge-blue-fg)' }
+                : { background: 'var(--badge-muted-bg)', color: 'var(--badge-muted-fg)' };
             const isOrphan = !inst.has_profile && !isUntracked;
             const canManageTracked = !isUntracked && inst.has_profile && !tornDown.has(stateKey);
             const canStart = canManageTracked && inst.instance_state !== 'running' && !starting.has(stateKey) && !stopping.has(stateKey) && !tearingDown.has(stateKey);
@@ -596,7 +595,7 @@ export default function InstancesPage() {
             <div key={stateKey} style={{
               ...instanceCard,
               ...(tornDown.has(stateKey) ? { opacity: 0.55 } : {}),
-              ...(isUntracked ? { borderLeft: '4px solid #f39c12', background: '#fffdf5' } : {}),
+              ...(isUntracked ? { borderLeft: '4px solid var(--card-untracked-side)', background: 'var(--card-untracked-bg)' } : {}),
             }}>
               <div style={cardTitleBar}>
                 <div
@@ -691,10 +690,10 @@ export default function InstancesPage() {
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', marginTop: 8, gap: 10, minHeight: 42 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minWidth: 0 }}>
-                  <div style={{ fontSize: 12, color: '#888', lineHeight: 1.3 }}> 
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.3 }}>
                     {inst.pentaho_version ? `v${inst.pentaho_version}` : 'version unknown'}
                   </div>
-                  <div style={{ fontSize: 12, color: '#888', lineHeight: 1.3 }}>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.3 }}>
                     {inst.instance_type || 'instance type unknown'}
                   </div>
                 </div>
@@ -704,12 +703,12 @@ export default function InstancesPage() {
                     <span style={{ ...stateBadge, ...serverBadgeStyle, fontSize: 10 }}>{serverLabel}</span>
                     <span style={{
                       ...stateBadge,
-                      background: isUntracked ? '#fff3cd'
-                        : tornDown.has(stateKey) ? '#f0f0f0'
-                        : inst.instance_state === 'running' ? '#e8f8f0' : '#fef3e2',
-                      color: isUntracked ? '#856404'
-                        : tornDown.has(stateKey) ? '#95a5a6'
-                        : inst.instance_state === 'running' ? '#27ae60' : '#e67e22',
+                      background: isUntracked ? 'var(--badge-yellow-bg)'
+                        : tornDown.has(stateKey) ? 'var(--badge-gray-bg)'
+                        : inst.instance_state === 'running' ? 'var(--badge-green-bg)' : 'var(--badge-orange-bg)',
+                      color: isUntracked ? 'var(--badge-yellow-fg)'
+                        : tornDown.has(stateKey) ? 'var(--badge-gray-fg)'
+                        : inst.instance_state === 'running' ? 'var(--badge-green-fg)' : 'var(--badge-orange-fg)',
                     }}>
                       {isUntracked ? '? unknown'
                         : tornDown.has(stateKey) ? '✕ terminated'
@@ -725,10 +724,10 @@ export default function InstancesPage() {
                       </span>
                     )}
                     {isUntracked && (
-                      <span style={{ ...stateBadge, background: '#fff3cd', color: '#856404', fontSize: 10 }}>untracked</span>
+                      <span style={{ ...stateBadge, background: 'var(--badge-yellow-bg)', color: 'var(--badge-yellow-fg)', fontSize: 10 }}>untracked</span>
                     )}
                     {isOrphan && (
-                      <span style={{ ...stateBadge, background: '#fdebd0', color: '#c26a06', fontSize: 10 }}>orphan</span>
+                      <span style={{ ...stateBadge, background: 'var(--badge-amber-bg)', color: 'var(--badge-amber-fg)', fontSize: 10 }}>orphan</span>
                     )}
                   </div>
                 </div>
@@ -761,21 +760,21 @@ export default function InstancesPage() {
                 <div style={{
                   marginTop: 8,
                   padding: '6px 10px',
-                  background: healthMap[inst.server_url] === true ? '#f0faf5' : healthMap[inst.server_url] === false ? '#fef3e2' : '#f8f9fa',
+                  background: healthMap[inst.server_url] === true ? 'var(--health-ok-bg)' : healthMap[inst.server_url] === false ? 'var(--health-warn-bg)' : 'var(--health-null-bg)',
                   borderRadius: 6,
-                  border: `1px solid ${healthMap[inst.server_url] === true ? '#c8e6d8' : healthMap[inst.server_url] === false ? '#f5d5a0' : '#e0e0e0'}`,
+                  border: `1px solid ${healthMap[inst.server_url] === true ? 'var(--health-ok-border)' : healthMap[inst.server_url] === false ? 'var(--health-warn-border)' : 'var(--health-null-border)'}`,
                 }}>
-                  <div style={{ fontSize: 11, color: '#888', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6 }}>
                     {serverLabel}
-                    {healthMap[inst.server_url] === true && <span style={{ color: '#27ae60' }}>● reachable</span>}
-                    {healthMap[inst.server_url] === false && <span style={{ color: '#e67e22' }}>○ unreachable</span>}
-                    {healthMap[inst.server_url] == null && <span style={{ color: '#bbb' }}>… checking</span>}
+                    {healthMap[inst.server_url] === true && <span style={{ color: 'var(--badge-green-fg)' }}>● reachable</span>}
+                    {healthMap[inst.server_url] === false && <span style={{ color: 'var(--badge-orange-fg)' }}>○ unreachable</span>}
+                    {healthMap[inst.server_url] == null && <span style={{ color: 'var(--text-muted)' }}>… checking</span>}
                   </div>
                   <a
                     href={inst.server_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ fontSize: 12, color: healthMap[inst.server_url] === false ? '#999' : '#005bb5', textDecoration: 'none', wordBreak: 'break-all' }}
+                    style={{ fontSize: 12, color: healthMap[inst.server_url] === false ? 'var(--text-muted)' : 'var(--badge-blue-fg)', textDecoration: 'none', wordBreak: 'break-all' }}
                   >
                     {inst.server_url} ↗
                   </a>
@@ -1304,18 +1303,18 @@ const menuDivider: React.CSSProperties = {
 };
 
 const menuActionStartBtn: React.CSSProperties = {
-  color: '#145a32',
-  background: '#eefaf2',
+  color: 'var(--badge-green-fg)',
+  background: 'var(--badge-green-bg)',
 };
 
 const menuActionStopBtn: React.CSSProperties = {
-  color: '#7a4a00',
-  background: '#fff8e8',
+  color: 'var(--badge-orange-fg)',
+  background: 'var(--badge-orange-bg)',
 };
 
 const menuActionDangerBtn: React.CSSProperties = {
-  color: '#a93226',
-  background: '#fdf0ee',
+  color: '#e05548',
+  background: 'rgba(224, 85, 72, 0.12)',
 };
 
 const secondaryBtn: React.CSSProperties = {

@@ -32,6 +32,37 @@
   --sidebar-active-bg: #0e73d8;
   --sidebar-active-hover-bg: #0a5cad;
   --focus-ring: rgba(14, 115, 216, 0.4);
+  /* ── Badge semantic tokens ── */
+  --badge-green-bg: #e8f8f0;
+  --badge-green-fg: #27ae60;
+  --badge-orange-bg: #fef3e2;
+  --badge-orange-fg: #e67e22;
+  --badge-yellow-bg: #fff3cd;
+  --badge-yellow-fg: #856404;
+  --badge-amber-bg: #fdebd0;
+  --badge-amber-fg: #c26a06;
+  --badge-blue-bg: #e8f1fc;
+  --badge-blue-fg: #005bb5;
+  --badge-purple-bg: #f3e5f5;
+  --badge-purple-fg: #7d3c98;
+  --badge-muted-bg: #edf2f6;
+  --badge-muted-fg: #506070;
+  --badge-gray-bg: #f0f0f0;
+  --badge-gray-fg: #888888;
+  /* ── Health section tokens ── */
+  --health-ok-bg: #f0faf5;
+  --health-ok-border: #c8e6d8;
+  --health-warn-bg: #fef3e2;
+  --health-warn-border: #f5d5a0;
+  --health-null-bg: #f8f9fa;
+  --health-null-border: #e0e0e0;
+  /* ── Untracked card accent ── */
+  --card-untracked-side: #f39c12;
+  --card-untracked-bg: #fffdf5;
+  /* ── Warning banner ── */
+  --warn-banner-bg: #fff8e1;
+  --warn-banner-border: #ffe082;
+  --warn-banner-fg: #5a3a00;
 }
 
 :root[data-theme='dark'] {
@@ -62,6 +93,37 @@
   --sidebar-active-bg: #1f7dd8;
   --sidebar-active-hover-bg: #1766b3;
   --focus-ring: rgba(31, 125, 216, 0.45);
+  /* ── Badge semantic tokens ── */
+  --badge-green-bg: rgba(39, 174, 96, 0.18);
+  --badge-green-fg: #4cde8c;
+  --badge-orange-bg: rgba(230, 126, 34, 0.18);
+  --badge-orange-fg: #f0a750;
+  --badge-yellow-bg: rgba(204, 159, 0, 0.15);
+  --badge-yellow-fg: #e0c050;
+  --badge-amber-bg: rgba(194, 106, 6, 0.18);
+  --badge-amber-fg: #e88a30;
+  --badge-blue-bg: rgba(0, 91, 181, 0.22);
+  --badge-blue-fg: #5ab0ff;
+  --badge-purple-bg: rgba(125, 60, 152, 0.22);
+  --badge-purple-fg: #cc88ff;
+  --badge-muted-bg: rgba(80, 96, 112, 0.2);
+  --badge-muted-fg: #8ea8bc;
+  --badge-gray-bg: rgba(255, 255, 255, 0.08);
+  --badge-gray-fg: #8ea8bc;
+  /* ── Health section tokens ── */
+  --health-ok-bg: rgba(39, 174, 96, 0.08);
+  --health-ok-border: rgba(39, 174, 96, 0.3);
+  --health-warn-bg: rgba(230, 126, 34, 0.08);
+  --health-warn-border: rgba(230, 126, 34, 0.3);
+  --health-null-bg: rgba(255, 255, 255, 0.04);
+  --health-null-border: rgba(255, 255, 255, 0.1);
+  /* ── Untracked card accent ── */
+  --card-untracked-side: #f0a750;
+  --card-untracked-bg: rgba(240, 167, 80, 0.06);
+  /* ── Warning banner ── */
+  --warn-banner-bg: rgba(204, 159, 0, 0.12);
+  --warn-banner-border: rgba(204, 159, 0, 0.3);
+  --warn-banner-fg: #e0c050;
 }
 
 body {
