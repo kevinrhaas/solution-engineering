@@ -320,11 +320,21 @@ export interface GitTokenStatus {
   configured: boolean;
 }
 
+export interface GitSourceSettings {
+  status?: string;
+  repo: string;
+  branch: string;
+  url: string;
+}
+
 export interface GitStatus {
   branch: string;
   commit: string;
   commit_message: string;
   dirty: boolean;
+  source_repo: string;
+  source_branch: string;
+  source_url: string;
 }
 
 export interface SyncResult {
@@ -335,6 +345,15 @@ export interface SyncResult {
 
 export const getGitStatus = () =>
   request<GitStatus>('/config/git/status');
+
+export const getGitSource = () =>
+  request<GitSourceSettings>('/config/git/source');
+
+export const saveGitSource = (repo: string, branch: string) =>
+  request<GitSourceSettings>('/config/git/source', {
+    method: 'PUT',
+    body: JSON.stringify({ repo, branch }),
+  });
 
 export const getGitTokenStatus = () =>
   request<GitTokenStatus>('/config/github-token/status');

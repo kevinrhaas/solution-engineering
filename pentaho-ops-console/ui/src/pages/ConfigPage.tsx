@@ -10,7 +10,9 @@ import {
   purgeSshKeys,
   deleteSshKey,
   getGitStatus,
+  getGitSource,
   getGitTokenStatus,
+  saveGitSource,
   saveGitToken,
   deleteGitToken,
   syncApp,
@@ -43,6 +45,10 @@ export default function ConfigPage() {
   // Git sync state
   const [gitStatus, setGitStatus] = useState<GitStatus | null>(null);
   const [tokenStatus, setTokenStatus] = useState<GitTokenStatus | null>(null);
+  const [gitRepo, setGitRepo] = useState('kevinrhaas/solution-engineering');
+  const [gitBranch, setGitBranch] = useState('main');
+  const [gitSourceSaving, setGitSourceSaving] = useState(false);
+  const [gitSourceMsg, setGitSourceMsg] = useState('');
   const [showTokenForm, setShowTokenForm] = useState(false);
   const [tokenPaste, setTokenPaste] = useState('');
   const [tokenMsg, setTokenMsg] = useState('');
@@ -67,8 +73,21 @@ export default function ConfigPage() {
   useEffect(() => {
     getAwsCredStatus().then(setCredStatus).catch(() => {});
     getSshKeyStatus().then(setKeyStatus).catch(() => {});
-    getGitStatus().then(setGitStatus).catch(() => {});
+    getGitStatus().then((status) => {
+      setGitStatus(status);
+      setGitRepo(status.source_repo);
+      setGitBranch(status.source_branch);
+    }).catch(() => {});
     getGitTokenStatus().then(setTokenStatus).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    getGitSource()
+      .then((source) => {
+        setGitRepo(source.repo);
+        setGitBranch(source.branch);
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -170,6 +189,24 @@ export default function ConfigPage() {
     }
   }
 
+  async function handleGitSourceSave() {
+    if (!gitRepo.trim() || !gitBranch.trim()) return;
+    setGitSourceSaving(true);
+    setGitSourceMsg('');
+    try {
+      const result = await saveGitSource(gitRepo.trim(), gitBranch.trim());
+      setGitRepo(result.repo);
+      setGitBranch(result.branch);
+      setGitSourceMsg(`App sync source saved: ${result.repo}@${result.branch}`);
+      const status = await getGitStatus();
+      setGitStatus(status);
+    } catch (e: unknown) {
+      setGitSourceMsg(`Error: ${e}`);
+    } finally {
+      setGitSourceSaving(false);
+    }
+  }
+
   async function handleSync(dryRun: boolean) {
     setSyncing(true);
     setSyncResult(null);
@@ -177,7 +214,11 @@ export default function ConfigPage() {
       const result = await syncApp(dryRun);
       setSyncResult(result);
       // Refresh git status after sync
-      getGitStatus().then(setGitStatus).catch(() => {});
+      getGitStatus().then((status) => {
+        setGitStatus(status);
+        setGitRepo(status.source_repo);
+        setGitBranch(status.source_branch);
+      }).catch(() => {});
     } catch (e: unknown) {
       setSyncResult({ dry_run: dryRun, results: [{ step: 'sync', ok: false, output: String(e) }], restarted: false });
     } finally {
@@ -526,6 +567,40 @@ export default function ConfigPage() {
           </div>
         )}
 
+        <div style={{ marginBottom: 12, maxWidth: 760 }}>
+          <div style={{ fontSize: 13, marginBottom: 6, color: 'var(--text-primary)' }}>Update Source</div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+            <input
+              value={gitRepo}
+              onChange={(e) => setGitRepo(e.target.value)}
+              placeholder="owner/repo"
+              style={{ ...inputStyle, width: 260, fontFamily: 'inherit' }}
+            />
+            <input
+              value={gitBranch}
+              onChange={(e) => setGitBranch(e.target.value)}
+              placeholder="main"
+              style={{ ...inputStyle, width: 140, fontFamily: 'inherit' }}
+            />
+            <button
+              onClick={handleGitSourceSave}
+              disabled={gitSourceSaving || !gitRepo.trim() || !gitBranch.trim()}
+              style={smallBtn}
+              title="Save the GitHub repository and branch used by Pull & Deploy"
+            >
+              {gitSourceSaving ? 'Saving…' : 'Save Source'}
+            </button>
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 6 }}>
+            Pull &amp; Deploy fetches from {gitStatus?.source_url || `https://github.com/${gitRepo || 'owner/repo'}.git`} on branch {gitBranch || 'main'}.
+          </div>
+          {gitSourceMsg && (
+            <div style={{ marginTop: 6, fontSize: 12, color: gitSourceMsg.startsWith('Error') ? '#c0392b' : '#27ae60' }}>
+              {gitSourceMsg}
+            </div>
+          )}
+        </div>
+
         {/* GitHub Token */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
           <span style={{ fontSize: 13 }}>GitHub Token</span>
@@ -549,8 +624,8 @@ export default function ConfigPage() {
             </p>
             <ol style={{ fontSize: 12, color: '#666', margin: '0 0 8px 20px', padding: 0, lineHeight: 1.7 }}>
               <li>Go to <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noreferrer">github.com/settings/tokens</a> → <strong>Generate new token</strong></li>
-              <li>Resource owner: <strong>pentaho</strong></li>
-              <li>Repository access → <strong>Only select repositories</strong> → <code style={{ fontSize: 11 }}>pentaho/solution-engineering</code></li>
+              <li>Resource owner: <strong>{gitRepo.split('/')[0] || 'github owner'}</strong></li>
+              <li>Repository access → <strong>Only select repositories</strong> → <code style={{ fontSize: 11 }}>{gitRepo}</code></li>
               <li>Permissions → Repository permissions → <strong>Contents: Read-only</strong></li>
               <li>Generate token and paste below</li>
             </ol>
@@ -722,16 +797,16 @@ export default function ConfigPage() {
 }
 
 const sectionBox: React.CSSProperties = {
-  background: '#fff',
-  border: '1px solid #e0e0e0',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   borderRadius: 6,
   padding: 16,
   marginBottom: 16,
 };
 
 const smallBtn: React.CSSProperties = {
-  background: '#ecf0f1',
-  color: '#2c3e50',
+  background: 'var(--button-subtle-bg)',
+  color: 'var(--button-subtle-text)',
   border: 'none',
   padding: '6px 14px',
   borderRadius: 4,
@@ -771,16 +846,19 @@ const primaryBtn: React.CSSProperties = {
 };
 
 const inputStyle: React.CSSProperties = {
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
   padding: '6px 10px',
   borderRadius: 4,
-  border: '1px solid #ccc',
+  border: '1px solid var(--field-border)',
   fontSize: 13,
   fontFamily: 'Menlo, Monaco, monospace',
 };
 
 const codeHint: React.CSSProperties = {
-  background: '#f4f4f4',
-  border: '1px solid #ddd',
+  background: 'var(--code-bg)',
+  border: '1px solid var(--code-border)',
+  color: 'var(--text-primary)',
   borderRadius: 4,
   padding: '6px 10px',
   fontSize: 12,

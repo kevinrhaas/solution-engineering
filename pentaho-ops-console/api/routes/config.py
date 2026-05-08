@@ -307,11 +307,65 @@ def verify_aws_profile(body: AwsProfileVerifyRequest):
 # ── Git Sync & App Restart ────────────────────────────────────────────────────
 
 _GIT_CREDENTIALS_FILE = Path.home() / ".git-credentials"
-_GITHUB_REPO = "pentaho/solution-engineering"
+_DEFAULT_GIT_SYNC_REPO = os.environ.get("OPS_GIT_SYNC_REPO", "kevinrhaas/solution-engineering")
+_DEFAULT_GIT_SYNC_BRANCH = os.environ.get("OPS_GIT_SYNC_BRANCH", "main")
+
+
+def _normalize_git_repo(repo: str) -> str:
+    repo = repo.strip().strip("/")
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo):
+        raise HTTPException(400, "Repository must be in owner/name format.")
+    return repo
+
+
+def _normalize_git_branch(branch: str) -> str:
+    branch = branch.strip()
+    if not branch:
+        raise HTTPException(400, "Branch cannot be empty.")
+    if not re.fullmatch(r"[A-Za-z0-9._/-]+", branch):
+        raise HTTPException(400, "Branch contains unsupported characters.")
+    return branch
+
+
+def _get_app_setting(key: str, default: str) -> str:
+    try:
+        with get_db() as db:
+            rec = db.query(AppSetting).filter_by(key=key).first()
+            if rec and rec.value:
+                return rec.value
+    except Exception:
+        logger.exception("Could not load app setting %s", key)
+    return default
+
+
+def _set_app_setting(key: str, value: str) -> None:
+    try:
+        with get_db() as db:
+            rec = db.query(AppSetting).filter_by(key=key).first()
+            if rec is None:
+                db.add(AppSetting(key=key, value=value))
+            else:
+                rec.value = value
+                rec.updated_at = datetime.utcnow()
+    except Exception as exc:
+        logger.exception("Could not save app setting %s", key)
+        raise HTTPException(500, f"Could not save setting {key}.") from exc
+
+
+def _get_git_sync_source() -> dict[str, str]:
+    repo = _normalize_git_repo(_get_app_setting("git_sync_repo", _DEFAULT_GIT_SYNC_REPO))
+    branch = _normalize_git_branch(_get_app_setting("git_sync_branch", _DEFAULT_GIT_SYNC_BRANCH))
+    return {
+        "repo": repo,
+        "branch": branch,
+        "url": f"https://github.com/{repo}.git",
+    }
 
 
 def _check_github_token(token: str) -> dict:
     """Validate a token against the GitHub API. Returns {'ok': True} or {'ok': False, 'reason': '...'}"""
+    git_source = _get_git_sync_source()
+    target_repo = git_source["repo"]
     headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"}
     # Check if token is valid at all
     try:
@@ -327,7 +381,7 @@ def _check_github_token(token: str) -> dict:
 
     # Check if token can access the target repo
     try:
-        req = urllib.request.Request(f"https://api.github.com/repos/{_GITHUB_REPO}", headers=headers)
+        req = urllib.request.Request(f"https://api.github.com/repos/{target_repo}", headers=headers)
         urllib.request.urlopen(req, timeout=10)
         return {"ok": True, "user": user}
     except urllib.error.HTTPError as e:
@@ -335,10 +389,10 @@ def _check_github_token(token: str) -> dict:
             return {
                 "ok": False,
                 "reason": (
-                    f"Token is valid (user: {user}) but cannot access {_GITHUB_REPO}. "
+                    f"Token is valid (user: {user}) but cannot access {target_repo}. "
                     "For a fine-grained PAT, make sure the token is scoped to the "
-                    f"{_GITHUB_REPO} repository with Contents read access. "
-                    "For a classic PAT, enable the 'repo' scope and authorize it for the Pentaho org via SSO."
+                    f"{target_repo} repository with Contents read access. "
+                    "For a classic PAT, enable the 'repo' scope and authorize it for the target org via SSO if required."
                 ),
             }
         return {"ok": False, "reason": f"GitHub API error {e.code} checking repo access."}
@@ -348,6 +402,11 @@ def _check_github_token(token: str) -> dict:
 
 class GitTokenBody(BaseModel):
     token: str
+
+
+class GitSourceBody(BaseModel):
+    repo: str
+    branch: str = _DEFAULT_GIT_SYNC_BRANCH
 
 
 @router.post("/github-token")
@@ -414,9 +473,31 @@ def delete_github_token():
     return {"status": "deleted"}
 
 
+@router.get("/git/source")
+def git_source():
+    """Get the configured GitHub repo and branch used for app sync."""
+    return _get_git_sync_source()
+
+
+@router.put("/git/source")
+def save_git_source(body: GitSourceBody):
+    """Update the GitHub repo and branch used for app sync."""
+    repo = _normalize_git_repo(body.repo)
+    branch = _normalize_git_branch(body.branch)
+    _set_app_setting("git_sync_repo", repo)
+    _set_app_setting("git_sync_branch", branch)
+    return {
+        "status": "saved",
+        "repo": repo,
+        "branch": branch,
+        "url": f"https://github.com/{repo}.git",
+    }
+
+
 @router.get("/git/status")
 def git_status():
     """Get current git branch, commit, and dirty status."""
+    git_source = _get_git_sync_source()
     # Check if workspace is a git repo
     if not (WORKSPACE_ROOT / ".git").exists():
         return {
@@ -424,6 +505,9 @@ def git_status():
             "commit": "n/a",
             "commit_message": "Not a git repository — run deploy script to initialize",
             "dirty": False,
+            "source_repo": git_source["repo"],
+            "source_branch": git_source["branch"],
+            "source_url": git_source["url"],
         }
     try:
         branch = subprocess.check_output(
@@ -447,6 +531,9 @@ def git_status():
             "commit": commit,
             "commit_message": commit_msg,
             "dirty": dirty,
+            "source_repo": git_source["repo"],
+            "source_branch": git_source["branch"],
+            "source_url": git_source["url"],
         }
     except Exception:
         # Git repo exists but may have no commits yet (freshly initialized)
@@ -455,6 +542,9 @@ def git_status():
             "commit": "n/a",
             "commit_message": "Git initialized — configure a GitHub token in Config to enable self-updates",
             "dirty": False,
+            "source_repo": git_source["repo"],
+            "source_branch": git_source["branch"],
+            "source_url": git_source["url"],
         }
 
 
@@ -479,18 +569,23 @@ def _schedule_service_restart() -> None:
 def sync_app(body: SyncRequest):
     """Pull latest code from git, rebuild UI, and optionally restart the service."""
     results = []
+    git_source = _get_git_sync_source()
 
     # Step 1: git fetch + reset
     try:
         fetch_out = subprocess.check_output(
-            ["git", "fetch", "--depth", "1", "origin", "main"],
+            ["git", "fetch", "--depth", "1", git_source["url"], git_source["branch"]],
             cwd=str(WORKSPACE_ROOT), text=True, stderr=subprocess.STDOUT, timeout=30,
         ).strip()
         subprocess.check_output(
-            ["git", "reset", "--hard", "origin/main"],
+            ["git", "reset", "--hard", "FETCH_HEAD"],
             cwd=str(WORKSPACE_ROOT), text=True, stderr=subprocess.STDOUT, timeout=10,
         )
-        results.append({"step": "git fetch", "ok": True, "output": fetch_out or "Updated to latest"})
+        results.append({
+            "step": "git fetch",
+            "ok": True,
+            "output": fetch_out or f"Updated from {git_source['repo']}@{git_source['branch']}",
+        })
     except subprocess.CalledProcessError as e:
         results.append({"step": "git fetch", "ok": False, "output": e.output.strip()})
         return {"dry_run": body.dry_run, "results": results, "restarted": False}
