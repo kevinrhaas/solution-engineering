@@ -56,7 +56,8 @@
   --health-warn-border: #f5d5a0;
   --health-null-bg: #f8f9fa;
   --health-null-border: #e0e0e0;
-  /* ── Untracked card accent ── */
+  /* ─── Tracked/Untracked card accent ─── */
+  --card-tracked-side: #27ae60;
   --card-untracked-side: #f39c12;
   --card-untracked-bg: #fffdf5;
   /* ── Warning banner ── */
@@ -117,7 +118,8 @@
   --health-warn-border: rgba(230, 126, 34, 0.3);
   --health-null-bg: rgba(255, 255, 255, 0.04);
   --health-null-border: rgba(255, 255, 255, 0.1);
-  /* ── Untracked card accent ── */
+  /* ─── Tracked/Untracked card accent ─── */
+  --card-tracked-side: #4cde8c;
   --card-untracked-side: #f0a750;
   --card-untracked-bg: rgba(240, 167, 80, 0.06);
   /* ── Warning banner ── */

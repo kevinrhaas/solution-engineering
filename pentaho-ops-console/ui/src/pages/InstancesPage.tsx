@@ -595,7 +595,8 @@ export default function InstancesPage() {
             <div key={stateKey} style={{
               ...instanceCard,
               ...(tornDown.has(stateKey) ? { opacity: 0.55 } : {}),
-              ...(isUntracked ? { borderLeft: '4px solid var(--card-untracked-side)', background: 'var(--card-untracked-bg)' } : {}),
+              borderLeft: isUntracked ? '4px solid var(--card-untracked-side)' : '4px solid var(--card-tracked-side)',
+              ...(isUntracked ? { background: 'var(--card-untracked-bg)' } : {}),
             }}>
               <div style={cardTitleBar}>
                 <div
