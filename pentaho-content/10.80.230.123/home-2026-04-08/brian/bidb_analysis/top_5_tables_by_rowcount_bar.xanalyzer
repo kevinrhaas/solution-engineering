@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reportRecord xmlns="http://www.pentaho.com">
+    <commonStorageAttributes createdBy="admin" updatedBy="admin" created="2026-01-21T01:43:40.409Z" update="2026-01-21T01:44:05.687Z">
+        <path name="top_5_tables_by_rowcount_bar" folder="/home/brian/bidb_analysis/top_5_tables_by_rowcount_bar.xanalyzer"/>
+    </commonStorageAttributes>
+    <report catalog="Data Catalog Analysis" cube="Entity Master" reportTypeEnum="JSON" showRowGrandTotal="false" showColumnGrandTotal="false" showSubTotals="true" totalsOnTopLeft="false" useNonVisualTotals="false" showEmptyCells="false" showEmptyEnum="SHOW_MEASURE" emptyCellDisplay="-" showDrillLinks="true" version="15" autoRefresh="true" freezeColumns="true" freezeRows="true">
+        <measures>
+            <measure formula="[Measures].[Row Count]" showSum="true" showAggregate="false" showAverage="false" showCount="false" showMax="false" showMin="false" measureTypeEnum="VALUE" sortOrderEnum="DESC" id="[MEASURE:0]" gembarId="measures" gembarOrdinal="0"/>
+        </measures>
+        <columnAttributes/>
+        <rowAttributes>
+            <attribute formula="[TableName].[Table Name]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="rows" gembarOrdinal="0"/>
+        </rowAttributes>
+        <filters defaultFiltersAvailable="false">
+            <filter formula="[TableName].[Table Name]" viewFilterEnum="MULTIPLE" isDefaultFilter="false" isDefaultMetricFilter="false">
+                <topBottom formula="[Measures].[Row Count]" type="TOP" count="5"/>
+            </filter>
+            <filter formula="[SchemaName].[Schema Name]" viewFilterEnum="MULTIPLE" isDefaultFilter="false" isDefaultMetricFilter="false">
+                <predicates>
+                    <predicate ordinal="1" operatorEnum="NOT_EQUAL">
+                        <member formula="[SchemaName].[#null]" caption="Not Available" pos="0"/>
+                    </predicate>
+                </predicates>
+            </filter>
+        </filters>
+        <chartOptions vizApiVersion="3.0" chartType="CUSTOM" customChartType="pentaho/visual/models/Bar" showMultiChart="false" legendPosition="RIGHT" showLegend="true" autoRange="true" displayUnits="UNITS_0" autoRangeSecondary="true" displayUnitsSecondary="UNITS_0" lineWidth="2" lineShape="CIRCLE" maxValues="100" backgroundColor="#ffffff" labelColor="#000000" labelSize="12" backgroundFill="NONE" maxChartsPerRow="3" multiChartMax="50" multiChartRangeScope="GLOBAL" emptyCellMode="GAP" sizeByNegativesMode="NEG_LOWEST" backgroundColorEnd="#ffffff" labelStyle="PLAIN" legendBackgroundColor="#ffffff" legendSize="12" legendColor="#000000" legendStyle="PLAIN" labelFontFamily="Default" legendFontFamily="Default" scatterReverseColors="false"/>
+        <selectionFilters/>
+        <selectionItems/>
+        <pageSetup excelPageSize="LETTER" pdfPageSize="LETTER" excelOrientation="LANDSCAPE" pdfOrientation="LANDSCAPE" excelScalingType="PERCENT" excelScalingPercent="100" excelScalingPageWide="1" excelScalingPageTall="1" excelMergePivotCells="true" csvIncludeSubtotals="true" csvFormatNumbers="true"/>
+        <drillColumns>
+            <drillColumn>[_id].[Entity ID]</drillColumn>
+            <drillColumn>[Name].[Name]</drillColumn>
+            <drillColumn>[Type].[Type]</drillColumn>
+            <drillColumn>[Parent].[Parent ID]</drillColumn>
+            <drillColumn>[ResourceType].[Resource Type]</drillColumn>
+            <drillColumn>[DataSourceId].[Data Source ID]</drillColumn>
+            <drillColumn>[DataSourceName].[Data Source Name]</drillColumn>
+            <drillColumn>[DataSourceType].[Data Source Type]</drillColumn>
+            <drillColumn>[DataSourceCostPerTbCurrency].[Data Source Cost per TB Currency]</drillColumn>
+            <drillColumn>[DataSourceCostPerTbPrice].[Data Source Cost per TB Price]</drillColumn>
+            <drillColumn>[DataSourceAffinityId].[Data Source Affinity ID]</drillColumn>
+            <drillColumn>[DataProfileStatus].[Data Profile Status]</drillColumn>
+            <drillColumn>[DataProfiled].[Data Profiled]</drillColumn>
+            <drillColumn>[ProductName].[Product Name]</drillColumn>
+            <drillColumn>[ProductVersion].[Product Version]</drillColumn>
+            <drillColumn>[DriverName].[Driver Name]</drillColumn>
+            <drillColumn>[Url].[URL]</drillColumn>
+            <drillColumn>[ParentName].[Parent Name]</drillColumn>
+            <drillColumn>[SchemaName].[Schema Name]</drillColumn>
+            <drillColumn>[DatabaseName].[Database Name]</drillColumn>
+            <drillColumn>[CheckClause].[Check Clause]</drillColumn>
+            <drillColumn>[TableName].[Table Name]</drillColumn>
+            <drillColumn>[DataType].[Data Type]</drillColumn>
+            <drillColumn>[TypeName].[Type Name]</drillColumn>
+            <drillColumn>[ColumnSize].[Column Size]</drillColumn>
+            <drillColumn>[BufferLength].[Buffer Length]</drillColumn>
+            <drillColumn>[DecimalDigits].[Decimal Digits]</drillColumn>
+            <drillColumn>[NumPrecRadix].[Num Prec Radix]</drillColumn>
+            <drillColumn>[OrdinalPosition].[Ordinal Position]</drillColumn>
+            <drillColumn>[Path].[Path]</drillColumn>
+            <drillColumn>[ParentPath].[Parent Path]</drillColumn>
+            <drillColumn>[PathType].[Path Type]</drillColumn>
+            <drillColumn>[FileExtension].[File Extension]</drillColumn>
+            <drillColumn>[Flags].[Flags]</drillColumn>
+            <drillColumn>[Owner].[Owner]</drillColumn>
+            <drillColumn>[Group].[Group]</drillColumn>
+            <drillColumn>[SymLinkTarget].[Symbolic Link Target]</drillColumn>
+            <drillColumn>[FileType].[File Type]</drillColumn>
+            <drillColumn>[LinkType].[Link Type]</drillColumn>
+            <drillColumn>[PhysicalLocation].[Physical Location]</drillColumn>
+            <drillColumn>[Title].[Title]</drillColumn>
+            <drillColumn>[Author].[Author]</drillColumn>
+            <drillColumn>[Subject].[Subject]</drillColumn>
+            <drillColumn>[Application].[Application]</drillColumn>
+            <drillColumn>[Producer].[Producer]</drillColumn>
+            <drillColumn>[Version].[Version]</drillColumn>
+            <drillColumn>[Company].[Company]</drillColumn>
+            <drillColumn>[Paragraphs].[Paragraphs]</drillColumn>
+            <drillColumn>[Language].[Language]</drillColumn>
+            <drillColumn>[Checksum].[Checksum]</drillColumn>
+            <drillColumn>[PropertiesChecksum].[Properties Checksum]</drillColumn>
+            <drillColumn>[LocationName].[Location Name]</drillColumn>
+            <drillColumn>[LocationStreetAddress].[Location Street Address]</drillColumn>
+            <drillColumn>[LocationStreetAddress2].[Location Street Address 2]</drillColumn>
+            <drillColumn>[LocationLocalityCity].[Location Locality City]</drillColumn>
+            <drillColumn>[LocationStateProvince].[Location State Province]</drillColumn>
+            <drillColumn>[LocationPostalCode].[Location Postal Code]</drillColumn>
+            <drillColumn>[LocationCountry].[Location Country]</drillColumn>
+            <drillColumn>[CostPerTbFrequency].[Cost per TB Frequency]</drillColumn>
+            <drillColumn>[FqdnDisplay].[FQDN Display]</drillColumn>
+            <drillColumn>[OwnerFirstName].[Owner First Name]</drillColumn>
+            <drillColumn>[OwnerLastName].[Owner Last Name]</drillColumn>
+            <drillColumn>[OwnerEmail].[Owner Email]</drillColumn>
+            <drillColumn>[OwnerUserName].[Owner User Name]</drillColumn>
+            <drillColumn>[Sensitivity].[Sensitivity]</drillColumn>
+            <drillColumn>[PageCountBand].[Page Count Band]</drillColumn>
+            <drillColumn>[DocumentSizeBand].[Document Size Band]</drillColumn>
+            <drillColumn>[SizeBand].[Size Band]</drillColumn>
+            <drillColumn>[TotalChildFileSizeBand].[Total Child File Size Band]</drillColumn>
+            <drillColumn>[RowCountBand].[Row Count Band]</drillColumn>
+            <drillColumn>[TotalTablesBand].[Total Tables Band]</drillColumn>
+            <drillColumn>[TotalColumnsBand].[Total Columns Band]</drillColumn>
+            <drillColumn>[WordsBand].[Words Band]</drillColumn>
+            <drillColumn>[CharactersBand].[Characters Band]</drillColumn>
+            <drillColumn>[ChildFilesBand].[Child Files Band]</drillColumn>
+            <drillColumn>[ChildDirsBand].[Child Dirs Band]</drillColumn>
+            <drillColumn>[Datasource category mapping.Category].[Category]</drillColumn>
+            <drillColumn>[Measures].[Number of Objects]</drillColumn>
+            <drillColumn>[Measures].[Average Value]</drillColumn>
+            <drillColumn>[Measures].[Average Width]</drillColumn>
+            <drillColumn>[Measures].[Blank Count]</drillColumn>
+            <drillColumn>[Measures].[Buffer Length]</drillColumn>
+            <drillColumn>[Measures].[Cardinality (Est.)]</drillColumn>
+            <drillColumn>[Measures].[Character Count]</drillColumn>
+            <drillColumn>[Measures].[Character Count (with spaces)]</drillColumn>
+            <drillColumn>[Measures].[Child Directory Size (total)]</drillColumn>
+            <drillColumn>[Measures].[Child Directories]</drillColumn>
+            <drillColumn>[Measures].[Child File Size (total)]</drillColumn>
+            <drillColumn>[Measures].[Child Files]</drillColumn>
+            <drillColumn>[Measures].[Column Size]</drillColumn>
+            <drillColumn>[Measures].[Column Count]</drillColumn>
+            <drillColumn>[Measures].[Data Source Cost per TB]</drillColumn>
+            <drillColumn>[Measures].[Decimal Digits]</drillColumn>
+            <drillColumn>[Measures].[Document Size (bytes)]</drillColumn>
+            <drillColumn>[Measures].[Flags]</drillColumn>
+            <drillColumn>[Measures].[HLL Cardinality]</drillColumn>
+            <drillColumn>[Measures].[Line Count]</drillColumn>
+            <drillColumn>[Measures].[Maximum Value]</drillColumn>
+            <drillColumn>[Measures].[Maximum Width]</drillColumn>
+            <drillColumn>[Measures].[Minimum Value]</drillColumn>
+            <drillColumn>[Measures].[Minimum Width]</drillColumn>
+            <drillColumn>[Measures].[Null Count]</drillColumn>
+            <drillColumn>[Measures].[Numeric Precision Radix]</drillColumn>
+            <drillColumn>[Measures].[Ordinal Position]</drillColumn>
+            <drillColumn>[Measures].[Page Count]</drillColumn>
+            <drillColumn>[Measures].[Page Size (bytes)]</drillColumn>
+            <drillColumn>[Measures].[Row Count]</drillColumn>
+            <drillColumn>[Measures].[Size (bytes)]</drillColumn>
+            <drillColumn>[Measures].[Total Child Directory Size]</drillColumn>
+            <drillColumn>[Measures].[Total Child Directories]</drillColumn>
+            <drillColumn>[Measures].[Total Child File Size]</drillColumn>
+            <drillColumn>[Measures].[Total Child Files]</drillColumn>
+            <drillColumn>[Measures].[Total Columns]</drillColumn>
+            <drillColumn>[Measures].[Total Tables]</drillColumn>
+            <drillColumn>[Measures].[Word Count]</drillColumn>
+        </drillColumns>
+    </report>
+    <uiAttributes showFieldList="true" showFieldLayout="true" showFilterPanel="true" fieldListView="CMDVIEWCATEGORY">
+        <rowFieldWidths actualWidths="82"/>
+        <columnDataFieldWidths actualWidths="120">
+            <labelWidth index="0">
+                <width>0</width>
+            </labelWidth>
+        </columnDataFieldWidths>
+        <pluginData>[{"labelsOption":"outsideEnd"}]</pluginData>
+    </uiAttributes>
+</reportRecord>

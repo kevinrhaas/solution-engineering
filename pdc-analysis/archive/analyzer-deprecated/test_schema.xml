@@ -1,0 +1,23 @@
+<Schema name="test_schema">
+  <Cube name="Test Cube Walter">
+    <Table name="mv_master_table" schema="bidb_ext"/>
+    
+    <!-- Single Dimension: Category -->
+    <Dimension name="Category">
+      <Hierarchy hasAll="true">
+        <Level name="Category" uniqueMembers="false" column="category" type="String">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <!-- Single Measure: Total IDs -->
+    <Measure name="Total IDs" column="totalids" aggregator="sum" formatString="#,###">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">08. Volume Metrics</Annotation>
+      </Annotations>
+    </Measure>
+  </Cube>
+</Schema>

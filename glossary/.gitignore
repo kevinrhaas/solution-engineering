@@ -1,0 +1,53 @@
+# Environment variables and credentials (NEVER COMMIT THESE)
+.env
+.env.local
+.env.production
+.env.rds*
+config.json
+config.local.json
+
+# Deployment state files (auto-generated)
+deploy/deployment-info-*.env
+deploy/apprunner-deployment-info-*.env
+deploy/instance-info-*.env
+deploy/image-info.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Archives (old/unused files)
+archive/
+
+# Development notes and process documentation
+dev-notes/
+
+# Test directory and all test files
+tests/
+test-*
+*test*.csv
+*test*.json
+*output*.csv
+*analysis*.json
+*glossary*.csv

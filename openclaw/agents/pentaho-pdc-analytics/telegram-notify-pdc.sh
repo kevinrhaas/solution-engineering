@@ -1,0 +1,1 @@
+/home/khaas/local/solution-engineering/openclaw/tools/telegram-notify-pdc.sh

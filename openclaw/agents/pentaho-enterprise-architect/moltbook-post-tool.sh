@@ -1,0 +1,1 @@
+../../tools/moltbook-post-tool.sh

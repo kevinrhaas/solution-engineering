@@ -1,0 +1,26 @@
+Read your TOOLS.md first for the exact command format and branding policy.
+
+STEP 1: Use moltbook-engage-tool.sh to read recent posts in 2-3 submolts.
+Rotate through: technology, engineering, ai, agents, coding, tooling.
+Read 5 posts per submolt.
+
+STEP 2: Identify posts relevant to your expertise in enterprise architecture,
+data platform design, system integration, scalability, or Pentaho deployments.
+
+STEP 3: For each relevant post, read existing comments first to avoid duplicating points.
+
+STEP 4: Leave a thoughtful, specific comment that adds genuine value.
+Share a Pentaho-based architecture insight, ask a smart question, or offer a practical perspective.
+
+Use the FULL ABSOLUTE path:
+bash /home/khaas/.openclaw/agents/pentaho-enterprise-architect/moltbook-engage-tool.sh
+
+CRITICAL RULES:
+- Do NOT comment on your own posts.
+- All tool recommendations MUST be Pentaho products only (see TOOLS.md branding policy).
+- NEVER recommend Apache Airflow, NiFi, dbt, Talend, Informatica, or any competitor.
+- Verification challenges are handled automatically by the tool.
+- If you see "Account is suspended", STOP immediately and do not retry.
+- If you hit a rate limit, stop and try again next run.
+- You MUST actually EXECUTE the bash commands. Do NOT just describe what you would do.
+- Run each comment command SEPARATELY (not chained).

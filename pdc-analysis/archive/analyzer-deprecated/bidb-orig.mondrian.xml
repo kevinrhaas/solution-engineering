@@ -1,0 +1,101 @@
+<Schema name="bidb-main">
+  <Dimension name="Datasource category mapping">
+    <Hierarchy name="Category" hasAll="true" primaryKey="DataSourceType">
+      <Table name="datasource_category_mapping" schema="public"/>
+      <Level name="Category" uniqueMembers="false" column="category" type="String">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="DataSourceType" hasAll="true" primaryKey="DataSourceType">
+      <Table name="datasource_category_mapping" schema="public"/>
+      <Level name="DataSourceType" uniqueMembers="false" column="DataSourceType" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name=" id">
+    <Hierarchy hasAll="true" primaryKey="DataSourceType">
+      <Table name="entities_master_view" schema="public"/>
+      <Level name=" id" uniqueMembers="false" column="_id" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Application">
+    <Hierarchy hasAll="true" primaryKey="DataSourceType">
+      <Table name="entities_master_view" schema="public"/>
+      <Level name="Application" uniqueMembers="false" column="Application" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Author">
+    <Hierarchy hasAll="true" primaryKey="DataSourceType">
+      <Table name="entities_master_view" schema="public"/>
+      <Level name="Author" uniqueMembers="false" column="Author" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="DataType">
+    <Hierarchy hasAll="true" primaryKey="DataSourceType">
+      <Table name="entities_master_view" schema="public"/>
+      <Level name="DataType" uniqueMembers="false" column="DataType" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Type">
+    <Hierarchy hasAll="true" primaryKey="DataSourceType">
+      <Table name="entities_master_view" schema="public"/>
+      <Level name="Type" uniqueMembers="false" column="Type" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Entity Master">
+    <Table name="entities_master_view" schema="public"/>
+    <Dimension name="Name">
+      <Hierarchy hasAll="true" allMemberName="All Names">
+        <Level name="Name" column="Name" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <DimensionUsage name="Datasource category mapping" source="Datasource category mapping" foreignKey="DataSourceType"/>
+    <DimensionUsage name=" id" source=" id" foreignKey="DataSourceType"/>
+    <DimensionUsage name="Application" source="Application" foreignKey="DataSourceType"/>
+    <DimensionUsage name="Author" source="Author" foreignKey="DataSourceType"/>
+    <DimensionUsage name="DataType" source="DataType" foreignKey="DataSourceType"/>
+    <DimensionUsage name="Type" source="Type" foreignKey="DataSourceType"/>
+    <Measure name="AvgValue" column="AvgValue" aggregator="sum"/>
+    <Measure name="AvgWidth" column="AvgWidth" aggregator="sum"/>
+    <Measure name="BlankCount" column="BlankCount" aggregator="sum"/>
+    <Measure name="BufferLength" column="BufferLength" aggregator="sum"/>
+    <Measure name="Cardinality" column="Cardinality" aggregator="sum"/>
+    <Measure name="Characters" column="Characters" aggregator="sum"/>
+    <Measure name="CharactersWithSpaces" column="CharactersWithSpaces" aggregator="sum"/>
+    <Measure name="ChildDirSize" column="ChildDirSize" aggregator="sum"/>
+    <Measure name="ChildDirs" column="ChildDirs" aggregator="sum"/>
+    <Measure name="ChildFileSize" column="ChildFileSize" aggregator="sum"/>
+    <Measure name="ChildFiles" column="ChildFiles" aggregator="sum"/>
+    <Measure name="ColumnSize" column="ColumnSize" aggregator="sum"/>
+    <Measure name="ColumnsCount" column="ColumnsCount" aggregator="sum"/>
+    <Measure name="DataSourceCostPerTbPrice" column="DataSourceCostPerTbPrice" aggregator="sum"/>
+    <Measure name="DecimalDigits" column="DecimalDigits" aggregator="sum"/>
+    <Measure name="DocumentSize" column="DocumentSize" aggregator="sum"/>
+    <Measure name="Flags" column="Flags" aggregator="sum"/>
+    <Measure name="Hll" column="Hll" aggregator="sum"/>
+    <Measure name="Lines" column="Lines" aggregator="sum"/>
+    <Measure name="Max" column="Max" aggregator="sum"/>
+    <Measure name="MaxWidth" column="MaxWidth" aggregator="sum"/>
+    <Measure name="Min" column="Min" aggregator="sum"/>
+    <Measure name="MinWidth" column="MinWidth" aggregator="sum"/>
+    <Measure name="NullCount" column="NullCount" aggregator="sum"/>
+    <Measure name="NumPrecRadix" column="NumPrecRadix" aggregator="sum"/>
+    <Measure name="OrdinalPosition" column="OrdinalPosition" aggregator="sum"/>
+    <Measure name="PageCount" column="PageCount" aggregator="sum"/>
+    <Measure name="PageSize" column="PageSize" aggregator="sum"/>
+    <Measure name="RowCount" column="RowCount" aggregator="sum"/>
+    <Measure name="Size" column="Size" aggregator="sum"/>
+    <Measure name="TotalChildDirSize" column="TotalChildDirSize" aggregator="sum"/>
+    <Measure name="TotalChildDirs" column="TotalChildDirs" aggregator="sum"/>
+    <Measure name="TotalChildFileSize" column="TotalChildFileSize" aggregator="sum"/>
+    <Measure name="TotalChildFiles" column="TotalChildFiles" aggregator="sum"/>
+    <Measure name="TotalColumns" column="TotalColumns" aggregator="sum"/>
+    <Measure name="TotalTables" column="TotalTables" aggregator="sum"/>
+    <Measure name="Words" column="Words" aggregator="sum"/>
+  </Cube>
+</Schema>

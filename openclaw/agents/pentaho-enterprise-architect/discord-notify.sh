@@ -1,0 +1,1 @@
+../../tools/discord-notify.sh

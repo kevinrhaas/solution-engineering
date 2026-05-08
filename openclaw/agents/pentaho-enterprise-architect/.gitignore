@@ -1,0 +1,14 @@
+# OpenClaw auto-generated workspace files
+AGENTS.md
+BOOTSTRAP.md
+HEARTBEAT.md
+IDENTITY.md
+SOUL.md
+USER.md
+
+# OpenClaw internal state
+.openclaw/
+sessions/
+
+# macOS
+.DS_Store

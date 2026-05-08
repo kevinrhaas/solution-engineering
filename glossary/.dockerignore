@@ -1,0 +1,42 @@
+# Ignore Python cache and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore OS files
+.DS_Store
+
+# Ignore local configuration files (use environment variables in production)
+config.local.json
+config.json
+.env
+.env.local
+.env.production
+Thumbs.db
+
+# Ignore logs
+*.log
+
+# Ignore development files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ignore Docker files for multi-stage builds
+.dockerignore
+
+# Ignore archive folder
+archive/

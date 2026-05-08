@@ -1,0 +1,28 @@
+REQUIRED IAM PERMISSIONS FOR EKS DEPLOYMENT
+==========================================
+
+USER ARN: arn:aws:sts::729973546399:assumed-role/UsersGroup1/khaas@hitachivantara.com
+ROLE: UsersGroup1
+REGION: us-west-2
+
+MISSING PERMISSIONS:
+-------------------
+EKS PERMISSIONS:
+eks:CreateCluster - Creates the Kubernetes control plane
+eks:DescribeCluster - Checks cluster status during creation
+eks:ListClusters - Validates cluster doesn't already exist
+eks:DescribeClusterVersions - Required by eksctl to select K8s version
+eks:CreateNodegroup - Creates worker nodes for the cluster
+eks:DescribeNodegroups - Monitors node group deployment status
+eks:ListNodegroups - Validates node group configuration
+
+IAM PERMISSIONS:
+iam:CreateRole - Creates EKS service roles (cluster + nodegroup)
+iam:AttachRolePolicy - Attaches AWS managed policies to roles
+iam:PassRole - Allows EKS to assume the created roles
+
+APPROACH: Let eksctl create isolated roles (e.g., eksctl-pentaho-eks-cluster-*)
+This avoids interfering with existing Fox/JDS infrastructure.
+
+TEST COMMAND:
+aws --profile khaas eks list-clusters --region us-west-2

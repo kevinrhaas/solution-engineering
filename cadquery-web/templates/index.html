@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CadQuery Web Renderer</title>
+    
+    <!-- Three.js for 3D rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- STL Loader -->
+    <script src="https://cdn.jsdelivr.net/npm/three@r128/examples/js/loaders/STLLoader.js"></script>
+    <!-- OrbitControls for 3D interaction -->
+    <script src="https://cdn.jsdelivr.net/npm/three@r128/examples/js/controls/OrbitControls.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            gap: 1px;
+            background: #1a1a1a;
+        }
+
+        .editor-panel {
+            flex: 0 0 50%;
+            display: flex;
+            flex-direction: column;
+            background: #1e1e1e;
+            border-right: 1px solid #333;
+        }
+
+        .viewer-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #0a0a0a;
+        }
+
+        .panel-header {
+            padding: 16px;
+            background: #252525;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header h2 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+        }
+
+        .editor-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #1e1e1e;
+            border-bottom: 1px solid #333;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            background: #2a2a2a;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            background: #333;
+            color: #bbb;
+        }
+
+        .tab.active {
+            background: #0066cc;
+            color: #fff;
+        }
+
+        #codeEditor {
+            flex: 1;
+            padding: 16px;
+            background: #1e1e1e;
+            color: #e0e0e0;
+            border: none;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            resize: none;
+            outline: none;
+        }
+
+        .controls {
+            padding: 12px 16px;
+            background: #252525;
+            border-top: 1px solid #333;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #0052a3;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: #444;
+            color: #e0e0e0;
+        }
+
+        button.secondary:hover {
+            background: #555;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #viewer {
+            flex: 1;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            position: relative;
+        }
+
+        .viewer-controls {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 12px;
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+            display: flex;
+            gap: 8px;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .viewer-btn {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #333;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .viewer-btn:hover {
+            background: #444;
+            border-color: #666;
+        }
+
+        .status {
+            padding: 12px 16px;
+            background: #252525;
+            border-top: 1px solid #333;
+            font-size: 12px;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status.loading {
+            color: #0066cc;
+        }
+
+        .status.error {
+            color: #ff6b6b;
+        }
+
+        .status.success {
+            color: #51cf66;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #0066cc;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .examples-dropdown {
+            position: relative;
+        }
+
+        .examples-menu {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 6px;
+            min-width: 200px;
+            margin-bottom: 8px;
+            z-index: 20;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .example-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .example-item:hover {
+            background: #333;
+            color: #0066cc;
+        }
+
+        .example-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-box {
+            padding: 16px;
+            background: rgba(0, 102, 204, 0.1);
+            border: 1px solid rgba(0, 102, 204, 0.3);
+            border-radius: 6px;
+            margin: 16px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #b0b0b0;
+        }
+
+        .info-box code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #90caf9;
+        }
+
+        .keyboard-hint {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            font-size: 11px;
+            color: #666;
+            z-index: 5;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .editor-panel {
+                flex: 0 0 40%;
+                border-right: none;
+                border-bottom: 1px solid #333;
+            }
+
+            .viewer-panel {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Editor Panel -->
+        <div class="editor-panel">
+            <div class="panel-header">
+                <h2>✏️ CadQuery Code</h2>
+                <div style="color: #666; font-size: 12px;">Python 3</div>
+            </div>
+
+            <div class="editor-tabs">
+                <button class="tab active" data-example="new">New</button>
+                <button class="tab" data-example="cube">Cube</button>
+                <button class="tab" data-example="cylinder">Cylinder</button>
+                <button class="tab" data-example="threaded_rod">Rod</button>
+                <button class="tab" data-example="bracket">Bracket</button>
+            </div>
+
+            <textarea id="codeEditor" spellcheck="false" placeholder="# Write CadQuery code here
+# Example:
+# result = cq.Workbench().box(10, 10, 10)
+
+import cadquery as cq
+
+# Your code here
+result = cq.Workbench().box(10, 10, 10)
+"></textarea>
+
+            <div class="controls">
+                <button id="renderBtn" onclick="render()">⚡ Render</button>
+                <button class="secondary" id="downloadBtn" onclick="download()" disabled>⬇️ Download STL</button>
+                <button class="secondary" onclick="resetCamera()">🔄 Reset View</button>
+                <button class="secondary" onclick="fitView()">🎯 Fit to View</button>
+            </div>
+
+            <div class="status" id="status">Ready</div>
+        </div>
+
+        <!-- 3D Viewer Panel -->
+        <div class="viewer-panel">
+            <div class="panel-header">
+                <h2>🎨 3D Preview</h2>
+                <div style="color: #666; font-size: 12px;">Three.js Renderer</div>
+            </div>
+
+            <div id="viewer"></div>
+
+            <div class="viewer-controls">
+                <button class="viewer-btn" title="Rotate: Drag mouse" onclick="cameraMode('rotate')">↻</button>
+                <button class="viewer-btn" title="Pan: Right-click drag" onclick="cameraMode('pan')">↔</button>
+                <button class="viewer-btn" title="Zoom: Scroll wheel" onclick="cameraMode('zoom')">🔍</button>
+            </div>
+
+            <div class="keyboard-hint">
+                💡 Drag to rotate · Scroll to zoom · Right-click to pan
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let scene, camera, renderer, controls, currentModel = null;
+        let currentSTL = null;
+
+        // Initialize Three.js scene
+        function initViewer() {
+            const container = document.getElementById('viewer');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0a0a);
+            scene.fog = new THREE.Fog(0x0a0a0a, 1000, 10000);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 10000);
+            camera.position.set(50, 50, 50);
+            camera.lookAt(0, 0, 0);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFShadowShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.autoRotate = false;
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(50, 100, 50);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            directionalLight.shadow.camera.far = 500;
+            scene.add(directionalLight);
+
+            // Grid
+            const gridHelper = new THREE.GridHelper(200, 20, 0x333333, 0x222222);
+            scene.add(gridHelper);
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                const w = container.clientWidth;
+                const h = container.clientHeight;
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+                renderer.setSize(w, h);
+            });
+        }
+
+        // Load STL from base64
+        function loadSTLFromBase64(base64String) {
+            // Remove old model
+            if (currentModel) {
+                scene.remove(currentModel);
+            }
+
+            // Decode base64
+            const binaryString = atob(base64String);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            const arrayBuffer = bytes.buffer;
+
+            // Parse STL
+            const geometry = parseSTL(arrayBuffer);
+            geometry.computeVertexNormals();
+            geometry.center();
+
+            // Create mesh
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x0066cc,
+                shininess: 100,
+                side: THREE.DoubleSide
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+
+            scene.add(mesh);
+            currentModel = mesh;
+
+            fitViewToObject(mesh);
+        }
+
+        // Parse binary STL
+        function parseSTL(arrayBuffer) {
+            const view = new DataView(arrayBuffer);
+            const isASCII = isASCIISTL(arrayBuffer);
+
+            if (isASCII) {
+                return parseASCIISTL(arrayBuffer);
+            } else {
+                return parseBinarySTL(arrayBuffer);
+            }
+        }
+
+        // Check if STL is ASCII
+        function isASCIISTL(arrayBuffer) {
+            const view = new Uint8Array(arrayBuffer);
+            const header = new TextDecoder().decode(view.slice(0, 5));
+            return header === 'solid';
+        }
+
+        // Parse binary STL
+        function parseBinarySTL(arrayBuffer) {
+            const view = new DataView(arrayBuffer);
+            const triangles = view.getUint32(80, true);
+
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            const normals = [];
+
+            let offset = 84;
+            for (let i = 0; i < triangles; i++) {
+                const nx = view.getFloat32(offset, true);
+                const ny = view.getFloat32(offset + 4, true);
+                const nz = view.getFloat32(offset + 8, true);
+                offset += 12;
+
+                for (let j = 0; j < 3; j++) {
+                    vertices.push(view.getFloat32(offset, true));
+                    vertices.push(view.getFloat32(offset + 4, true));
+                    vertices.push(view.getFloat32(offset + 8, true));
+                    normals.push(nx, ny, nz);
+                    offset += 12;
+                }
+
+                offset += 2; // Attribute byte count
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
+            geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals), 3));
+
+            return geometry;
+        }
+
+        // Parse ASCII STL
+        function parseASCIISTL(arrayBuffer) {
+            const text = new TextDecoder().decode(arrayBuffer);
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            const normals = [];
+
+            const vertexPattern = /vertex\s+([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)\s+([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)\s+([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g;
+            const normalPattern = /facet\s+normal\s+([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)\s+([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)\s+([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g;
+
+            let normalMatch;
+            while ((normalMatch = normalPattern.exec(text)) !== null) {
+                const nx = parseFloat(normalMatch[1]);
+                const ny = parseFloat(normalMatch[3]);
+                const nz = parseFloat(normalMatch[5]);
+
+                let vertexMatch;
+                for (let i = 0; i < 3; i++) {
+                    vertexMatch = vertexPattern.exec(text);
+                    if (!vertexMatch) break;
+                    vertices.push(parseFloat(vertexMatch[1]));
+                    vertices.push(parseFloat(vertexMatch[3]));
+                    vertices.push(parseFloat(vertexMatch[5]));
+                    normals.push(nx, ny, nz);
+                }
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
+            geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals), 3));
+
+            return geometry;
+        }
+
+        // Fit view to object
+        function fitViewToObject(mesh) {
+            const box = new THREE.Box3().setFromObject(mesh);
+            const size = box.getSize(new THREE.Vector3());
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const fov = camera.fov * (Math.PI / 180);
+            let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
+            cameraZ *= 1.5;
+
+            camera.position.z = cameraZ;
+            camera.lookAt(mesh.position);
+            controls.target.copy(box.getCenter(new THREE.Vector3()));
+            controls.update();
+        }
+
+        // Render function
+        async function render() {
+            const code = document.getElementById('codeEditor').value;
+            if (!code.trim()) {
+                updateStatus('Please enter some code', 'error');
+                return;
+            }
+
+            const renderBtn = document.getElementById('renderBtn');
+            renderBtn.disabled = true;
+            updateStatus('Rendering...', 'loading');
+
+            try {
+                const response = await fetch('/api/render', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    currentSTL = result.stl;
+                    loadSTLFromBase64(result.stl);
+                    updateStatus('✓ Rendered successfully', 'success');
+                    document.getElementById('downloadBtn').disabled = false;
+                } else {
+                    updateStatus('Error: ' + (result.error || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                updateStatus('Error: ' + error.message, 'error');
+            } finally {
+                renderBtn.disabled = false;
+            }
+        }
+
+        // Download STL
+        function download() {
+            if (!currentSTL) return;
+
+            const binaryString = atob(currentSTL);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            const blob = new Blob([bytes.buffer], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'model.stl';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Camera controls
+        function resetCamera() {
+            camera.position.set(50, 50, 50);
+            camera.lookAt(0, 0, 0);
+            controls.target.set(0, 0, 0);
+            controls.update();
+        }
+
+        function fitView() {
+            if (currentModel) {
+                fitViewToObject(currentModel);
+            }
+        }
+
+        function cameraMode(mode) {
+            // Placeholder for mode switching
+            console.log('Camera mode:', mode);
+        }
+
+        // Status update
+        function updateStatus(message, type = 'normal') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+
+        // Load example
+        async function loadExample(exampleId) {
+            const response = await fetch('/api/examples');
+            const examples = await response.json();
+
+            if (examples[exampleId]) {
+                document.getElementById('codeEditor').value = examples[exampleId].code;
+                render();
+            }
+        }
+
+        // Example tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const example = tab.dataset.example;
+                if (example !== 'new') {
+                    loadExample(example);
+                } else {
+                    document.getElementById('codeEditor').value = `import cadquery as cq
+
+# Write your CadQuery code here
+result = cq.Workbench().box(10, 10, 10)
+`;
+                }
+            });
+        });
+
+        // Keyboard shortcuts
+        document.getElementById('codeEditor').addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                render();
+            }
+        });
+
+        // Initialize on load
+        window.addEventListener('load', initViewer);
+    </script>
+</body>
+</html>

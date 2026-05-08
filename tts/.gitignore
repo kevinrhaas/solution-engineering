@@ -1,0 +1,39 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Input and output directories (user content)
+input/
+!input/README.md
+output/
+!output/README.md
+output-*/
+
+# Audio files
+*.mp3
+*.wav
+*.m4a
+*.aac
+
+# Logs
+*.log

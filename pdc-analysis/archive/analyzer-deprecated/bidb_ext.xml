@@ -1,0 +1,675 @@
+<Schema name="PDC">
+  <Dimension name="ID">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="ID" uniqueMembers="false" column="_id" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Accessed Age Months">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Accessed Age Months" uniqueMembers="false" column="accessed_age_months" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Accessed Age Years">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Accessed Age Years" uniqueMembers="false" column="accessed_age_years" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Accessed At">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Accessed At" uniqueMembers="false" column="accessedat" type="Date">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Accessed At Day">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Accessed At Day" uniqueMembers="false" column="accessedat_dom" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Accessed At Month">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Accessed At Month" uniqueMembers="false" column="accessedat_month" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Accessed At Year">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Accessed At Year" uniqueMembers="false" column="accessedat_year" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+<!--
+    <Dimension name="Created Age Months">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Created Age Months" uniqueMembers="false" column="created_age_months" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Created Age Years">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Created Age Years" uniqueMembers="false" column="created_age_years" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Created At">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Created At" uniqueMembers="false" column="createdat" type="Date">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Created At Day">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Created At Day" uniqueMembers="false" column="createdat_dom" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Created At Month">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Created At Month" uniqueMembers="false" column="createdat_month" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Created At Year">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Created At Year" uniqueMembers="false" column="createdat_year" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+ -->
+  <Dimension name="Data Source ID">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Data Source ID" uniqueMembers="false" column="datasourceid" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Data Source Name">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Data Source Name" uniqueMembers="false" column="datasourcename" type="String" caption="Data Source Name*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Data Source Type">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Data Source Type" uniqueMembers="false" column="datasourcetype" type="String" caption="Data Source Type*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="File Extension">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="File Extension" uniqueMembers="false" column="fileextension" type="String" caption="File Extension*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="File Type">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="File Type" uniqueMembers="false" column="filetype" type="String" caption="File Type*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Flags">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Flags" uniqueMembers="false" column="flags" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="FQDN">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="FQDN" uniqueMembers="false" column="fqdndisplay" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Group">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Group" uniqueMembers="false" column="Group" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">04. Ownership and Permissions</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Is Symlink">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Is Symlink" uniqueMembers="false" column="issymlink" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Last Update">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Last Update" uniqueMembers="false" column="lastupdate" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Last Update Statistics">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Last Update Statistics" uniqueMembers="false" column="lastupdatestatistics" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Link Type">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Link Type" uniqueMembers="false" column="linktype" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Modified Age Months">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Modified Age Months" uniqueMembers="false" column="modified_age_months" type="Numeric" caption="Modified Age Months*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Modified Age Years">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Modified Age Years" uniqueMembers="false" column="modified_age_years" type="Numeric" caption="Modified Age Years*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Modified At">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Modified At" uniqueMembers="false" column="modifiedat" type="Date">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Modified At Day">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Modified At Day" uniqueMembers="false" column="modifiedat_dom" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Modified At Month">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Modified At Month" uniqueMembers="false" column="modifiedat_month" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Modified At Year">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Modified At Year" uniqueMembers="false" column="modifiedat_year" type="Numeric">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Modified Date" type="TimeDimension">
+    <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+    <Hierarchy hasAll="true" primaryKey="_id">
+      <Table name="pdso_entities" />
+      <Level name="Year" column="modifiedat_year" type="Numeric" levelType="TimeYears" uniqueMembers="false">
+      </Level>
+      <Level name="Month" column="modifiedat_month" type="Numeric" levelType="TimeMonths" uniqueMembers="false">
+      </Level>
+      <Level name="Day" column="modifiedat_dom" type="Numeric" levelType="TimeDays" uniqueMembers="false">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Name">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Name" uniqueMembers="false" column="Name" type="String" caption="Name*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Owner">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Owner" uniqueMembers="false" column="Owner" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">04. Ownership and Permissions</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Parent">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Parent" uniqueMembers="false" column="parent" type="String" caption="Parent*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">06. Hierarchy and Navigation</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Parent Name">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Parent Name" uniqueMembers="false" column="parentname" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">06. Hierarchy and Navigation</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Parent Path">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Parent Path" uniqueMembers="false" column="parentpath" type="String" caption="Parent Path*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">06. Hierarchy and Navigation</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Path">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Path" uniqueMembers="false" column="Path" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">06. Hierarchy and Navigation</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Path Type">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Path Type" uniqueMembers="false" column="pathtype" type="String" caption="Path Type*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Physical Location">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Physical Location" uniqueMembers="false" column="physicallocation" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Resource Type">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Resource Type" uniqueMembers="false" column="resourcetype" type="String" caption="Resource Type*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Scanned At">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Scanned At" uniqueMembers="false" column="scannedat" type="Date">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Temporal Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Symlink Target">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Symlink Target" uniqueMembers="false" column="symlinktarget" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Type">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Type" uniqueMembers="false" column="Type" type="String" caption="Type*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="URL">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="URL" uniqueMembers="false" column="url" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Term Name">
+    <Hierarchy hasAll="true">
+      <Table name="pdso_entities" />
+      <Level name="Term Name" uniqueMembers="false" column="termname" type="String" caption="Term Name*">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Data Asset Inventory &amp; Storage Analysis">
+    <Table name="pdso_entities" >
+      <AggPattern pattern="agg_.*">
+        <AggFactCount column="fact_count"/>
+        <AggMeasure name="[Measures].[File Count]" column="filecount"/>
+        <AggMeasure name="[Measures].[Size Bytes]" column="size"/>
+        <AggMeasure name="[Measures].[Number of Child Directories]" column="childdirs"/>
+        <AggMeasure name="[Measures].[Child Directory Size Bytes]" column="childdirsize"/>
+        <AggMeasure name="[Measures].[Number of Child Files]" column="childfiles"/>
+        <AggMeasure name="[Measures].[Child File Size Bytes]" column="childfilesize"/>
+        <AggMeasure name="[Measures].[Total Number of Child Directories]" column="totalchilddirs"/>
+        <AggMeasure name="[Measures].[Total Child Directory Size Bytes]" column="totalchilddirsize"/>
+        <AggMeasure name="[Measures].[Total Number of Child Files]" column="totalchildfiles"/>
+        <AggMeasure name="[Measures].[Total Child File Size Bytes]" column="totalchildfilesize"/>
+        <AggLevel name="[Name].[Name]" column="Name"/>
+        <AggLevel name="[Type].[Type]" column="Type"/>
+        <AggLevel name="[Parent].[Parent]" column="parent"/>
+        <AggLevel name="[Resource Type].[Resource Type]" column="resourcetype"/>
+        <AggLevel name="[Data Source Name].[Data Source Name]" column="datasourcename"/>
+        <AggLevel name="[Data Source Type].[Data Source Type]" column="datasourcetype"/>
+        <AggLevel name="[Term Name].[Term Name]" column="termname"/>
+        <AggLevel name="[Modified Age Months].[Modified Age Months]" column="modified_age_months"/>
+        <AggLevel name="[Modified Age Years].[Modified Age Years]" column="modified_age_years"/>
+        <AggLevel name="[Path Type].[Path Type]" column="pathtype"/>
+        <AggLevel name="[File Extension].[File Extension]" column="fileextension"/>
+        <AggLevel name="[File Type].[File Type]" column="filetype"/>
+        <AggLevel name="[Parent Path].[Parent Path]" column="parentpath"/>
+      </AggPattern>
+    </Table>
+    <DimensionUsage name="ID" source="ID"/>
+  <!--
+    <DimensionUsage name="Accessed Age Months" source="Accessed Age Months"/>
+    <DimensionUsage name="Accessed Age Years" source="Accessed Age Years"/>
+    <DimensionUsage name="Accessed At" source="Accessed At"/>
+    <DimensionUsage name="Accessed At Day" source="Accessed At Day"/>
+    <DimensionUsage name="Accessed At Month" source="Accessed At Month"/>
+    <DimensionUsage name="Accessed At Year" source="Accessed At Year"/>
+    <DimensionUsage name="Created Age Months" source="Created Age Months"/>
+    <DimensionUsage name="Created Age Years" source="Created Age Years"/>
+    <DimensionUsage name="Created At" source="Created At"/>
+    <DimensionUsage name="Created At Day" source="Created At Day"/>
+    <DimensionUsage name="Created At Month" source="Created At Month"/>
+    <DimensionUsage name="Created At Year" source="Created At Year"/>
+  -->
+    <DimensionUsage name="Data Source ID" source="Data Source ID"/>
+    <DimensionUsage name="Data Source Name" source="Data Source Name"/>
+    <DimensionUsage name="Data Source Type" source="Data Source Type"/>
+    <DimensionUsage name="File Extension" source="File Extension"/>
+    <DimensionUsage name="File Type" source="File Type"/>
+    <DimensionUsage name="Flags" source="Flags"/>
+    <DimensionUsage name="FQDN" source="FQDN"/>
+    <DimensionUsage name="Group" source="Group"/>
+    <DimensionUsage name="Is Symlink" source="Is Symlink"/>
+    <DimensionUsage name="Last Update" source="Last Update"/>
+    <DimensionUsage name="Last Update Statistics" source="Last Update Statistics"/>
+    <DimensionUsage name="Link Type" source="Link Type"/>
+    <DimensionUsage name="Modified Date" source="Modified Date"/>
+    <DimensionUsage name="Modified Age Months" source="Modified Age Months"/>
+    <DimensionUsage name="Modified Age Years" source="Modified Age Years"/>
+    <DimensionUsage name="Modified At" source="Modified At"/>
+    <DimensionUsage name="Modified At Day" source="Modified At Day"/>
+    <DimensionUsage name="Modified At Month" source="Modified At Month"/>
+    <DimensionUsage name="Modified At Year" source="Modified At Year"/>
+    <DimensionUsage name="Name" source="Name"/>
+    <DimensionUsage name="Owner" source="Owner"/>
+    <DimensionUsage name="Parent" source="Parent"/>
+    <DimensionUsage name="Parent Name" source="Parent Name"/>
+    <DimensionUsage name="Parent Path" source="Parent Path"/>
+    <DimensionUsage name="Path" source="Path"/>
+    <DimensionUsage name="Path Type" source="Path Type"/>
+    <DimensionUsage name="Physical Location" source="Physical Location"/>
+    <DimensionUsage name="Resource Type" source="Resource Type"/>
+    <DimensionUsage name="Scanned At" source="Scanned At"/>
+    <DimensionUsage name="Symlink Target" source="Symlink Target"/>
+    <DimensionUsage name="Type" source="Type"/>
+    <DimensionUsage name="URL" source="URL"/>
+    <DimensionUsage name="Term Name" source="Term Name"/>
+    
+    <!-- ============================================ -->
+    <!-- MEASURES - ORGANIZED BY CATEGORY -->
+    <!-- ============================================ -->
+    
+    <!-- Volume Metrics -->
+    <Measure name="File Count" column="filecount" aggregator="sum" caption="Number of Objects" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">11. Volume Metrics</Annotation></Annotations>
+    </Measure>
+    
+    <!-- Size Metrics (Primary) -->
+    <Measure name="Size Bytes" column="Size" aggregator="sum" caption="Size Bytes" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Size Metrics - Primary</Annotation></Annotations>
+    </Measure>
+    
+    <!-- Child Container Metrics -->
+    <Measure name="Number of Child Directories" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+      <MeasureExpression><SQL>CAST(COALESCE(childdirs, '0') AS NUMERIC)</SQL></MeasureExpression>
+    </Measure>
+    <Measure name="Child Directory Size Bytes" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+      <MeasureExpression><SQL>CAST(COALESCE(childdirsize, '0') AS NUMERIC)</SQL></MeasureExpression>
+    </Measure>
+    <Measure name="Number of Child Files" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+      <MeasureExpression><SQL>CAST(COALESCE(childfiles, '0') AS NUMERIC)</SQL></MeasureExpression>
+    </Measure>
+    <Measure name="Child File Size Bytes" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+      <MeasureExpression><SQL>CAST(COALESCE(childfilesize, '0') AS NUMERIC)</SQL></MeasureExpression>
+    </Measure>
+    
+    <!-- Total Child Metrics -->
+    <Measure name="Total Number of Child Directories" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+      <MeasureExpression><SQL>CAST(COALESCE(totalchilddirs, '0') AS NUMERIC)</SQL></MeasureExpression>
+    </Measure>
+    <Measure name="Total Child Directory Size Bytes" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+      <MeasureExpression><SQL>CAST(COALESCE(totalchilddirsize, '0') AS NUMERIC)</SQL></MeasureExpression>
+    </Measure>
+    <Measure name="Total Number of Child Files" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+      <MeasureExpression><SQL>CAST(COALESCE(totalchildfiles, '0') AS NUMERIC)</SQL></MeasureExpression>
+    </Measure>
+    <Measure name="Total Child File Size Bytes" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+      <MeasureExpression><SQL>CAST(COALESCE(totalchildfilesize, '0') AS NUMERIC)</SQL></MeasureExpression>
+    </Measure>
+    
+    <!-- ============================================ -->
+    <!-- CALCULATED MEASURES - Size Conversions -->
+    <!-- ============================================ -->
+    
+    <CalculatedMember name="Size GB" dimension="Measures" formula="[Measures].[Size Bytes] / 1073741824" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Size Metrics - Primary</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Size TB" dimension="Measures" formula="[Measures].[Size Bytes] / 1099511627776" formatString="#,###.000">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Size Metrics - Primary</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Average Object Size Bytes" dimension="Measures" formula="IIF([Measures].[File Count] = 0, 0, [Measures].[Size Bytes] / [Measures].[File Count])" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Size Metrics - Primary</Annotation></Annotations>
+    </CalculatedMember>
+    
+    <!-- Child Directory Size Conversions -->
+    <CalculatedMember name="Child Directory Size GB" dimension="Measures" formula="[Measures].[Child Directory Size Bytes] / 1073741824" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Child Directory Size TB" dimension="Measures" formula="[Measures].[Child Directory Size Bytes] / 1099511627776" formatString="#,###.000">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Average Child Directory Size Bytes" dimension="Measures" formula="IIF([Measures].[Number of Child Directories] = 0, 0, [Measures].[Child Directory Size Bytes] / [Measures].[Number of Child Directories])" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    
+    <!-- Child File Size Conversions -->
+    <CalculatedMember name="Child File Size GB" dimension="Measures" formula="[Measures].[Child File Size Bytes] / 1073741824" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Child File Size TB" dimension="Measures" formula="[Measures].[Child File Size Bytes] / 1099511627776" formatString="#,###.000">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Average Child File Size Bytes" dimension="Measures" formula="IIF([Measures].[Number of Child Files] = 0, 0, [Measures].[Child File Size Bytes] / [Measures].[Number of Child Files])" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Child Container Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    
+    <!-- Total Child Directory Size Conversions -->
+    <CalculatedMember name="Total Child Directory Size GB" dimension="Measures" formula="[Measures].[Total Child Directory Size Bytes] / 1073741824" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Total Child Directory Size TB" dimension="Measures" formula="[Measures].[Total Child Directory Size Bytes] / 1099511627776" formatString="#,###.000">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Average Total Child Directory Size Bytes" dimension="Measures" formula="IIF([Measures].[Total Number of Child Directories] = 0, 0, [Measures].[Total Child Directory Size Bytes] / [Measures].[Total Number of Child Directories])" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    
+    <!-- Total Child File Size Conversions -->
+    <CalculatedMember name="Total Child File Size GB" dimension="Measures" formula="[Measures].[Total Child File Size Bytes] / 1073741824" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Total Child File Size TB" dimension="Measures" formula="[Measures].[Total Child File Size Bytes] / 1099511627776" formatString="#,###.000">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Average Total Child File Size Bytes" dimension="Measures" formula="IIF([Measures].[Total Number of Child Files] = 0, 0, [Measures].[Total Child File Size Bytes] / [Measures].[Total Number of Child Files])" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Total Child Metrics</Annotation></Annotations>
+    </CalculatedMember>
+    
+    <!-- ============================================ -->
+    <!-- CALCULATED MEASURES - Environmental Impact -->
+    <!-- ============================================ -->
+    
+    <CalculatedMember name="Estimated CO2e (Metric Tons/Year)" dimension="Measures" formula="[Measures].[Size TB] * 0.35" formatString="#,###.00">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Environmental Impact</Annotation>
+        <Annotation name="Description">Estimated annual CO2 emissions in metric tons based on industry standard of 0.35 metric tons CO2e per TB per year for data storage</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <!-- ============================================ -->
+    <!-- CALCULATED MEASURES - Previous Period -->
+    <!-- ============================================ -->
+
+    <CalculatedMember name="Size TB (Previous Year)" dimension="Measures">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Size Metrics - Primary</Annotation></Annotations>
+      <Formula>
+        ([Measures].[Size TB], ParallelPeriod([Modified Date].[Year], 1))
+      </Formula>
+    </CalculatedMember>
+
+    <CalculatedMember name="Size TB YoY Change" dimension="Measures">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Size Metrics - Primary</Annotation></Annotations>
+      <Formula>
+        [Measures].[Size TB] - [Measures].[Size TB (Previous Year)]
+      </Formula>
+    </CalculatedMember>
+
+    <CalculatedMember name="Size TB YoY % Change" dimension="Measures" formatString="#,##0.00%">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Size Metrics - Primary</Annotation></Annotations>
+      <Formula>
+        IIF(
+          IsEmpty([Measures].[Size TB (Previous Year)]) OR [Measures].[Size TB (Previous Year)] = 0,
+          NULL,
+          ([Measures].[Size TB] - [Measures].[Size TB (Previous Year)]) / [Measures].[Size TB (Previous Year)]
+        )
+      </Formula>
+    </CalculatedMember>
+
+
+  </Cube>
+
+  <Cube name="Data Asset Summary">
+    <Table name="mv_master_table" />
+    <Dimension name="Category">
+      <Hierarchy hasAll="true">
+        <Level name="Category" uniqueMembers="false" column="category" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Datasource Name">
+      <Hierarchy hasAll="true">
+        <Level name="Datasource Name" uniqueMembers="false" column="datasourcename" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Datasource Type">
+      <Hierarchy hasAll="true">
+        <Level name="Datasource Type" uniqueMembers="false" column="datasourcetype" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Datasource Cost Per TB Currency">
+      <Hierarchy hasAll="true">
+        <Level name="Datasource Cost Per TB Currency" uniqueMembers="false" column="datasourcecostpertbcurrency" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">07. Cost Metrics</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="File Type">
+      <Hierarchy hasAll="true">
+        <Level name="File Type" uniqueMembers="false" column="filetype" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Type">
+      <Hierarchy hasAll="true">
+        <Level name="Type" uniqueMembers="false" column="Type" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Sensitivity">
+      <Hierarchy hasAll="true">
+        <Level name="Sensitivity" uniqueMembers="false" column="sensitivity" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Datasource Cost Per TB Price" column="datasourcecostpertbprice" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">07. Cost Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Conversion Rate To USD" column="conversionratetousd" aggregator="avg" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">07. Cost Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total IDs" column="totalids" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">08. Volume Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Size Bytes" column="totalsizebytes" aggregator="sum" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">08. Volume Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Size TB" column="totalsizetb" aggregator="sum" formatString="#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">08. Volume Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Cost" column="totalcost" aggregator="sum" formatString="$#,###.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">07. Cost Metrics</Annotation></Annotations>
+    </Measure>
+  </Cube>
+</Schema>

@@ -1,0 +1,6 @@
+{
+  "errors" : [ {
+    "status" : 404,
+    "message" : "File not found.; Path: 'pdc-generic-dev:pentaho/pdc_docker_deployment'"
+  } ]
+}

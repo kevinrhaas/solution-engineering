@@ -1,0 +1,62 @@
+# Pentaho AWS EKS Deployment - GitIgnore
+
+# Runtime state files (contain sensitive instance information)
+*-runtime.state
+
+# Environment files with sensitive data
+# Note: Keep only the sample template, ignore all actual environment files
+pentaho-eks-*.env
+!pentaho-eks-sample.env
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# Kubernetes generated files
+kubernetes/generated/
+*.yaml.tmp
+
+# Database dumps and backups
+database/backups/
+*.sql.backup
+*.dump
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Kubernetes secrets (if accidentally created)
+*secret*.yaml
+*-secret.yaml
+
+# Helm charts (if used later)
+charts/
+*.tgz
+
+# Terraform state (if used later)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# AWS credentials (should never be committed)
+.aws/
+credentials
+config
+
+# Docker override files
+docker-compose.override.yml

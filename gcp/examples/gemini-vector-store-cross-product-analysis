@@ -1,0 +1,16 @@
+-- Example: find products most similar to productid = 42
+(select productid, name, null as cosine_sim from products p3 
+where productid in (select min(productid) from products p4))
+union all 
+(SELECT
+  p2.productid,
+  p2.name,
+  1 - (p2.productembedding <=> p1.productembedding) AS cosine_sim
+FROM products p1
+JOIN products p2
+  ON p2.productid <> p1.productid           -- exclude itself
+WHERE p1.productid = (select min(productid) from products)                     -- the reference record
+  AND p2.productembedding IS NOT NULL
+  AND p1.productembedding IS NOT NULL
+ORDER BY p2.productembedding <=> p1.productembedding
+LIMIT 10);

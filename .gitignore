@@ -1,0 +1,19 @@
+.DS_Store
+
+# OpenShift installer (secrets & generated artifacts)
+openshift/installer/
+openshift/installer/pull-secret.txt
+.DS_Store
+.DS_Store
+.DS_Store
+.DS_Store
+.DS_Store
+jeopardy/nohup.out
+archive/.DS_Store
+pentaho-ops-console/api/__pycache__/__init__.cpython-39.pyc
+pentaho-ops-console/api/__pycache__/config.cpython-39.pyc
+pentaho-ops-console/api/__pycache__/runner.cpython-39.pyc
+pentaho-ops-console/api/routes/__pycache__/__init__.cpython-39.pyc
+pentaho-ops-console/api/routes/__pycache__/profiles.cpython-39.pyc
+pentaho-ops-console/api/routes/__pycache__/provision.cpython-39.pyc
+archive/.DS_Store

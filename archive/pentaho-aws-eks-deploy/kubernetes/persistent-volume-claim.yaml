@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pentaho-s3-pvc
+  namespace: pentaho-server
+  labels:
+    app.kubernetes.io/name: pentaho-server
+    app.kubernetes.io/component: storage
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: s3-csi
+  resources:
+    requests:
+      storage: 20Gi
+  volumeName: pentaho-s3-pv

@@ -1,0 +1,65 @@
+{
+  "name": "Tech & Web Trivia",
+  "categories": [
+    {
+      "title": "Languages",
+      "questions": [
+        { "q": "This language is known for its snake logo.", "a": "Python", "v": 100 },
+        { "q": "The language primarily used to style web pages.", "a": "CSS", "v": 200 },
+        { "q": "Originally called Mocha, it makes the web interactive.", "a": "JavaScript", "v": 300 },
+        { "q": "Developed by Apple as a successor to Objective-C.", "a": "Swift", "v": 400 },
+        { "q": "A systems programming language known for memory safety without a garbage collector.", "a": "Rust", "v": 500 }
+      ]
+    },
+    {
+      "title": "Tech Giants",
+      "questions": [
+        { "q": "This company was founded by Bill Gates.", "a": "Microsoft", "v": 100 },
+        { "q": "Known for the search engine, its parent company is Alphabet.", "a": "Google", "v": 200 },
+        { "q": "This company started as an online bookstore in 1994.", "a": "Amazon", "v": 300 },
+        { "q": "Mark Zuckerberg founded this social media behemoth.", "a": "Meta / Facebook", "v": 400 },
+        { "q": "This company produces the graphics cards that power most modern AI.", "a": "Nvidia", "v": 500 }
+      ]
+    },
+    {
+      "title": "Hardware",
+      "questions": [
+        { "q": "The 'brain' of the computer.", "a": "CPU (Central Processing Unit)", "v": 100 },
+        { "q": "Short-term volatile memory used by the operating system.", "a": "RAM (Random Access Memory)", "v": 200 },
+        { "q": "This component renders graphics and video.", "a": "GPU (Graphics Processing Unit)", "v": 300 },
+        { "q": "A fast storage drive with no moving parts.", "a": "SSD (Solid State Drive)", "v": 400 },
+        { "q": "The main circuit board that connects all components.", "a": "Motherboard", "v": 500 }
+      ]
+    },
+    {
+      "title": "Acronyms",
+      "questions": [
+        { "q": "HTML stands for HyperText _____ Language.", "a": "Markup", "v": 100 },
+        { "q": "URL stands for Uniform Resource _____.", "a": "Locator", "v": 200 },
+        { "q": "API stands for Application Programming _____.", "a": "Interface", "v": 300 },
+        { "q": "JSON stands for JavaScript Object _____.", "a": "Notation", "v": 400 },
+        { "q": "SQL stands for _____ Query Language.", "a": "Structured", "v": 500 }
+      ]
+    },
+    {
+      "title": "The Internet",
+      "questions": [
+        { "q": "The protocol used to transfer web pages.", "a": "HTTP / HTTPS", "v": 100 },
+        { "q": "The system that translates domain names into IP addresses.", "a": "DNS (Domain Name System)", "v": 200 },
+        { "q": "The global network of networks.", "a": "The Internet", "v": 300 },
+        { "q": "A 404 error means the requested page was not _____.", "a": "Found", "v": 400 },
+        { "q": "He is credited with inventing the World Wide Web.", "a": "Tim Berners-Lee", "v": 500 }
+      ]
+    },
+    {
+      "title": "Video Games",
+      "questions": [
+        { "q": "This Italian plumber is Nintendo's mascot.", "a": "Mario", "v": 100 },
+        { "q": "The best-selling video game of all time (involving blocks).", "a": "Minecraft", "v": 200 },
+        { "q": "The protagonist of the Legend of Zelda series.", "a": "Link", "v": 300 },
+        { "q": "This classic arcade game features a yellow circle eating dots.", "a": "Pac-Man", "v": 400 },
+        { "q": "The company that created the PlayStation.", "a": "Sony", "v": 500 }
+      ]
+    }
+  ]
+}

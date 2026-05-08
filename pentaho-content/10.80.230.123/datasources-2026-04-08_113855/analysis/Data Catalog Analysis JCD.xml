@@ -1,0 +1,351 @@
+<Schema name="Data Catalog Analysis JCD">
+  <Dimension name="Datasource category mapping">
+    <Hierarchy name="Category" hasAll="true" primaryKey="datasourcetype">
+      <Table name="mv_master_table" />
+      <Level name="Category" uniqueMembers="false" column="category" type="String">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Cube name="Entity Master">
+    <Table name="pdso_entities" />
+
+    <Dimension name="_id">
+      <Hierarchy hasAll="true" allMemberName="All _id" primaryKey="_id">
+        <Level name="Entity ID" column="_id" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">29. Tracking Info</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Name">
+      <Hierarchy hasAll="true" allMemberName="All Name">
+        <Level name="Name" column="Name" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Type">
+      <Hierarchy hasAll="true" allMemberName="All Type">
+        <Level name="Type" column="Type" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">02. Entity Typing</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Parent">
+      <Hierarchy hasAll="true" allMemberName="All Parent">
+        <Level name="Parent ID" column="parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">03. Entity Hierarchy</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="ResourceType">
+      <Hierarchy hasAll="true" allMemberName="All ResourceType">
+        <Level name="Resource Type" column="resourcetype" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">02. Entity Typing</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="DataSourceId">
+      <Hierarchy hasAll="true" allMemberName="All DataSourceId">
+        <Level name="Data Source ID" column="datasourceid" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="DataSourceName">
+      <Hierarchy hasAll="true" allMemberName="All DataSourceName">
+        <Level name="Data Source Name" column="datasourcename" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="DataSourceType">
+      <Hierarchy hasAll="true" allMemberName="All DataSourceType">
+        <Level name="Data Source Type" column="datasourcetype" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Url">
+      <Hierarchy hasAll="true" allMemberName="All Url">
+        <Level name="URL" column="url" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">06. Connectivity</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="ParentName">
+      <Hierarchy hasAll="true" allMemberName="All ParentName">
+        <Level name="Parent Name" column="parentname" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Path">
+      <Hierarchy hasAll="true" allMemberName="All Path">
+        <Level name="Path" column="Path" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">18. File &amp; Object Paths</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="ParentPath">
+      <Hierarchy hasAll="true" allMemberName="All ParentPath">
+        <Level name="Parent Path" column="parentpath" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">18. File &amp; Object Paths</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="PathType">
+      <Hierarchy hasAll="true" allMemberName="All PathType">
+        <Level name="Path Type" column="pathtype" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">21. File &amp; Object Typing</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="FileExtension">
+      <Hierarchy hasAll="true" allMemberName="All FileExtension">
+        <Level name="File Extension" column="fileextension" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Flags">
+      <Hierarchy hasAll="true" allMemberName="All Flags">
+        <Level name="Flags" column="flags" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Owner">
+      <Hierarchy hasAll="true" allMemberName="All Owner">
+        <Level name="Owner" column="Owner" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">20. File Ownership &amp; Links</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Group">
+      <Hierarchy hasAll="true" allMemberName="All Group">
+        <Level name="Group" column="Group" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">20. File Ownership &amp; Links</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="SymLinkTarget">
+      <Hierarchy hasAll="true" allMemberName="All SymLinkTarget">
+        <Level name="Symbolic Link Target" column="symlinktarget" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">20. File Ownership &amp; Links</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="FileType">
+      <Hierarchy hasAll="true" allMemberName="All FileType">
+        <Level name="File Type" column="filetype" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">21. File &amp; Object Typing</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="LinkType">
+      <Hierarchy hasAll="true" allMemberName="All LinkType">
+        <Level name="Link Type" column="linktype" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">21. File &amp; Object Typing</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="PhysicalLocation">
+      <Hierarchy hasAll="true" allMemberName="All PhysicalLocation">
+        <Level name="Physical Location" column="physicallocation" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">17. File &amp; Object Location</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="FqdnDisplay">
+      <Hierarchy hasAll="true" allMemberName="All FqdnDisplay">
+        <Level name="FQDN Display" column="fqdndisplay" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">16. Host &amp; Endpoint</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="SizeBand">
+      <Hierarchy hasAll="true" allMemberName="All Size Bands">
+        <Level name="Size Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+          <KeyExpression>
+            <SQL>
+              CASE
+                WHEN "Size" IS NULL THEN -1
+                WHEN "Size" &lt; 100*1024 THEN 1
+                WHEN "Size" &lt; 1024*1024 THEN 2
+                WHEN "Size" &lt; 10*1024*1024 THEN 3
+                WHEN "Size" &lt; 100*1024*1024 THEN 4
+                ELSE 5
+              END
+            </SQL>
+          </KeyExpression>
+          <NameExpression>
+            <SQL>
+              CASE
+                WHEN "Size" IS NULL THEN 'Unknown'
+                WHEN "Size" &lt; 100*1024 THEN '&lt;100 KB'
+                WHEN "Size" &lt; 1024*1024 THEN '100 KB–1 MB'
+                WHEN "Size" &lt; 10*1024*1024 THEN '1–10 MB'
+                WHEN "Size" &lt; 100*1024*1024 THEN '10–100 MB'
+                ELSE '&gt;100 MB'
+              END
+            </SQL>
+          </NameExpression>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="TotalChildFileSizeBand">
+      <Hierarchy hasAll="true" allMemberName="All Total Child File Size Bands">
+        <Level name="Total Child File Size Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+          <KeyExpression>
+            <SQL>
+              CASE
+                WHEN "totalchildfilesize" IS NULL THEN -1
+                WHEN "totalchildfilesize" &lt; 10*1024*1024 THEN 1
+                WHEN "totalchildfilesize" &lt; 100*1024*1024 THEN 2
+                WHEN "totalchildfilesize" &lt; 1024*1024*1024 THEN 3
+                WHEN "totalchildfilesize" &lt; 10*1024*1024*1024 THEN 4
+                ELSE 5
+              END
+            </SQL>
+          </KeyExpression>
+          <NameExpression>
+            <SQL>
+              CASE
+                WHEN "totalchildfilesize" IS NULL THEN 'Unknown'
+                WHEN "totalchildfilesize" &lt; 10*1024*1024 THEN '&lt;10 MB'
+                WHEN "totalchildfilesize" &lt; 100*1024*1024 THEN '10–100 MB'
+                WHEN "totalchildfilesize" &lt; 1024*1024*1024 THEN '100 MB–1 GB'
+                WHEN "totalchildfilesize" &lt; 10*1024*1024*1024 THEN '1–10 GB'
+                ELSE '&gt;10 GB'
+              END
+            </SQL>
+          </NameExpression>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="ChildFilesBand">
+      <Hierarchy hasAll="true" allMemberName="All Child Files Bands">
+        <Level name="Child Files Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+          <KeyExpression>
+            <SQL>
+              CASE
+                WHEN "childfiles" IS NULL THEN -1
+                WHEN "childfiles" = 0 THEN 0
+                WHEN "childfiles" &lt;= 10 THEN 1
+                WHEN "childfiles" &lt;= 100 THEN 2
+                WHEN "childfiles" &lt;= 1000 THEN 3
+                ELSE 4
+              END
+            </SQL>
+          </KeyExpression>
+          <NameExpression>
+            <SQL>
+              CASE
+                WHEN "childfiles" IS NULL THEN 'Unknown'
+                WHEN "childfiles" = 0 THEN '0'
+                WHEN "childfiles" &lt;= 10 THEN '1–10'
+                WHEN "childfiles" &lt;= 100 THEN '11–100'
+                WHEN "childfiles" &lt;= 1000 THEN '101–1K'
+                ELSE '1K+'
+              END
+            </SQL>
+          </NameExpression>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="ChildDirsBand">
+      <Hierarchy hasAll="true" allMemberName="All Child Dirs Bands">
+        <Level name="Child Dirs Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+          <KeyExpression>
+            <SQL>
+              CASE
+                WHEN "childdirs" IS NULL THEN -1
+                WHEN "childdirs" = 0 THEN 0
+                WHEN "childdirs" &lt;= 10 THEN 1
+                WHEN "childdirs" &lt;= 100 THEN 2
+                WHEN "childdirs" &lt;= 1000 THEN 3
+                ELSE 4
+              END
+            </SQL>
+          </KeyExpression>
+          <NameExpression>
+            <SQL>
+              CASE
+                WHEN "childdirs" IS NULL THEN 'Unknown'
+                WHEN "childdirs" = 0 THEN '0'
+                WHEN "childdirs" &lt;= 10 THEN '1–10'
+                WHEN "childdirs" &lt;= 100 THEN '11–100'
+                WHEN "childdirs" &lt;= 1000 THEN '101–1K'
+                ELSE '1K+'
+              END
+            </SQL>
+          </NameExpression>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <DimensionUsage name="Datasource category mapping" source="Datasource category mapping" foreignKey="datasourcetype" />
+
+    <Measure name="Number of Objects" column="_id" aggregator="count">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Size (bytes)" column="Size" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Child Directory Size (total)" column="childdirsize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Child Directories" column="childdirs" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Child File Size (total)" column="childfilesize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Child Files" column="childfiles" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Child Directory Size" column="totalchilddirsize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Child Directories" column="totalchilddirs" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Child File Size" column="totalchildfilesize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Child Files" column="totalchildfiles" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+  </Cube>
+</Schema>

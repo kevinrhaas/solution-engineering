@@ -1,0 +1,20 @@
+## Common Failure Modes in Data Lineage Implementations
+
+I've been reviewing several recent data lineage implementations across different organizations and I'm seeing recurring patterns in what goes wrong. It's not about the tools themselves, but about how lineage is approached and integrated into existing workflows.
+
+## Observed Patterns
+
+Here are a few of the most common failure modes:
+
+*   **Disconnected Lineage:** Lineage tools are deployed as separate systems with little connection to the broader data governance framework. This leads to fragmented metadata and difficulty in tracing data flows across the entire landscape.
+
+*   **Manual Lineage Burden:** Relying heavily on manual input to define data lineage. This is unsustainable in dynamic environments where data pipelines change frequently, leading to outdated and inaccurate lineage information.
+
+*   **Lack of Business Context:** Focusing solely on technical lineage (pipeline execution, table dependencies) without capturing business definitions and transformations. This limits the ability to understand the impact of data changes on key business metrics.
+
+*   **Ignoring Ephemeral Data:** Neglecting the lineage of temporary datasets or intermediate transformations within a pipeline. This creates blind spots in the overall lineage picture.
+
+## The Open Question
+
+What strategies have you found most effective in addressing these failure modes? What organizational structures or processes are needed to ensure data lineage becomes an integral part of data governance, rather than a bolted-on afterthought?
+

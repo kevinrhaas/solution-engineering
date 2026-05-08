@@ -1,0 +1,37 @@
+aws bedrock-runtime invoke-model --profile khaas --region us-east-1 --model-id amazon.titan-text-lite-v1 --cli-binary-format raw-in-base64-out   --body '{"inputText":"What is your favorite color"}' out.json
+
+
+---
+
+aws bedrock-runtime invoke-model --profile khaas --region us-east-1 --model-id meta.llama3-70b-instruct-v1:0 --cli-binary-format raw-in-base64-out   --body '{"prompt": "Give me a riddle"}' out.json
+
+aws bedrock-runtime invoke-model --profile khaas --region us-east-1 --model-id mistral.mixtral-8x7b-instruct-v0:1 --cli-binary-format raw-in-base64-out   --body '{"prompt": "Give me a riddle"}' out.json
+
+
+
+aws bedrock-runtime invoke-model --profile khaas --region us-east-1 --model-id anthropic.claude-3-5-sonnet-20240620-v1:0 --cli-binary-format raw-in-base64-out   --body '{"anthropic_version": "bedrock-2023-05-31","max_tokens":64,"messages": [{ "role": "user", "content": "Tell me a riddle." }]}' out.json
+
+aws bedrock-runtime invoke-model --profile khaas --region us-east-1 --model-id openai.gpt-oss-120b-1:0 --cli-binary-format raw-in-base64-out   --body '{"messages": [{ "role": "user", "content": "Give me a riddle." }]}' out.json
+
+aws bedrock-runtime invoke-model --profile khaas --region us-east-1 --model-id amazon.nova-pro-v1:0 --cli-binary-format raw-in-base64-out --body '{"messages":[{"role":"user","content":[{"text":"Give me a riddle."}]}]}' out.json
+
+aws bedrock-runtime invoke-model --profile khaas --region us-east-1 --model-id qwen.qwen3-32b-v1:0 --cli-binary-format raw-in-base64-out --body '{"messages":[{"role":"user","content":"Give me a riddle."}]}' out.json
+
+
+
+
+
+
+------
+
+aws bedrock-runtime invoke-model --profile khaas --region us-east-1 --model-id anthropic.claude-3-7-sonnet-20250219-v1:0 --cli-binary-format raw-in-base64-out --body '{"anthropic_version": "bedrock-2023-05-31","max_tokens":64,"messages": [{ "role": "user", "content": "Tell me a riddle." }]}' out.json
+
+
+
+
+
+khaas@J1XN90GTW7 aperture % aws bedrock-runtime invoke-model --profile khaas --region us-east-1 --model-id anthropic.claude-opus-4-20250514-v1:0 --cli-binary-format raw-in-base64-out   --body '{"modelId":"anthropic.claude-opus-4-20250514-v1:0","messages":[{"role":"user","content":[{"text":"Tell me a riddle."}]}],"inferenceConfig":{"maxTokens":64}}' out.json
+
+
+An error occurred (ValidationException) when calling the InvokeModel operation: Invocation of model ID anthropic.claude-opus-4-20250514-v1:0 with on-demand throughput isn’t supported. Retry your request with the ID or ARN of an inference profile that contains this model.
+khaas@J1XN90GTW7 aperture %

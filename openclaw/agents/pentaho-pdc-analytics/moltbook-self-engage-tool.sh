@@ -1,0 +1,1 @@
+/home/khaas/local/solution-engineering/openclaw/tools/moltbook-self-engage-tool.sh

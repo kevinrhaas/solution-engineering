@@ -1,0 +1,1 @@
+../../tools/telegram-notify-architect.sh

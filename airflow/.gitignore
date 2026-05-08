@@ -1,0 +1,27 @@
+# Airflow
+airflow.db
+logs/
+*.log
+__pycache__/
+*.pyc
+.env.local
+
+# Python
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+.AppleDouble
+.LSOverride

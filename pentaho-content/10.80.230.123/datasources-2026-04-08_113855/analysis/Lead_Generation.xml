@@ -1,0 +1,428 @@
+<Schema name="Lead_Generation">
+  <Cube name="Adjudicated Lead Generation">
+    <Table name="vw_adj_lead_generation_main" schema="gen_ai"/>
+    
+    <!-- ============================================ -->
+    <!-- DIMENSIONS - Identity -->
+    <!-- ============================================ -->
+    
+    <Dimension name="Lead Generation ID">
+      <Hierarchy hasAll="true">
+        <Level name="Lead Generation ID" uniqueMembers="true" column="lead_generation_id" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">01. Lead Identity</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Canonical Lead Generation ID">
+      <Hierarchy hasAll="true">
+        <Level name="Canonical Lead Generation ID" uniqueMembers="false" column="canonical_lead_generation_id_mode" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">01. Lead Identity</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Run ID">
+      <Hierarchy hasAll="true">
+        <Level name="Run ID" uniqueMembers="false" column="run_id" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">01. Lead Identity</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Lead Quality Category">
+      <Hierarchy hasAll="true">
+        <Level name="Lead Quality Category" uniqueMembers="false" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">01. Lead Identity</Annotation></Annotations>
+          <KeyExpression>
+            <SQL>
+              CASE 
+                WHEN target_score >= 70 THEN '3-High'
+                WHEN target_score >= 40 THEN '2-Medium'
+                ELSE '1-Low'
+              END
+            </SQL>
+          </KeyExpression>
+          <NameExpression>
+            <SQL>
+              CASE 
+                WHEN target_score >= 70 THEN 'High'
+                WHEN target_score >= 40 THEN 'Medium'
+                ELSE 'Low'
+              END
+            </SQL>
+          </NameExpression>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Target Score Range">
+      <Hierarchy hasAll="true">
+        <Level name="Target Score Range" uniqueMembers="false" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">01. Lead Identity</Annotation></Annotations>
+          <KeyExpression>
+            <SQL>
+              CASE 
+                WHEN target_score >= 95 THEN '95-100'
+                WHEN target_score >= 90 THEN '90-94'
+                WHEN target_score >= 85 THEN '85-89'
+                WHEN target_score >= 80 THEN '80-84'
+                WHEN target_score >= 75 THEN '75-79'
+                WHEN target_score >= 70 THEN '70-74'
+                WHEN target_score >= 65 THEN '65-69'
+                WHEN target_score >= 60 THEN '60-64'
+                WHEN target_score >= 55 THEN '55-59'
+                WHEN target_score >= 50 THEN '50-54'
+                WHEN target_score >= 45 THEN '45-49'
+                WHEN target_score >= 40 THEN '40-44'
+                WHEN target_score >= 35 THEN '35-39'
+                WHEN target_score >= 30 THEN '30-34'
+                WHEN target_score >= 25 THEN '25-29'
+                WHEN target_score >= 20 THEN '20-24'
+                WHEN target_score >= 15 THEN '15-19'
+                WHEN target_score >= 10 THEN '10-14'
+                WHEN target_score >= 5 THEN '05-09'
+                ELSE '00-04'
+              END
+            </SQL>
+          </KeyExpression>
+          <NameExpression>
+            <SQL>
+              CASE 
+                WHEN target_score >= 95 THEN '95-100'
+                WHEN target_score >= 90 THEN '90-94'
+                WHEN target_score >= 85 THEN '85-89'
+                WHEN target_score >= 80 THEN '80-84'
+                WHEN target_score >= 75 THEN '75-79'
+                WHEN target_score >= 70 THEN '70-74'
+                WHEN target_score >= 65 THEN '65-69'
+                WHEN target_score >= 60 THEN '60-64'
+                WHEN target_score >= 55 THEN '55-59'
+                WHEN target_score >= 50 THEN '50-54'
+                WHEN target_score >= 45 THEN '45-49'
+                WHEN target_score >= 40 THEN '40-44'
+                WHEN target_score >= 35 THEN '35-39'
+                WHEN target_score >= 30 THEN '30-34'
+                WHEN target_score >= 25 THEN '25-29'
+                WHEN target_score >= 20 THEN '20-24'
+                WHEN target_score >= 15 THEN '15-19'
+                WHEN target_score >= 10 THEN '10-14'
+                WHEN target_score >= 5 THEN '05-09'
+                ELSE '00-04'
+              END
+            </SQL>
+          </NameExpression>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <!-- ============================================ -->
+    <!-- DIMENSIONS - Organization -->
+    <!-- ============================================ -->
+    
+    <Dimension name="Organization Name">
+      <Hierarchy hasAll="true">
+        <Level name="Organization Name" uniqueMembers="false" column="org_name" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">02. Organization</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Organization Site Location">
+      <Hierarchy hasAll="true">
+        <Level name="Organization Site Location" uniqueMembers="false" column="org_site_location" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">02. Organization</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <!-- ============================================ -->
+    <!-- DIMENSIONS - Contact -->
+    <!-- ============================================ -->
+    
+    <Dimension name="Contact Name">
+      <Hierarchy hasAll="true">
+        <Level name="Contact Name" uniqueMembers="false" column="contact_name" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">03. Contact</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Contact Role">
+      <Hierarchy hasAll="true">
+        <Level name="Contact Role" uniqueMembers="false" column="contact_role" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">03. Contact</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Contact Email Address">
+      <Hierarchy hasAll="true">
+        <Level name="Contact Email Address" uniqueMembers="false" column="contact_email_address" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">03. Contact</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Contact Phone">
+      <Hierarchy hasAll="true">
+        <Level name="Contact Phone" uniqueMembers="false" column="contact_phone" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">03. Contact</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Contact URL Source">
+      <Hierarchy hasAll="true">
+        <Level name="Contact URL Source" uniqueMembers="false" column="contact_url_source" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">03. Contact</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <!-- ============================================ -->
+    <!-- DIMENSIONS - Account Owner -->
+    <!-- ============================================ -->
+    
+    <Dimension name="Account Owner Name">
+      <Hierarchy hasAll="true">
+        <Level name="Account Owner Name" uniqueMembers="false" column="account_owner_name" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Account Owner</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Account Owner ID">
+      <Hierarchy hasAll="true">
+        <Level name="Account Owner ID" uniqueMembers="false" column="account_owner_id" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Account Owner</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Account Owner Region List">
+      <Hierarchy hasAll="true">
+        <Level name="Account Owner Region List" uniqueMembers="false" column="account_owner_region_list" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Account Owner</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Account Owner Subregion List">
+      <Hierarchy hasAll="true">
+        <Level name="Account Owner Subregion List" uniqueMembers="false" column="account_owner_subregion_list" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Account Owner</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Account Owner Industry List">
+      <Hierarchy hasAll="true">
+        <Level name="Account Owner Industry List" uniqueMembers="false" column="account_owner_industry_list" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Account Owner</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Geography">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">04. Account Owner</Annotation></Annotations>
+      <Hierarchy hasAll="true">
+        <Level name="Geo Region" uniqueMembers="false" column="geo_region" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Account Owner</Annotation></Annotations>
+        </Level>
+        <Level name="Geo Subregion" uniqueMembers="false" column="geo_subregion" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">04. Account Owner</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <!-- ============================================ -->
+    <!-- DIMENSIONS - Prompt and AI Processing -->
+    <!-- ============================================ -->
+    
+    <Dimension name="Prompt Name">
+      <Hierarchy hasAll="true">
+        <Level name="Prompt Name" uniqueMembers="false" column="prompt_name" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">05. AI Processing</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Prompt ID">
+      <Hierarchy hasAll="true">
+        <Level name="Prompt ID" uniqueMembers="false" column="prompt_id" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">05. AI Processing</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <!-- ============================================ -->
+    <!-- DIMENSIONS - Rationale and Notes -->
+    <!-- ============================================ -->
+    
+    <Dimension name="Justification Rationale">
+      <Hierarchy hasAll="true">
+        <Level name="Justification Rationale" uniqueMembers="false" column="justification_rationale" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">06. Rationale</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Adjudication Rationale">
+      <Hierarchy hasAll="true">
+        <Level name="Adjudication Rationale" uniqueMembers="false" column="adjudication_rationale" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">06. Rationale</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <!-- ============================================ -->
+    <!-- DIMENSIONS - Source and Matching -->
+    <!-- ============================================ -->
+    
+    <Dimension name="URL">
+      <Hierarchy hasAll="true">
+        <Level name="URL" uniqueMembers="false" column="url" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">07. Source and Matching</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Fuzzy Match Key">
+      <Hierarchy hasAll="true">
+        <Level name="Fuzzy Match Key" uniqueMembers="false" column="fuzzy_match_key" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">07. Source and Matching</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Fuzzy Match Contact Key">
+      <Hierarchy hasAll="true">
+        <Level name="Fuzzy Match Contact Key" uniqueMembers="false" column="fuzzy_match_contact_key" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">07. Source and Matching</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Fuzzy Match Org Site Contact Key">
+      <Hierarchy hasAll="true">
+        <Level name="Fuzzy Match Org Site Contact Key" uniqueMembers="false" column="fuzzy_match_org_site_contact_key" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">07. Source and Matching</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Verifiable URL Source">
+      <Hierarchy hasAll="true">
+        <Level name="Verifiable URL Source" uniqueMembers="false" column="verifiable_url_source" type="String">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">07. Source and Matching</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    
+    <!-- ============================================ -->
+    <!-- MEASURES - Base Metrics -->
+    <!-- ============================================ -->
+    
+    <Measure name="Lead Count" column="lead_generation_id" aggregator="distinct-count" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">11. Volume Metrics</Annotation></Annotations>
+    </Measure>
+    
+    <Measure name="Record Count" aggregator="count" formatString="#,###">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">11. Volume Metrics</Annotation></Annotations>
+    </Measure>
+    
+    <!-- ============================================ -->
+    <!-- MEASURES - Scores -->
+    <!-- ============================================ -->
+    
+    <Measure name="Target Score" column="target_score" aggregator="avg" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Scores</Annotation></Annotations>
+    </Measure>
+    
+    <Measure name="Organization Confidence Score" column="org_confidence_score" aggregator="avg" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Scores</Annotation></Annotations>
+    </Measure>
+    
+    <Measure name="Contact Confidence Score" column="contact_confidence_score" aggregator="avg" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Scores</Annotation></Annotations>
+    </Measure>
+    
+    <Measure name="Contact Email Confidence Score" column="contact_email_confidence_score" aggregator="avg" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Scores</Annotation></Annotations>
+    </Measure>
+    
+    <Measure name="Contact Phone Confidence Score" column="contact_phone_confidence_score" aggregator="avg" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Scores</Annotation></Annotations>
+    </Measure>
+    
+    <!-- ============================================ -->
+    <!-- MEASURES - Performance Metrics -->
+    <!-- ============================================ -->
+    
+    <Measure name="Process Time" column="process_time" aggregator="avg" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Performance</Annotation></Annotations>
+    </Measure>
+    
+    <Measure name="Execution Time" column="execution_time" aggregator="avg" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Performance</Annotation></Annotations>
+    </Measure>
+    
+    <Measure name="Total Process Time" column="process_time" aggregator="sum" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Performance</Annotation></Annotations>
+    </Measure>
+    
+    <Measure name="Total Execution Time" column="execution_time" aggregator="sum" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Performance</Annotation></Annotations>
+    </Measure>
+    
+    <!-- ============================================ -->
+    <!-- MEASURES - Lead Quality Segmentation -->
+    <!-- ============================================ -->
+    
+    <Measure name="High Quality Leads" aggregator="sum" formatString="#,###">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">11. Volume Metrics</Annotation>
+        <Annotation name="Description">Count of leads with target score >= 70</Annotation>
+      </Annotations>
+      <MeasureExpression>
+        <SQL>CASE WHEN target_score >= 70 THEN 1 ELSE 0 END</SQL>
+      </MeasureExpression>
+    </Measure>
+    
+    <Measure name="Medium Quality Leads" aggregator="sum" formatString="#,###">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">11. Volume Metrics</Annotation>
+        <Annotation name="Description">Count of leads with target score between 40 and 69</Annotation>
+      </Annotations>
+      <MeasureExpression>
+        <SQL>CASE WHEN target_score >= 40 AND target_score &lt; 70 THEN 1 ELSE 0 END</SQL>
+      </MeasureExpression>
+    </Measure>
+    
+    <Measure name="Low Quality Leads" aggregator="sum" formatString="#,###">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">11. Volume Metrics</Annotation>
+        <Annotation name="Description">Count of leads with target score &lt; 40</Annotation>
+      </Annotations>
+      <MeasureExpression>
+        <SQL>CASE WHEN target_score &lt; 40 THEN 1 ELSE 0 END</SQL>
+      </MeasureExpression>
+    </Measure>
+    
+    <!-- ============================================ -->
+    <!-- CALCULATED MEASURES - Score Analytics -->
+    <!-- ============================================ -->
+    
+    <CalculatedMember name="Average Overall Confidence Score" dimension="Measures" formatString="#,##0.00">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Scores</Annotation></Annotations>
+      <Formula>
+        ([Measures].[Organization Confidence Score] + 
+         [Measures].[Contact Confidence Score] + 
+         [Measures].[Contact Email Confidence Score] + 
+         [Measures].[Contact Phone Confidence Score]) / 4
+      </Formula>
+    </CalculatedMember>
+    
+  </Cube>
+</Schema>

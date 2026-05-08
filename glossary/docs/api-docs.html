@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database Schema Glossary Generator - API Documentation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        .endpoint { background: #f4f4f4; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .method { color: #fff; padding: 3px 8px; border-radius: 3px; font-weight: bold; }
+        .post { background: #28a745; }
+        .get { background: #007bff; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .required { color: #dc3545; font-weight: bold; }
+        .optional { color: #6c757d; }
+        .config-value { color: #6f42c1; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Database Schema Glossary Generator API</h1>
+    <p>Generate AI-powered business glossaries from database schemas and export to PDC-compatible CSV format.</p>
+
+    
+    <div class="endpoint">
+        <h3><span class="method post">POST</span> /analyze</h3>
+        <p>Analyzes a database schema and generates a hierarchical business glossary using AI.</p>
+        <p><strong>Note:</strong> All parameters are optional. Environment variables provide defaults, and any request parameters override/merge with those defaults.</p>
+        
+        <h4>Request Body (JSON) - Optional overrides:</h4>
+        <pre>{
+  "database": {
+    "url": "<span class=\"optional\">string</span> - Override database URL (current: {{masked_db_url}})",
+    "schema": "<span class=\"optional\">string</span> - Override schema name (current: {{default_schema}})"
+  },
+  "api": {
+    "base_url": "<span class=\"optional\">string</span> - Override API base URL (current: {{default_base_url}})",
+    "api_key": "<span class=\"optional\">string</span> - Override API key (current: {{masked_api_key}})",
+    "deployment_id": "<span class=\"optional\">string</span> - Deployment ID (default: 'model-router')",
+    "api_version": "<span class=\"optional\">string</span> - API version (default: '2025-01-01-preview')",
+    "max_tokens": "<span class=\"optional\">number</span> - Max response tokens (default: 8192)",
+    "temperature": "<span class=\"optional\">number</span> - AI temperature 0-1 (default: 0.7)",
+    "timeout": "<span class=\"optional\">number</span> - Request timeout in seconds (default: 60)",
+    "max_retries": "<span class=\"optional\">number</span> - Max retry attempts (default: 3)"
+  }
+}</pre>
+
+        <h4>Simple Example Request (use all defaults):</h4>
+        <pre>POST http://10.80.230.59/analyze
+Content-Type: application/json
+
+{}</pre>
+
+        <h4>Database Override Example (merge with API defaults):</h4>
+        <pre>{
+  "database": {
+    "url": "postgresql://user:pass@host:port/dbname?sslmode=require",
+    "schema": "my_schema"
+  }
+}</pre>
+
+        <h4>Response:</h4>
+        <pre>{
+  "success": true,
+  "data": {
+    "Marketing and Customer Insights": [
+      {
+        "Customer": [
+          "Customer ID",
+          "First Name",
+          "Last Name"
+        ]
+      },
+      {
+        "Market Segment": [
+          "Segment ID",
+          "Segment Name"
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "tables_analyzed": 7,
+    "schema_name": "{{default_schema}}",
+    "processing_time": 11.2,
+    "ai_model_used": "model-router"
+  }
+}</pre>
+    </div>
+    
+    <div class="endpoint">
+        <h3><span class="method post">POST</span> /generate</h3>
+        <p>Transform hierarchical glossary data directly into PDC-compatible CSV format (no AI involved).</p>
+        
+        <h4>Request Body (JSON):</h4>
+        <pre>{
+  "data": {
+    "Marketing and Customer Insights": [
+      {
+        "Customer": [
+          "Customer ID",
+          "First Name"
+        ]
+      }
+    ]
+  }
+}</pre>
+
+        <h4>Response:</h4>
+        <p>Returns CSV file with headers:</p>
+        <pre>_id,name,type,fqdn,parentId,rootId,resourceId,createdAt,updatedAt,createdBy,updatedBy,attributes</pre>
+        
+        <h4>Key Features:</h4>
+        <ul>
+            <li>Lowercase type names: <code>glossary</code>, <code>category</code>, <code>term</code></li>
+            <li>Forward slash FQDNs: <code>Marketing and Customer Insights/Customer/Customer ID</code></li>
+            <li>Proper GUID relationships for parent/child hierarchy</li>
+            <li>JSON-escaped attributes field</li>
+            <li>ISO timestamps</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h3><span class="method get">GET</span> /config</h3>
+        <p>View current configuration status (sensitive data masked).</p>
+        
+        <h4>Response:</h4>
+        <pre>{
+  "database_url": "postgresql://neondb_owner:***@ep-rapid-poetry-***.aws.neon.tech/neondb",
+  "database_schema": "{{default_schema}}",
+  "api_base_url": "{{default_base_url}}",
+  "api_key": "{{masked_api_key}}",
+  "api_deployment_id": "model-router",
+  "api_version": "2025-01-01-preview"
+}</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3><span class="method get">GET</span> /health</h3>
+        <p>Check service health with database connectivity test.</p>
+        <h4>Response:</h4>
+        <pre>{
+  "status": "healthy",
+  "timestamp": "2025-08-05T15:39:47.267694Z",
+  "checks": {
+    "service": "ok",
+    "database": "ok"
+  }
+}</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3><span class="method get">GET</span> /prompts</h3>
+        <p>Get available prompt templates used for AI analysis.</p>
+        <h4>Response:</h4>
+        <pre>{
+  "analyze": {
+    "title": "Schema Analysis Prompt",
+    "description": "Prompt for analyzing database schemas"
+  },
+  "generate": {
+    "title": "Glossary Generation Prompt", 
+    "description": "Prompt for generating business glossaries"
+  }
+}</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3><span class="method get">GET</span> /</h3>
+        <p>Service information and quick configuration status check.</p>
+        <h4>Response:</h4>
+        <pre>{
+  "service": "Database Schema Glossary Generator",
+  "status": "running",
+  "version": "v2.1-unified-config-static",
+  "endpoints": [
+    "/health - Health check with database connectivity",
+    "/config - Complete configuration with sources",
+    "/analyze - POST: Generate AI-powered business glossary",
+    "/generate - POST: Transform glossary to CSV format",
+    "/docs - API documentation"
+  ],
+  "database_configured": true,
+  "api_configured": true
+}</pre>
+    </div>
+
+    <h3>Complete Pipeline Usage</h3>
+    <p>Use both endpoints together for the complete workflow:</p>
+    <ol>
+        <li><strong>Analyze Schema:</strong> <code>POST /analyze</code> to generate hierarchical glossary from database</li>
+        <li><strong>Export CSV:</strong> <code>POST /generate</code> with the analysis data to create PDC import file</li>
+    </ol>
+
+    <h3>Configuration</h3>
+    <p>Set these environment variables or use .env file:</p>
+    <ul>
+        <li><strong>DATABASE_URL</strong> - PostgreSQL connection string 
+            <span class="config-value">(current: {{masked_db_url}})</span></li>
+        <li><strong>DATABASE_SCHEMA</strong> - Schema name 
+            <span class="config-value">(current: {{default_schema}})</span></li>
+        <li><strong>API_BASE_URL</strong> - AI API endpoint 
+            <span class="config-value">(current: {{default_base_url}})</span></li>
+        <li><strong>API_KEY</strong> - AI API key 
+            <span class="config-value">(current: {{masked_api_key}})</span></li>
+        <li><strong>API_DEPLOYMENT_ID</strong> - Model deployment ID (optional)</li>
+        <li><strong>API_VERSION</strong> - API version (optional)</li>
+        <li><strong>PORT</strong> - Server port (default: 5000)</li>
+    </ul>
+
+    <h3>Error Responses</h3>
+    <p>All endpoints return error responses in this format:</p>
+    <pre>{
+  "success": false,
+  "error": "Error description",
+  "details": "Additional error details (optional)"
+}</pre>
+
+    <h3>Common Error Codes</h3>
+    <ul>
+        <li><strong>400</strong> - Bad Request (invalid JSON, missing required fields)</li>
+        <li><strong>500</strong> - Internal Server Error (database connection, API call failures)</li>
+        <li><strong>503</strong> - Service Unavailable (database not accessible)</li>
+    </ul>
+</body>
+</html>

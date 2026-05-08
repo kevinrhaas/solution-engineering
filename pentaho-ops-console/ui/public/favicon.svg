@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <!-- Pentaho diamond mark -->
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0073e7"/>
+      <stop offset="100%" stop-color="#004999"/>
+    </linearGradient>
+  </defs>
+  <!-- Diamond shape -->
+  <path d="M24 2 L44 24 L24 46 L4 24 Z" fill="url(#g1)"/>
+  <!-- Inner "P" letterform simplified as white geometric shapes -->
+  <rect x="15" y="13" width="4" height="22" rx="1" fill="#fff"/>
+  <path d="M19 13 h8 a6 6 0 0 1 0 12 h-8 z" fill="#fff"/>
+  <path d="M21 17 h5 a3 3 0 0 1 0 6 h-5 z" fill="url(#g1)"/>
+</svg>

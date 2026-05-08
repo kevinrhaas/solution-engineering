@@ -1,0 +1,55 @@
+<Schema name="simple_xml_data_4model">
+  <Dimension name="AVAILABILITY">
+    <Hierarchy hasAll="true">
+      <Table name="simple_xml_data_4model"/>
+      <Level name="AVAILABILITY" uniqueMembers="false" column="AVAILABILITY" type="Numeric">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="BOTANICAL">
+    <Hierarchy hasAll="true">
+      <Table name="simple_xml_data_4model"/>
+      <Level name="BOTANICAL" uniqueMembers="false" column="BOTANICAL" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="COMMON">
+    <Hierarchy hasAll="true">
+      <Table name="simple_xml_data_4model"/>
+      <Level name="COMMON" uniqueMembers="false" column="COMMON" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="LIGHT">
+    <Hierarchy hasAll="true">
+      <Table name="simple_xml_data_4model"/>
+      <Level name="LIGHT" uniqueMembers="false" column="LIGHT" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="PRICE">
+    <Hierarchy hasAll="true">
+      <Table name="simple_xml_data_4model"/>
+      <Level name="PRICE" uniqueMembers="false" column="PRICE" type="Numeric">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="ZONE">
+    <Hierarchy hasAll="true">
+      <Table name="simple_xml_data_4model"/>
+      <Level name="ZONE" uniqueMembers="false" column="ZONE" type="String">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="simple_xml_data_4model">
+    <Table name="simple_xml_data_4model"/>
+    <DimensionUsage name="AVAILABILITY" source="AVAILABILITY"/>
+    <DimensionUsage name="BOTANICAL" source="BOTANICAL"/>
+    <DimensionUsage name="COMMON" source="COMMON"/>
+    <DimensionUsage name="LIGHT" source="LIGHT"/>
+    <DimensionUsage name="PRICE" source="PRICE"/>
+    <DimensionUsage name="ZONE" source="ZONE"/>
+    <Measure name="AVAILABILITY" column="AVAILABILITY" aggregator="sum"/>
+    <Measure name="PRICE" column="PRICE" aggregator="sum"/>
+  </Cube>
+</Schema>

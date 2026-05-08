@@ -1,0 +1,11 @@
+model_id	body_start	body_end	prompt	cmd	Result output	Error output	Exit value
+mistral.mixtral-8x7b-instruct-v0:1	'{"prompt": "	"}'	Give me your funniest joke in the form Q: Joke A: Answer	./call-bedrock.sh mistral.mixtral-8x7b-instruct-v0:1 '{"prompt": "Give me your funniest joke in the form Q: Joke A: Answer"}'	Output saved to: mistral_mixtral-8x7b-instruct-v0_1.out	An error occurred (ValidationException) when calling the InvokeModel operation: Malformed input request, please reformat your input and try again.	0
+
+
+
+
+
+
+
+model_id	body_start	body_end	prompt	cmd	Result output	Error output	Exit value
+mistral.mixtral-8x7b-instruct-v0:1	'{"prompt": "	"}'	Give me your funniest joke in the form Q: Joke A: Answer	./call-bedrock.sh 'mistral.mixtral-8x7b-instruct-v0:1' '{"prompt": "Give me your funniest joke in the form Q: Joke A: Answer"}'	Output saved to: 'mistral_mixtral-8x7b-instruct-v0_1'.out	An error occurred (ValidationException) when calling the InvokeModel operation: The provided model identifier is invalid.	0

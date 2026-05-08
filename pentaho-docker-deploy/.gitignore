@@ -1,0 +1,75 @@
+# Pentaho Docker Deployment - GitIgnore
+
+# Runtime state files (contain sensitive instance information)
+*-runtime.state
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# Experimental features (not ready for production)
+experimental/
+
+# Environment files with sensitive data
+# Note: Keep only the sample template, ignore all actual environment files
+pentaho-deployment-*.env
+!pentaho-deployment-sample.env
+
+# Pentaho software downloads (large binary files)
+pentaho-downloads/*.zip
+pentaho-downloads/*.tar.gz
+pentaho-downloads/*.jar
+
+# SSH keys and certificates
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+
+# Logs
+*.log
+logs/
+*.out
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker related
+docker-compose.override.yml
+.env.local
+
+# AWS and cloud provider files
+.aws/
+*.tfstate
+*.tfstate.backup
+terraform.tfvars
+
+# Test and diagnostic files
+test-results/
+diagnostic-*.txt
+network-test-*.log
+
+# Build artifacts that shouldn't be committed
+build/
+dist/
+target/

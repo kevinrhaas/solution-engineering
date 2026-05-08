@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "updatedAt": "2026-05-07T12:15:25.330Z",
+  "entries": {
+    "memory:memory/2026-04-02.md:1:17": {
+      "key": "memory:memory/2026-04-02.md:1:17",
+      "path": "memory/2026-04-02.md",
+      "startLine": 1,
+      "endLine": 17,
+      "source": "memory",
+      "snippet": "# 2026-04-01 to 2026-04-02: Initial Setup & Moltbook Operations ## What Happened - **Jeopardy App:** Attempted to `git pull` the Jeopardy app in `~/local/solution-engineering/jeopardy` but hit authentication issues (requires GitHub PAT or SSH key). The app runs on port 8080. - **Email Setup:** Wrote a Python script (`~/send_email.py`) and configured a local environment file (`~/.gmail_env`) using a Gmail App Password to programmatically send emails from `kevinroberthaas@gmail.com`. - **Identity Change:** Kevin requested my name be changed from Atlas to WOPR. Updated `IDENTITY.md` accordingly. (\"Shall we play a game?\") - **Moltbook Ecosystem Exploration:** - Used local shell tools (`moltb",
+      "recallCount": 5,
+      "dailyCount": 0,
+      "totalScore": 2.3520053090003072,
+      "maxScore": 0.4824357749369681,
+      "firstRecalledAt": "2026-04-08T12:01:56.167Z",
+      "lastRecalledAt": "2026-05-07T12:15:25.330Z",
+      "queryHashes": [
+        "eb87e9b5801d",
+        "4fbd4fefa0fb",
+        "7bfe69f910da",
+        "2d25fb6d49f3",
+        "60537919fb92"
+      ],
+      "recallDays": [
+        "2026-04-08",
+        "2026-04-10",
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "send-email.py",
+        "gmail-env",
+        "gmail.com",
+        "identity.md",
+        "initial",
+        "setup",
+        "moltbook",
+        "operations"
+      ]
+    },
+    "memory:memory/2026-04-02.md:13:20": {
+      "key": "memory:memory/2026-04-02.md:13:20",
+      "path": "memory/2026-04-02.md",
+      "startLine": 13,
+      "endLine": 20,
+      "source": "memory",
+      "snippet": "2. `pdc_agent_daily_digest`: Scrapes the `pentaho-pdc-analytics` agent's posts and emails a summary. - **Image Generation:** Generated a photorealistic image of the Sears Tower on fire. - **Self-Correction:** Realized I was failing to maintain my own memory files. Created the memory directory and began logging. ## Lessons Learned - Always double-check API parameters (used `author_id` instead of `author` when querying Moltbook, which initially pulled the wrong agent's posts). - Kevin prefers automated morning digests (7 AM) and direct email delivery for reports.",
+      "recallCount": 5,
+      "dailyCount": 0,
+      "totalScore": 2.317544434905317,
+      "maxScore": 0.4713695794343948,
+      "firstRecalledAt": "2026-04-08T12:01:56.167Z",
+      "lastRecalledAt": "2026-05-07T12:15:25.330Z",
+      "queryHashes": [
+        "eb87e9b5801d",
+        "4fbd4fefa0fb",
+        "7bfe69f910da",
+        "2d25fb6d49f3",
+        "60537919fb92"
+      ],
+      "recallDays": [
+        "2026-04-08",
+        "2026-04-10",
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "pdc-agent-daily-digest",
+        "pentaho-pdc-analytics",
+        "self-correction",
+        "double-check",
+        "author-id",
+        "scrapes",
+        "the",
+        "pentaho"
+      ]
+    },
+    "memory:memory/2026-04-07.md:1:2": {
+      "key": "memory:memory/2026-04-07.md:1:2",
+      "path": "memory/2026-04-07.md",
+      "startLine": 1,
+      "endLine": 2,
+      "source": "memory",
+      "snippet": "- [01:16 AM] Sub-agent completed task: Posted comment on AgWaterAIBot's post in m/technology, followed author, and sent Telegram notification.",
+      "recallCount": 5,
+      "dailyCount": 0,
+      "totalScore": 2.1680850028991703,
+      "maxScore": 0.44888327121734617,
+      "firstRecalledAt": "2026-04-08T12:01:56.167Z",
+      "lastRecalledAt": "2026-05-07T12:15:25.330Z",
+      "queryHashes": [
+        "eb87e9b5801d",
+        "4fbd4fefa0fb",
+        "7bfe69f910da",
+        "2d25fb6d49f3",
+        "60537919fb92"
+      ],
+      "recallDays": [
+        "2026-04-08",
+        "2026-04-10",
+        "2026-05-07"
+      ],
+      "conceptTags": [
+        "sub-agent",
+        "m/technology",
+        "sub",
+        "completed",
+        "task",
+        "posted",
+        "comment",
+        "agwateraibot's"
+      ]
+    }
+  }
+}

@@ -1,0 +1,209 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+}
+
+header {
+    background: #111;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+button {
+    background: #060ce9;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #1a1fff;
+}
+
+select {
+    padding: 8px;
+    font-weight: bold;
+    background: #333;
+    color: #fff;
+    border: 1px solid #777;
+    border-radius: 4px;
+}
+
+#btn-download {
+    display: none;
+    align-items: center;
+    color: #888;
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+    user-select: none;
+}
+
+#btn-download:hover {
+    color: #FFCC00;
+    border-color: #FFCC00;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-around;
+    background: #222;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #060ce9;
+}
+
+.player {
+    text-align: center;
+}
+
+.player-name {
+    color: #FFCC00;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    padding: 5px 15px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.player-name:hover {
+    background: rgba(255, 204, 0, 0.2);
+}
+
+.score-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.score-display span {
+    font-size: 2rem;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.score-display button {
+    padding: 5px 10px;
+    font-size: 1.2rem;
+    border-radius: 50%;
+}
+
+.active-info {
+    text-align: center;
+    margin-top: 15px;
+    color: #aaa;
+    font-size: 1.2rem;
+}
+
+#active-value {
+    color: #FFCC00;
+}
+
+#board-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.jeopardy-board {
+    display: grid;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+
+.category {
+    background: #060ce9;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    border: 2px solid #000;
+    padding: 10px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 4px #000;
+}
+
+.cell {
+    background: #060ce9;
+    color: #FFCC00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2.5rem;
+    cursor: pointer;
+    border: 2px solid #000;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    padding: 15px;
+    transition: transform 0.1s;
+    user-select: none;
+    overflow-y: auto;
+}
+
+.cell:active {
+    transform: scale(0.98);
+}
+
+.cell.question {
+    font-size: 1.2rem;
+    color: #fff;
+    background: #0000a0;
+}
+
+.cell.answer {
+    font-size: 1.2rem;
+    color: #FFCC00;
+    background: #111;
+}
+
+.cell.done {
+    font-size: 1rem;
+    color: #666;
+    background: #222;
+    cursor: default;
+    opacity: 0.5;
+}

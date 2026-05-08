@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reportRecord xmlns="http://www.pentaho.com">
+    <commonStorageAttributes createdBy="clemens" updatedBy="clemens" created="2023-12-08T10:17:24.982+01:00" update="2024-01-24T14:21:18.507+01:00">
+        <path name="Files by age" folder="/home/clemens/PDSO/Files by age.xanalyzer"/>
+    </commonStorageAttributes>
+    <report catalog="PDSO entities" cube="PDSO entities" reportTypeEnum="JSON" showRowGrandTotal="false" showColumnGrandTotal="false" totalsOnTopLeft="false" useNonVisualTotals="false" showEmptyEnum="SHOW_MEASURE" emptyCellDisplay="-" showDrillLinks="false" version="15" autoRefresh="false" freezeColumns="true" freezeRows="true">
+        <measures>
+            <measure formula="[Measures].[Size]" showSum="true" showAggregate="false" showAverage="false" showCount="false" showMax="false" showMin="false" hideInChart="false" measureTypeEnum="VALUE" sortOrderEnum="NONE" id="[MEASURE:0]" gembarId="measures" gembarOrdinal="0"/>
+        </measures>
+        <columnAttributes/>
+        <rowAttributes>
+            <attribute formula="[Modified age years].[Modified age years]" showSubtotal="false" sortOrderEnum="ASC" gembarId="rows" gembarOrdinal="0"/>
+            <attribute formula="[Filetype].[Filetype]" showSubtotal="false" sortOrderEnum="ASC" gembarId="columns" gembarOrdinal="0"/>
+            <attribute formula="[Datasourcename].[Datasourcename]" showSubtotal="false" sortOrderEnum="ASC" gembarId="multi" gembarOrdinal="0"/>
+        </rowAttributes>
+        <filters/>
+        <chartOptions vizApiVersion="3.0" chartType="CUSTOM" customChartType="pentaho/visual/models/BarStacked" legendPosition="TOP" showLegend="true" autoRange="true" displayUnits="UNITS_0" autoRangeSecondary="true" displayUnitsSecondary="UNITS_0" lineWidth="2" lineShape="CIRCLE" maxValues="250" backgroundColor="#ffffff" labelColor="#000000" labelSize="12" backgroundFill="GRADIENT" maxChartsPerRow="3" multiChartMax="50" multiChartRangeScope="GLOBAL" emptyCellMode="GAP" sizeByNegativesMode="NEG_LOWEST" backgroundColorEnd="#4169e1" labelStyle="PLAIN" legendBackgroundColor="#ffffff" legendSize="12" legendColor="#000000" legendStyle="PLAIN" labelFontFamily="Default" legendFontFamily="Default"/>
+        <selectionFilters>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[#null]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[000000Z]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[DS_Store]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[ZIP]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[avro]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[csv]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[dir]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[docx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[dotx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[gitattributes]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[gitignore]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[gz]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[html]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[json]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[md]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[ods]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[orc]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[parquet]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pdf]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[ppt]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pptx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[tgz]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[xlsx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[xml]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[0]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[zip]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[#null]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[1367523670394]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[1367553702330-unc]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[CSV]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[DS_Store]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[avi]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[avro]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[bson]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[csv]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[docx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[gif]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[gz]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[jar]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[jpg]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[json]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[log]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[orc]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[parquet]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pdf]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[png]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[psv]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[rc]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[tiff]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[tsv]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[txt]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[wav]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[xlsx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[1]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[xml]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[#null]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[1367523670394]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[1367553702330-unc]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[avi]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[avro]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[csv]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[deflate]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[docx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[gif]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[gz]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[jar]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[jpeg]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[jpg]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[json]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[log]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[mp4]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[orc]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[parquet]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pdf]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[png]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[psv]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[rc]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[snappy]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[tiff]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[tsv]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[txt]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[wav]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[2]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[xml]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[3]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[DS_Store]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[3]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[csv]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[3]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[dir]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[4]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[dir]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[7]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pptx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[8]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[ods]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[8]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pdf]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[8]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pptx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[8]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[xlsx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[9]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[ZIP]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[9]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pdf]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[9]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pptx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[9]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[xlsx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[9]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[zip]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[10]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[dotx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[10]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[gz]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[10]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[html]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[10]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pdf]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[10]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[ppt]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[10]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[pptx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[10]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[xlsx]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="INCLUDE">
+                <selectionMember formula="[Modified age years].[Modified age years]" member="[Modified age years].[11]"/>
+                <selectionMember formula="[Filetype].[Filetype]" member="[Filetype].[html]"/>
+            </selectionItem>
+        </selectionFilters>
+        <selectionItems/>
+        <pageSetup excelPageSize="LETTER" pdfPageSize="LETTER" excelOrientation="LANDSCAPE" pdfOrientation="LANDSCAPE" excelScalingType="PERCENT" excelScalingPercent="100" excelScalingPageWide="1" excelScalingPageTall="1" excelMergePivotCells="true" csvIncludeSubtotals="true" csvFormatNumbers="true"/>
+        <drillColumns/>
+    </report>
+    <uiAttributes showFieldList="true" showFieldLayout="true" showFilterPanel="false" fieldListView="CMDVIEWTYPE">
+        <rowFieldWidths actualWidths="80,122"/>
+        <columnDataFieldWidths actualWidths="120">
+            <labelWidth index="0">
+                <width>0</width>
+            </labelWidth>
+        </columnDataFieldWidths>
+        <pluginData>[{"labelsOption":"none"}]</pluginData>
+    </uiAttributes>
+</reportRecord>

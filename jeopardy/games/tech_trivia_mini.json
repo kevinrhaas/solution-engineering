@@ -1,0 +1,29 @@
+{
+  "name": "Tech & Web Trivia",
+  "categories": [
+    {
+      "title": "Languages",
+      "questions": [
+        { "q": "This language is known for its snake logo.", "a": "Python", "v": 100 },
+        { "q": "The language primarily used to style web pages.", "a": "CSS", "v": 200 },
+        { "q": "Originally called Mocha, it makes the web interactive.", "a": "JavaScript", "v": 300 }
+      ]
+    },
+    {
+      "title": "Tech Giants",
+      "questions": [
+        { "q": "This company was founded by Bill Gates.", "a": "Microsoft", "v": 100 },
+        { "q": "Known for the search engine, its parent company is Alphabet.", "a": "Google", "v": 200 },
+        { "q": "This company started as an online bookstore in 1994.", "a": "Amazon", "v": 300 }
+      ]
+    },
+    {
+      "title": "Hardware",
+      "questions": [
+        { "q": "The 'brain' of the computer.", "a": "CPU (Central Processing Unit)", "v": 100 },
+        { "q": "Short-term volatile memory used by the operating system.", "a": "RAM (Random Access Memory)", "v": 200 },
+        { "q": "This component renders graphics and video.", "a": "GPU (Graphics Processing Unit)", "v": 300 }
+      ]
+    }
+  ]
+}

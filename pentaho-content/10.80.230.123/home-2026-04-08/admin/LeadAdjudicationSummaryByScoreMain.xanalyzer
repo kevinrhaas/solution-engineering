@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reportRecord xmlns="http://www.pentaho.com">
+    <commonStorageAttributes createdBy="admin" updatedBy="admin" created="2025-12-17T15:57:37.862Z" update="2025-12-17T17:37:24.656Z">
+        <path name="LeadAdjudicationSummaryByScoreMain" folder="/home/admin/LeadAdjudicationSummaryByScoreMain.xanalyzer"/>
+    </commonStorageAttributes>
+    <report catalog="Lead_Generation" cube="Adjudicated Lead Generation" reportTypeEnum="PIVOT" showRowGrandTotal="true" showColumnGrandTotal="true" showSubTotals="true" totalsOnTopLeft="false" useNonVisualTotals="false" showEmptyCells="false" showEmptyEnum="SHOW_MEASURE" emptyCellDisplay="-" showDrillLinks="true" version="15" autoRefresh="true" freezeColumns="true" freezeRows="true">
+        <measures>
+            <measure formula="[Measures].[Record Count]" showSum="true" showAggregate="false" showAverage="false" showCount="false" showMax="false" showMin="false" measureTypeEnum="VALUE" sortOrderEnum="NONE" id="[MEASURE:0]"/>
+        </measures>
+        <columnAttributes>
+            <attribute formula="[Geography].[Geo Region]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false"/>
+        </columnAttributes>
+        <rowAttributes>
+            <attribute formula="[Lead Quality Category].[Lead Quality Category]" showSubtotal="true" sortOrderEnum="ASC" wordWrap="false"/>
+            <attribute formula="[Target Score Range].[Target Score Range]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false"/>
+        </rowAttributes>
+        <filters defaultFiltersAvailable="false"/>
+        <chartOptions vizApiVersion="3.0" chartType="CUSTOM" customChartType="pentaho/visual/models/Bar" showMultiChart="false" legendPosition="RIGHT" showLegend="true" autoRange="true" displayUnits="UNITS_0" autoRangeSecondary="true" displayUnitsSecondary="UNITS_0" lineWidth="2" lineShape="CIRCLE" maxValues="100" backgroundColor="#ffffff" labelColor="#000000" labelSize="12" backgroundFill="NONE" maxChartsPerRow="3" multiChartMax="50" multiChartRangeScope="GLOBAL" emptyCellMode="GAP" sizeByNegativesMode="NEG_LOWEST" backgroundColorEnd="#ffffff" labelStyle="PLAIN" legendBackgroundColor="#ffffff" legendSize="12" legendColor="#000000" legendStyle="PLAIN" labelFontFamily="Default" legendFontFamily="Default" scatterReverseColors="false"/>
+        <selectionFilters/>
+        <selectionItems/>
+        <pageSetup excelPageSize="LETTER" pdfPageSize="LETTER" excelOrientation="LANDSCAPE" pdfOrientation="LANDSCAPE" excelScalingType="PERCENT" excelScalingPercent="100" excelScalingPageWide="1" excelScalingPageTall="1" excelMergePivotCells="true" csvIncludeSubtotals="true" csvFormatNumbers="true"/>
+        <drillColumns>
+            <drillColumn>[Lead Generation ID].[Lead Generation ID]</drillColumn>
+            <drillColumn>[Organization Name].[Organization Name]</drillColumn>
+            <drillColumn>[Organization Site Location].[Organization Site Location]</drillColumn>
+            <drillColumn>[Contact Email Address].[Contact Email Address]</drillColumn>
+            <drillColumn>[Contact Name].[Contact Name]</drillColumn>
+            <drillColumn>[Contact Phone].[Contact Phone]</drillColumn>
+            <drillColumn>[Contact Role].[Contact Role]</drillColumn>
+            <drillColumn>[Contact URL Source].[Contact URL Source]</drillColumn>
+            <drillColumn>[Geography].[Geo Region]</drillColumn>
+            <drillColumn>[Geography].[Geo Subregion]</drillColumn>
+            <drillColumn>[Adjudication Rationale].[Adjudication Rationale]</drillColumn>
+            <drillColumn>[Justification Rationale].[Justification Rationale]</drillColumn>
+            <drillColumn>[Measures].[Target Score]</drillColumn>
+        </drillColumns>
+    </report>
+    <uiAttributes showFieldList="true" showFieldLayout="true" showFilterPanel="false" fieldListView="CMDVIEWCATEGORY">
+        <rowFieldWidths actualWidths="80,80"/>
+        <columnDataFieldWidths actualWidths="120,120,120,120">
+            <labelWidth index="0">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="1">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="2">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="3">
+                <width>0</width>
+            </labelWidth>
+        </columnDataFieldWidths>
+        <pluginData>[]</pluginData>
+    </uiAttributes>
+</reportRecord>

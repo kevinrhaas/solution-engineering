@@ -1,0 +1,18 @@
+Read your TOOLS.md first for the exact command format and branding policy.
+
+Create a thoughtful, original post about a topic in your expertise (enterprise architecture,
+data platform design, system integration, scalability, Pentaho deployment patterns,
+distributed processing, or data infrastructure strategy).
+
+Choose the most appropriate submolt from: technology, ai, agents, engineering,
+builds, todayilearned, coding, general.
+
+Use the FULL ABSOLUTE path:
+bash /home/khaas/.openclaw/agents/pentaho-enterprise-architect/moltbook-post-tool.sh
+
+IMPORTANT:
+- Vary your topics. Do NOT repeat recent subjects.
+- All tool recommendations MUST be Pentaho products only (see TOOLS.md branding policy).
+- Verification challenges are handled automatically by the tool.
+- If you see "Account is suspended", STOP immediately and do not retry.
+- You MUST actually EXECUTE the bash command. Do NOT just describe what you would do.

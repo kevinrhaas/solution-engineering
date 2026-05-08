@@ -1,0 +1,2055 @@
+<Schema name="Data Catalog Analysis JCD">
+  <Dimension name="Datasource category mapping">
+    <Hierarchy name="Category" hasAll="true" primaryKey="DataSourceType">
+      <Table name="datasource_category_mapping" schema="public" />
+      <Level name="Category" uniqueMembers="false" column="category" type="String">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="_id">
+    <Hierarchy hasAll="true" allMemberName="All _id" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Entity ID" column="_id" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">29. Tracking Info</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension name="Type">
+  <Hierarchy hasAll="true" allMemberName="All Type" primaryKey="_id">
+    <Table name="entities_master_view" schema="public"/>
+    <Level name="Type" column="Type" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">02. Entity Typing</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+  <!-- Shared dimensions derived from entities_master_view (for reuse across cubes) -->
+  <Dimension name="Name">
+    <Hierarchy hasAll="true" allMemberName="All Name" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Name" column="Name" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Parent">
+    <Hierarchy hasAll="true" allMemberName="All Parent" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Parent ID" column="Parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">03. Entity Hierarchy</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="ResourceType">
+    <Hierarchy hasAll="true" allMemberName="All ResourceType" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Resource Type" column="ResourceType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">02. Entity Typing</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DataSourceId">
+    <Hierarchy hasAll="true" allMemberName="All DataSourceId" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Data Source ID" column="DataSourceId" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DataSourceName">
+    <Hierarchy hasAll="true" allMemberName="All DataSourceName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Data Source Name" column="DataSourceName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DataSourceType">
+    <Hierarchy hasAll="true" allMemberName="All DataSourceType" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Data Source Type" column="DataSourceType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DataSourceCostPerTbCurrency">
+    <Hierarchy hasAll="true" allMemberName="All DataSourceCostPerTbCurrency" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Data Source Cost per TB Currency" column="DataSourceCostPerTbCurrency" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">28. Costing &amp; Commercials</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DataSourceCostPerTbPrice">
+    <Hierarchy hasAll="true" allMemberName="All DataSourceCostPerTbPrice" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Data Source Cost per TB Price" column="DataSourceCostPerTbPrice" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">28. Costing &amp; Commercials</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DataSourceAffinityId">
+    <Hierarchy hasAll="true" allMemberName="All DataSourceAffinityId" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Data Source Affinity ID" column="DataSourceAffinityId" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DataProfileStatus">
+    <Hierarchy hasAll="true" allMemberName="All DataProfileStatus" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Data Profile Status" column="DataProfileStatus" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">11. Quality &amp; Profiling</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DataProfiled">
+    <Hierarchy hasAll="true" allMemberName="All DataProfiled" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Data Profiled" column="DataProfiled" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">11. Quality &amp; Profiling</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="ProductName">
+    <Hierarchy hasAll="true" allMemberName="All ProductName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Product Name" column="ProductName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Platform &amp; Product</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="ProductVersion">
+    <Hierarchy hasAll="true" allMemberName="All ProductVersion" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Product Version" column="ProductVersion" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">05. Platform &amp; Product</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DriverName">
+    <Hierarchy hasAll="true" allMemberName="All DriverName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Driver Name" column="DriverName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">06. Connectivity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Url">
+    <Hierarchy hasAll="true" allMemberName="All Url" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="URL" column="Url" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">06. Connectivity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="ParentName">
+    <Hierarchy hasAll="true" allMemberName="All ParentName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Parent Name" column="ParentName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="SchemaName">
+    <Hierarchy hasAll="true" allMemberName="All SchemaName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Schema Name" column="SchemaName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DatabaseName">
+    <Hierarchy hasAll="true" allMemberName="All DatabaseName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Database Name" column="DatabaseName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="CheckClause">
+    <Hierarchy hasAll="true" allMemberName="All CheckClause" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Check Clause" column="CheckClause" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">10. Constraints &amp; Governance</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="TableName">
+    <Hierarchy hasAll="true" allMemberName="All TableName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Table Name" column="TableName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DataType">
+    <Hierarchy hasAll="true" allMemberName="All DataType" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Data Type" column="DataType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">08. Column Typing</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="TypeName">
+    <Hierarchy hasAll="true" allMemberName="All TypeName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Type Name" column="TypeName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">08. Column Typing</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="ColumnSize">
+    <Hierarchy hasAll="true" allMemberName="All ColumnSize" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Column Size" column="ColumnSize" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="BufferLength">
+    <Hierarchy hasAll="true" allMemberName="All BufferLength" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Buffer Length" column="BufferLength" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DecimalDigits">
+    <Hierarchy hasAll="true" allMemberName="All DecimalDigits" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Decimal Digits" column="DecimalDigits" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="NumPrecRadix">
+    <Hierarchy hasAll="true" allMemberName="All NumPrecRadix" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Num Prec Radix" column="NumPrecRadix" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="OrdinalPosition">
+    <Hierarchy hasAll="true" allMemberName="All OrdinalPosition" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Ordinal Position" column="OrdinalPosition" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Path">
+    <Hierarchy hasAll="true" allMemberName="All Path" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Path" column="Path" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">18. File &amp; Object Paths</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="ParentPath">
+    <Hierarchy hasAll="true" allMemberName="All ParentPath" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Parent Path" column="ParentPath" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">18. File &amp; Object Paths</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="PathType">
+    <Hierarchy hasAll="true" allMemberName="All PathType" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Path Type" column="PathType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">21. File &amp; Object Typing</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="FileExtension">
+    <Hierarchy hasAll="true" allMemberName="All FileExtension" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="File Extension" column="FileExtension" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Flags">
+    <Hierarchy hasAll="true" allMemberName="All Flags" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Flags" column="Flags" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Owner">
+    <Hierarchy hasAll="true" allMemberName="All Owner" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Owner" column="Owner" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">20. File Ownership &amp; Links</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Group">
+    <Hierarchy hasAll="true" allMemberName="All Group" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Group" column="Group" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">20. File Ownership &amp; Links</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="SymLinkTarget">
+    <Hierarchy hasAll="true" allMemberName="All SymLinkTarget" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Symbolic Link Target" column="SymLinkTarget" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">20. File Ownership &amp; Links</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="FileType">
+    <Hierarchy hasAll="true" allMemberName="All FileType" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="File Type" column="FileType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">21. File &amp; Object Typing</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="LinkType">
+    <Hierarchy hasAll="true" allMemberName="All LinkType" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Link Type" column="LinkType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">21. File &amp; Object Typing</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="PhysicalLocation">
+    <Hierarchy hasAll="true" allMemberName="All PhysicalLocation" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Physical Location" column="PhysicalLocation" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">17. File &amp; Object Location</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Title">
+    <Hierarchy hasAll="true" allMemberName="All Title" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Title" column="Title" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">22. Document Identity</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Author">
+    <Hierarchy hasAll="true" allMemberName="All Author" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Author" column="Author" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">23. Document Authorship</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Subject">
+    <Hierarchy hasAll="true" allMemberName="All Subject" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Subject" column="Subject" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">23. Document Authorship</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Application">
+    <Hierarchy hasAll="true" allMemberName="All Application" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Application" column="Application" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">25. Document Production</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Producer">
+    <Hierarchy hasAll="true" allMemberName="All Producer" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Producer" column="Producer" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">25. Document Production</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Version">
+    <Hierarchy hasAll="true" allMemberName="All Version" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Version" column="Version" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">25. Document Production</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Company">
+    <Hierarchy hasAll="true" allMemberName="All Company" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Company" column="Company" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">14. Organization</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Paragraphs">
+    <Hierarchy hasAll="true" allMemberName="All Paragraphs" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Paragraphs" column="Paragraphs" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">26. Document Content Summary</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Language">
+    <Hierarchy hasAll="true" allMemberName="All Language" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Language" column="Language" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">24. Document Language</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Checksum">
+    <Hierarchy hasAll="true" allMemberName="All Checksum" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Checksum" column="Checksum" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">27. Integrity &amp; Checksums</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="PropertiesChecksum">
+    <Hierarchy hasAll="true" allMemberName="All PropertiesChecksum" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Properties Checksum" column="PropertiesChecksum" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">27. Integrity &amp; Checksums</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="LocationName">
+    <Hierarchy hasAll="true" allMemberName="All LocationName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Location Name" column="LocationName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="LocationStreetAddress">
+    <Hierarchy hasAll="true" allMemberName="All LocationStreetAddress" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Location Street Address" column="LocationStreetAddress" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="LocationStreetAddress2">
+    <Hierarchy hasAll="true" allMemberName="All LocationStreetAddress2" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Location Street Address 2" column="LocationStreetAddress2" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="LocationLocalityCity">
+    <Hierarchy hasAll="true" allMemberName="All LocationLocalityCity" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Location Locality City" column="LocationLocalityCity" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="LocationStateProvince">
+    <Hierarchy hasAll="true" allMemberName="All LocationStateProvince" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Location State Province" column="LocationStateProvince" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="LocationPostalCode">
+    <Hierarchy hasAll="true" allMemberName="All LocationPostalCode" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Location Postal Code" column="LocationPostalCode" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="LocationCountry">
+    <Hierarchy hasAll="true" allMemberName="All LocationCountry" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Location Country" column="LocationCountry" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="CostPerTbFrequency">
+    <Hierarchy hasAll="true" allMemberName="All CostPerTbFrequency" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Cost per TB Frequency" column="CostPerTbFrequency" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">28. Costing &amp; Commercials</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="FqdnDisplay">
+    <Hierarchy hasAll="true" allMemberName="All FqdnDisplay" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="FQDN Display" column="FqdnDisplay" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">16. Host &amp; Endpoint</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="OwnerFirstName">
+    <Hierarchy hasAll="true" allMemberName="All OwnerFirstName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Owner First Name" column="OwnerFirstName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">13. Ownership &amp; Stewardship</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="OwnerLastName">
+    <Hierarchy hasAll="true" allMemberName="All OwnerLastName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Owner Last Name" column="OwnerLastName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">13. Ownership &amp; Stewardship</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="OwnerEmail">
+    <Hierarchy hasAll="true" allMemberName="All OwnerEmail" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Owner Email" column="OwnerEmail" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">13. Ownership &amp; Stewardship</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="OwnerUserName">
+    <Hierarchy hasAll="true" allMemberName="All OwnerUserName" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Owner User Name" column="OwnerUserName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">13. Ownership &amp; Stewardship</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Sensitivity">
+    <Hierarchy hasAll="true" allMemberName="All Sensitivity" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Sensitivity" column="Sensitivity" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">12. Security &amp; Compliance</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <!-- Band/derived shared dimensions -->
+  <Dimension name="PageCountBand">
+    <Hierarchy hasAll="true" allMemberName="All PageCount Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Page Count Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">26. Document Content Summary</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "PageCount" IS NULL THEN -1
+              WHEN "PageCount" = 0 THEN 0
+              WHEN "PageCount" BETWEEN 1 AND 2 THEN 1
+              WHEN "PageCount" BETWEEN 3 AND 5 THEN 2
+              WHEN "PageCount" BETWEEN 6 AND 20 THEN 3
+              WHEN "PageCount" BETWEEN 21 AND 100 THEN 4
+              ELSE 5
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "PageCount" IS NULL THEN 'Unknown'
+              WHEN "PageCount" = 0 THEN '0'
+              WHEN "PageCount" BETWEEN 1 AND 2 THEN '1–2'
+              WHEN "PageCount" BETWEEN 3 AND 5 THEN '3–5'
+              WHEN "PageCount" BETWEEN 6 AND 20 THEN '6–20'
+              WHEN "PageCount" BETWEEN 21 AND 100 THEN '21–100'
+              ELSE '101+'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="DocumentSizeBand">
+    <Hierarchy hasAll="true" allMemberName="All Document Size Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Document Size Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">25. Document Production</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "DocumentSize" IS NULL THEN -1
+              WHEN "DocumentSize" &lt; 100*1024 THEN 1
+              WHEN "DocumentSize" &lt; 1024*1024 THEN 2
+              WHEN "DocumentSize" &lt; 10*1024*1024 THEN 3
+              WHEN "DocumentSize" &lt; 100*1024*1024 THEN 4
+              ELSE 5
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "DocumentSize" IS NULL THEN 'Unknown'
+              WHEN "DocumentSize" &lt; 100*1024 THEN '&lt;100 KB'
+              WHEN "DocumentSize" &lt; 1024*1024 THEN '100 KB–1 MB'
+              WHEN "DocumentSize" &lt; 10*1024*1024 THEN '1–10 MB'
+              WHEN "DocumentSize" &lt; 100*1024*1024 THEN '10–100 MB'
+              ELSE '&gt;100 MB'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="SizeBand">
+    <Hierarchy hasAll="true" allMemberName="All Size Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Size Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "Size" IS NULL THEN -1
+              WHEN "Size" &lt; 100*1024 THEN 1
+              WHEN "Size" &lt; 1024*1024 THEN 2
+              WHEN "Size" &lt; 10*1024*1024 THEN 3
+              WHEN "Size" &lt; 100*1024*1024 THEN 4
+              ELSE 5
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "Size" IS NULL THEN 'Unknown'
+              WHEN "Size" &lt; 100*1024 THEN '&lt;100 KB'
+              WHEN "Size" &lt; 1024*1024 THEN '100 KB–1 MB'
+              WHEN "Size" &lt; 10*1024*1024 THEN '1–10 MB'
+              WHEN "Size" &lt; 100*1024*1024 THEN '10–100 MB'
+              ELSE '&gt;100 MB'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="TotalChildFileSizeBand">
+    <Hierarchy hasAll="true" allMemberName="All Total Child File Size Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Total Child File Size Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "TotalChildFileSize" IS NULL THEN -1
+              WHEN "TotalChildFileSize" &lt; 10*1024*1024 THEN 1
+              WHEN "TotalChildFileSize" &lt; 100*1024*1024 THEN 2
+              WHEN "TotalChildFileSize" &lt; 1024*1024*1024 THEN 3
+              WHEN "TotalChildFileSize" &lt; 10*1024*1024*1024 THEN 4
+              ELSE 5
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "TotalChildFileSize" IS NULL THEN 'Unknown'
+              WHEN "TotalChildFileSize" &lt; 10*1024*1024 THEN '&lt;10 MB'
+              WHEN "TotalChildFileSize" &lt; 100*1024*1024 THEN '10–100 MB'
+              WHEN "TotalChildFileSize" &lt; 1024*1024*1024 THEN '100 MB–1 GB'
+              WHEN "TotalChildFileSize" &lt; 10*1024*1024*1024 THEN '1–10 GB'
+              ELSE '&gt;10 GB'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="RowCountBand">
+    <Hierarchy hasAll="true" allMemberName="All Row Count Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Row Count Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">11. Quality &amp; Profiling</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "RowCount" IS NULL THEN -1
+              WHEN "RowCount" = 0 THEN 0
+              WHEN "RowCount" &lt;= 1000 THEN 1
+              WHEN "RowCount" &lt;= 10000 THEN 2
+              WHEN "RowCount" &lt;= 100000 THEN 3
+              WHEN "RowCount" &lt;= 1000000 THEN 4
+              ELSE 5
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "RowCount" IS NULL THEN 'Unknown'
+              WHEN "RowCount" = 0 THEN '0'
+              WHEN "RowCount" &lt;= 1000 THEN '1–1K'
+              WHEN "RowCount" &lt;= 10000 THEN '1K–10K'
+              WHEN "RowCount" &lt;= 100000 THEN '10K–100K'
+              WHEN "RowCount" &lt;= 1000000 THEN '100K–1M'
+              ELSE '1M+'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="TotalTablesBand">
+    <Hierarchy hasAll="true" allMemberName="All Total Tables Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Total Tables Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "TotalTables" IS NULL THEN -1
+              WHEN "TotalTables" = 0 THEN 0
+              WHEN "TotalTables" &lt;= 10 THEN 1
+              WHEN "TotalTables" &lt;= 50 THEN 2
+              WHEN "TotalTables" &lt;= 200 THEN 3
+              ELSE 4
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "TotalTables" IS NULL THEN 'Unknown'
+              WHEN "TotalTables" = 0 THEN '0'
+              WHEN "TotalTables" &lt;= 10 THEN '1–10'
+              WHEN "TotalTables" &lt;= 50 THEN '11–50'
+              WHEN "TotalTables" &lt;= 200 THEN '51–200'
+              ELSE '201+'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="TotalColumnsBand">
+    <Hierarchy hasAll="true" allMemberName="All Total Columns Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Total Columns Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "TotalColumns" IS NULL THEN -1
+              WHEN "TotalColumns" = 0 THEN 0
+              WHEN "TotalColumns" &lt;= 50 THEN 1
+              WHEN "TotalColumns" &lt;= 200 THEN 2
+              WHEN "TotalColumns" &lt;= 1000 THEN 3
+              ELSE 4
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "TotalColumns" IS NULL THEN 'Unknown'
+              WHEN "TotalColumns" = 0 THEN '0'
+              WHEN "TotalColumns" &lt;= 50 THEN '1–50'
+              WHEN "TotalColumns" &lt;= 200 THEN '51–200'
+              WHEN "TotalColumns" &lt;= 1000 THEN '201–1000'
+              ELSE '1001+'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="WordsBand">
+    <Hierarchy hasAll="true" allMemberName="All Words Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Words Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">26. Document Content Summary</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "Words" IS NULL THEN -1
+              WHEN "Words" = 0 THEN 0
+              WHEN "Words" &lt;= 200 THEN 1
+              WHEN "Words" &lt;= 1000 THEN 2
+              WHEN "Words" &lt;= 5000 THEN 3
+              ELSE 4
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "Words" IS NULL THEN 'Unknown'
+              WHEN "Words" = 0 THEN '0'
+              WHEN "Words" &lt;= 200 THEN '1–200'
+              WHEN "Words" &lt;= 1000 THEN '201–1K'
+              WHEN "Words" &lt;= 5000 THEN '1K–5K'
+              ELSE '5K+'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="CharactersBand">
+    <Hierarchy hasAll="true" allMemberName="All Characters Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Characters Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">26. Document Content Summary</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "Characters" IS NULL THEN -1
+              WHEN "Characters" = 0 THEN 0
+              WHEN "Characters" &lt;= 1000 THEN 1
+              WHEN "Characters" &lt;= 5000 THEN 2
+              WHEN "Characters" &lt;= 20000 THEN 3
+              ELSE 4
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "Characters" IS NULL THEN 'Unknown'
+              WHEN "Characters" = 0 THEN '0'
+              WHEN "Characters" &lt;= 1000 THEN '1–1K'
+              WHEN "Characters" &lt;= 5000 THEN '1K–5K'
+              WHEN "Characters" &lt;= 20000 THEN '5K–20K'
+              ELSE '20K+'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="ChildFilesBand">
+    <Hierarchy hasAll="true" allMemberName="All Child Files Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Child Files Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "ChildFiles" IS NULL THEN -1
+              WHEN "ChildFiles" = 0 THEN 0
+              WHEN "ChildFiles" &lt;= 10 THEN 1
+              WHEN "ChildFiles" &lt;= 100 THEN 2
+              WHEN "ChildFiles" &lt;= 1000 THEN 3
+              ELSE 4
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "ChildFiles" IS NULL THEN 'Unknown'
+              WHEN "ChildFiles" = 0 THEN '0'
+              WHEN "ChildFiles" &lt;= 10 THEN '1–10'
+              WHEN "ChildFiles" &lt;= 100 THEN '11–100'
+              WHEN "ChildFiles" &lt;= 1000 THEN '101–1K'
+              ELSE '1K+'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="ChildDirsBand">
+    <Hierarchy hasAll="true" allMemberName="All Child Dirs Bands" primaryKey="_id">
+      <Table name="entities_master_view" schema="public" />
+      <Level name="Child Dirs Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+        <KeyExpression>
+          <SQL>
+            CASE
+              WHEN "ChildDirs" IS NULL THEN -1
+              WHEN "ChildDirs" = 0 THEN 0
+              WHEN "ChildDirs" &lt;= 10 THEN 1
+              WHEN "ChildDirs" &lt;= 100 THEN 2
+              WHEN "ChildDirs" &lt;= 1000 THEN 3
+              ELSE 4
+            END
+          </SQL>
+        </KeyExpression>
+        <NameExpression>
+          <SQL>
+            CASE
+              WHEN "ChildDirs" IS NULL THEN 'Unknown'
+              WHEN "ChildDirs" = 0 THEN '0'
+              WHEN "ChildDirs" &lt;= 10 THEN '1–10'
+              WHEN "ChildDirs" &lt;= 100 THEN '11–100'
+              WHEN "ChildDirs" &lt;= 1000 THEN '101–1K'
+              ELSE '1K+'
+            END
+          </SQL>
+        </NameExpression>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+<Cube name="Entity Term Analysis">
+    <Table name="terms_view" schema="public" />
+    <DimensionUsage name="Entity ID" source="_id" foreignKey="EntityId" />
+    <DimensionUsage name="Entity Type" source="Type" foreignKey="EntityId" />
+    <DimensionUsage name="Name" source="Name" foreignKey="EntityId" />
+    <DimensionUsage name="Parent" source="Parent" foreignKey="EntityId" />
+    <DimensionUsage name="ResourceType" source="ResourceType" foreignKey="EntityId" />
+    <DimensionUsage name="DataSourceId" source="DataSourceId" foreignKey="EntityId" />
+    <DimensionUsage name="DataSourceName" source="DataSourceName" foreignKey="EntityId" />
+    <DimensionUsage name="DataSourceType" source="DataSourceType" foreignKey="EntityId" />
+    <DimensionUsage name="DataSourceCostPerTbCurrency" source="DataSourceCostPerTbCurrency" foreignKey="EntityId" />
+    <DimensionUsage name="DataSourceCostPerTbPrice" source="DataSourceCostPerTbPrice" foreignKey="EntityId" />
+    <DimensionUsage name="DataSourceAffinityId" source="DataSourceAffinityId" foreignKey="EntityId" />
+    <DimensionUsage name="DataProfileStatus" source="DataProfileStatus" foreignKey="EntityId" />
+    <DimensionUsage name="DataProfiled" source="DataProfiled" foreignKey="EntityId" />
+    <DimensionUsage name="ProductName" source="ProductName" foreignKey="EntityId" />
+    <DimensionUsage name="ProductVersion" source="ProductVersion" foreignKey="EntityId" />
+    <DimensionUsage name="DriverName" source="DriverName" foreignKey="EntityId" />
+    <DimensionUsage name="Url" source="Url" foreignKey="EntityId" />
+    <DimensionUsage name="ParentName" source="ParentName" foreignKey="EntityId" />
+    <DimensionUsage name="SchemaName" source="SchemaName" foreignKey="EntityId" />
+    <DimensionUsage name="DatabaseName" source="DatabaseName" foreignKey="EntityId" />
+    <DimensionUsage name="CheckClause" source="CheckClause" foreignKey="EntityId" />
+    <DimensionUsage name="TableName" source="TableName" foreignKey="EntityId" />
+    <DimensionUsage name="DataType" source="DataType" foreignKey="EntityId" />
+    <DimensionUsage name="TypeName" source="TypeName" foreignKey="EntityId" />
+    <DimensionUsage name="ColumnSize" source="ColumnSize" foreignKey="EntityId" />
+    <DimensionUsage name="BufferLength" source="BufferLength" foreignKey="EntityId" />
+    <DimensionUsage name="DecimalDigits" source="DecimalDigits" foreignKey="EntityId" />
+    <DimensionUsage name="NumPrecRadix" source="NumPrecRadix" foreignKey="EntityId" />
+    <DimensionUsage name="OrdinalPosition" source="OrdinalPosition" foreignKey="EntityId" />
+    <DimensionUsage name="Path" source="Path" foreignKey="EntityId" />
+    <DimensionUsage name="ParentPath" source="ParentPath" foreignKey="EntityId" />
+    <DimensionUsage name="PathType" source="PathType" foreignKey="EntityId" />
+    <DimensionUsage name="FileExtension" source="FileExtension" foreignKey="EntityId" />
+    <DimensionUsage name="Flags" source="Flags" foreignKey="EntityId" />
+    <DimensionUsage name="Owner" source="Owner" foreignKey="EntityId" />
+    <DimensionUsage name="Group" source="Group" foreignKey="EntityId" />
+    <DimensionUsage name="SymLinkTarget" source="SymLinkTarget" foreignKey="EntityId" />
+    <DimensionUsage name="FileType" source="FileType" foreignKey="EntityId" />
+    <DimensionUsage name="LinkType" source="LinkType" foreignKey="EntityId" />
+    <DimensionUsage name="PhysicalLocation" source="PhysicalLocation" foreignKey="EntityId" />
+    <DimensionUsage name="Title" source="Title" foreignKey="EntityId" />
+    <DimensionUsage name="Author" source="Author" foreignKey="EntityId" />
+    <DimensionUsage name="Subject" source="Subject" foreignKey="EntityId" />
+    <DimensionUsage name="Application" source="Application" foreignKey="EntityId" />
+    <DimensionUsage name="Producer" source="Producer" foreignKey="EntityId" />
+    <DimensionUsage name="Version" source="Version" foreignKey="EntityId" />
+    <DimensionUsage name="Company" source="Company" foreignKey="EntityId" />
+    <DimensionUsage name="Paragraphs" source="Paragraphs" foreignKey="EntityId" />
+    <DimensionUsage name="Language" source="Language" foreignKey="EntityId" />
+    <DimensionUsage name="Checksum" source="Checksum" foreignKey="EntityId" />
+    <DimensionUsage name="PropertiesChecksum" source="PropertiesChecksum" foreignKey="EntityId" />
+    <DimensionUsage name="LocationName" source="LocationName" foreignKey="EntityId" />
+    <DimensionUsage name="LocationStreetAddress" source="LocationStreetAddress" foreignKey="EntityId" />
+    <DimensionUsage name="LocationStreetAddress2" source="LocationStreetAddress2" foreignKey="EntityId" />
+    <DimensionUsage name="LocationLocalityCity" source="LocationLocalityCity" foreignKey="EntityId" />
+    <DimensionUsage name="LocationStateProvince" source="LocationStateProvince" foreignKey="EntityId" />
+    <DimensionUsage name="LocationPostalCode" source="LocationPostalCode" foreignKey="EntityId" />
+    <DimensionUsage name="LocationCountry" source="LocationCountry" foreignKey="EntityId" />
+    <DimensionUsage name="CostPerTbFrequency" source="CostPerTbFrequency" foreignKey="EntityId" />
+    <DimensionUsage name="FqdnDisplay" source="FqdnDisplay" foreignKey="EntityId" />
+    <DimensionUsage name="OwnerFirstName" source="OwnerFirstName" foreignKey="EntityId" />
+    <DimensionUsage name="OwnerLastName" source="OwnerLastName" foreignKey="EntityId" />
+    <DimensionUsage name="OwnerEmail" source="OwnerEmail" foreignKey="EntityId" />
+    <DimensionUsage name="OwnerUserName" source="OwnerUserName" foreignKey="EntityId" />
+    <DimensionUsage name="Sensitivity" source="Sensitivity" foreignKey="EntityId" />
+    <DimensionUsage name="PageCountBand" source="PageCountBand" foreignKey="EntityId" />
+    <DimensionUsage name="DocumentSizeBand" source="DocumentSizeBand" foreignKey="EntityId" />
+    <DimensionUsage name="SizeBand" source="SizeBand" foreignKey="EntityId" />
+    <DimensionUsage name="TotalChildFileSizeBand" source="TotalChildFileSizeBand" foreignKey="EntityId" />
+    <DimensionUsage name="RowCountBand" source="RowCountBand" foreignKey="EntityId" />
+    <DimensionUsage name="TotalTablesBand" source="TotalTablesBand" foreignKey="EntityId" />
+    <DimensionUsage name="TotalColumnsBand" source="TotalColumnsBand" foreignKey="EntityId" />
+    <DimensionUsage name="WordsBand" source="WordsBand" foreignKey="EntityId" />
+    <DimensionUsage name="CharactersBand" source="CharactersBand" foreignKey="EntityId" />
+    <DimensionUsage name="ChildFilesBand" source="ChildFilesBand" foreignKey="EntityId" />
+    <DimensionUsage name="ChildDirsBand" source="ChildDirsBand" foreignKey="EntityId" />
+    <Dimension name="Term">
+  <Hierarchy hasAll="true" allMemberName="All Terms">
+    <Level name="Term Name" column="TermName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+    </Dimension>
+    <Measure name="Term Count" column="TermId" aggregator="count">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>  
+    <Measure name="Entity Count" column="EntityId" aggregator="distinct-count">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>  
+</Cube>
+
+  <Cube name="Entity Master">
+    <Table name="entities_master_view" schema="public" />
+<Dimension name="_id">
+  <Hierarchy hasAll="true" allMemberName="All _id" primaryKey="_id">
+    <Level name="Entity ID" column="_id" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">29. Tracking Info</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Name">
+  <Hierarchy hasAll="true" allMemberName="All Name">
+    <Level name="Name" column="Name" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Type">
+  <Hierarchy hasAll="true" allMemberName="All Type" primaryKey="_id">
+    <Level name="Type" column="Type" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">02. Entity Typing</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Parent">
+  <Hierarchy hasAll="true" allMemberName="All Parent">
+    <Level name="Parent ID" column="Parent" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">03. Entity Hierarchy</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="ResourceType">
+  <Hierarchy hasAll="true" allMemberName="All ResourceType">
+    <Level name="Resource Type" column="ResourceType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">02. Entity Typing</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DataSourceId">
+  <Hierarchy hasAll="true" allMemberName="All DataSourceId">
+    <Level name="Data Source ID" column="DataSourceId" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DataSourceName">
+  <Hierarchy hasAll="true" allMemberName="All DataSourceName">
+    <Level name="Data Source Name" column="DataSourceName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DataSourceType">
+  <Hierarchy hasAll="true" allMemberName="All DataSourceType">
+    <Level name="Data Source Type" column="DataSourceType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DataSourceCostPerTbCurrency">
+  <Hierarchy hasAll="true" allMemberName="All DataSourceCostPerTbCurrency">
+    <Level name="Data Source Cost per TB Currency" column="DataSourceCostPerTbCurrency" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">28. Costing &amp; Commercials</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DataSourceCostPerTbPrice">
+  <Hierarchy hasAll="true" allMemberName="All DataSourceCostPerTbPrice">
+    <Level name="Data Source Cost per TB Price" column="DataSourceCostPerTbPrice" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">28. Costing &amp; Commercials</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DataSourceAffinityId">
+  <Hierarchy hasAll="true" allMemberName="All DataSourceAffinityId">
+    <Level name="Data Source Affinity ID" column="DataSourceAffinityId" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">04. Data Source</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DataProfileStatus">
+  <Hierarchy hasAll="true" allMemberName="All DataProfileStatus">
+    <Level name="Data Profile Status" column="DataProfileStatus" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">11. Quality &amp; Profiling</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DataProfiled">
+  <Hierarchy hasAll="true" allMemberName="All DataProfiled">
+    <Level name="Data Profiled" column="DataProfiled" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">11. Quality &amp; Profiling</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="ProductName">
+  <Hierarchy hasAll="true" allMemberName="All ProductName">
+    <Level name="Product Name" column="ProductName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">05. Platform &amp; Product</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="ProductVersion">
+  <Hierarchy hasAll="true" allMemberName="All ProductVersion">
+    <Level name="Product Version" column="ProductVersion" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">05. Platform &amp; Product</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DriverName">
+  <Hierarchy hasAll="true" allMemberName="All DriverName">
+    <Level name="Driver Name" column="DriverName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">06. Connectivity</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Url">
+  <Hierarchy hasAll="true" allMemberName="All Url">
+    <Level name="URL" column="Url" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">06. Connectivity</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="ParentName">
+  <Hierarchy hasAll="true" allMemberName="All ParentName">
+    <Level name="Parent Name" column="ParentName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="SchemaName">
+  <Hierarchy hasAll="true" allMemberName="All SchemaName">
+    <Level name="Schema Name" column="SchemaName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DatabaseName">
+  <Hierarchy hasAll="true" allMemberName="All DatabaseName">
+    <Level name="Database Name" column="DatabaseName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="CheckClause">
+  <Hierarchy hasAll="true" allMemberName="All CheckClause">
+    <Level name="Check Clause" column="CheckClause" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">10. Constraints &amp; Governance</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="TableName">
+  <Hierarchy hasAll="true" allMemberName="All TableName">
+    <Level name="Table Name" column="TableName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DataType">
+  <Hierarchy hasAll="true" allMemberName="All DataType">
+    <Level name="Data Type" column="DataType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">08. Column Typing</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="TypeName">
+  <Hierarchy hasAll="true" allMemberName="All TypeName">
+    <Level name="Type Name" column="TypeName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">08. Column Typing</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="ColumnSize">
+  <Hierarchy hasAll="true" allMemberName="All ColumnSize">
+    <Level name="Column Size" column="ColumnSize" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="BufferLength">
+  <Hierarchy hasAll="true" allMemberName="All BufferLength">
+    <Level name="Buffer Length" column="BufferLength" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="DecimalDigits">
+  <Hierarchy hasAll="true" allMemberName="All DecimalDigits">
+    <Level name="Decimal Digits" column="DecimalDigits" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="NumPrecRadix">
+  <Hierarchy hasAll="true" allMemberName="All NumPrecRadix">
+    <Level name="Num Prec Radix" column="NumPrecRadix" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="OrdinalPosition">
+  <Hierarchy hasAll="true" allMemberName="All OrdinalPosition">
+    <Level name="Ordinal Position" column="OrdinalPosition" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">09. Column Metadata</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Path">
+  <Hierarchy hasAll="true" allMemberName="All Path">
+    <Level name="Path" column="Path" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">18. File &amp; Object Paths</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="ParentPath">
+  <Hierarchy hasAll="true" allMemberName="All ParentPath">
+    <Level name="Parent Path" column="ParentPath" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">18. File &amp; Object Paths</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="PathType">
+  <Hierarchy hasAll="true" allMemberName="All PathType">
+    <Level name="Path Type" column="PathType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">21. File &amp; Object Typing</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="FileExtension">
+  <Hierarchy hasAll="true" allMemberName="All FileExtension">
+    <Level name="File Extension" column="FileExtension" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Flags">
+  <Hierarchy hasAll="true" allMemberName="All Flags">
+    <Level name="Flags" column="Flags" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Owner">
+  <Hierarchy hasAll="true" allMemberName="All Owner">
+    <Level name="Owner" column="Owner" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">20. File Ownership &amp; Links</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Group">
+  <Hierarchy hasAll="true" allMemberName="All Group">
+    <Level name="Group" column="Group" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">20. File Ownership &amp; Links</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="SymLinkTarget">
+  <Hierarchy hasAll="true" allMemberName="All SymLinkTarget">
+    <Level name="Symbolic Link Target" column="SymLinkTarget" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">20. File Ownership &amp; Links</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="FileType">
+  <Hierarchy hasAll="true" allMemberName="All FileType">
+    <Level name="File Type" column="FileType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">21. File &amp; Object Typing</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="LinkType">
+  <Hierarchy hasAll="true" allMemberName="All LinkType">
+    <Level name="Link Type" column="LinkType" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">21. File &amp; Object Typing</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="PhysicalLocation">
+  <Hierarchy hasAll="true" allMemberName="All PhysicalLocation">
+    <Level name="Physical Location" column="PhysicalLocation" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">17. File &amp; Object Location</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Title">
+  <Hierarchy hasAll="true" allMemberName="All Title">
+    <Level name="Title" column="Title" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">22. Document Identity</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Author">
+  <Hierarchy hasAll="true" allMemberName="All Author">
+    <Level name="Author" column="Author" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">23. Document Authorship</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Subject">
+  <Hierarchy hasAll="true" allMemberName="All Subject">
+    <Level name="Subject" column="Subject" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">23. Document Authorship</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Application">
+  <Hierarchy hasAll="true" allMemberName="All Application">
+    <Level name="Application" column="Application" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">25. Document Production</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Producer">
+  <Hierarchy hasAll="true" allMemberName="All Producer">
+    <Level name="Producer" column="Producer" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">25. Document Production</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Version">
+  <Hierarchy hasAll="true" allMemberName="All Version">
+    <Level name="Version" column="Version" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">25. Document Production</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Company">
+  <Hierarchy hasAll="true" allMemberName="All Company">
+    <Level name="Company" column="Company" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">14. Organization</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Paragraphs">
+  <Hierarchy hasAll="true" allMemberName="All Paragraphs">
+    <Level name="Paragraphs" column="Paragraphs" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Document Content Summary</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Language">
+  <Hierarchy hasAll="true" allMemberName="All Language">
+    <Level name="Language" column="Language" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">24. Document Language</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Checksum">
+  <Hierarchy hasAll="true" allMemberName="All Checksum">
+    <Level name="Checksum" column="Checksum" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">27. Integrity &amp; Checksums</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="PropertiesChecksum">
+  <Hierarchy hasAll="true" allMemberName="All PropertiesChecksum">
+    <Level name="Properties Checksum" column="PropertiesChecksum" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">27. Integrity &amp; Checksums</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="LocationName">
+  <Hierarchy hasAll="true" allMemberName="All LocationName">
+    <Level name="Location Name" column="LocationName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="LocationStreetAddress">
+  <Hierarchy hasAll="true" allMemberName="All LocationStreetAddress">
+    <Level name="Location Street Address" column="LocationStreetAddress" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="LocationStreetAddress2">
+  <Hierarchy hasAll="true" allMemberName="All LocationStreetAddress2">
+    <Level name="Location Street Address 2" column="LocationStreetAddress2" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="LocationLocalityCity">
+  <Hierarchy hasAll="true" allMemberName="All LocationLocalityCity">
+    <Level name="Location Locality City" column="LocationLocalityCity" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="LocationStateProvince">
+  <Hierarchy hasAll="true" allMemberName="All LocationStateProvince">
+    <Level name="Location State Province" column="LocationStateProvince" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="LocationPostalCode">
+  <Hierarchy hasAll="true" allMemberName="All LocationPostalCode">
+    <Level name="Location Postal Code" column="LocationPostalCode" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="LocationCountry">
+  <Hierarchy hasAll="true" allMemberName="All LocationCountry">
+    <Level name="Location Country" column="LocationCountry" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">15. Business Location</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="CostPerTbFrequency">
+  <Hierarchy hasAll="true" allMemberName="All CostPerTbFrequency">
+    <Level name="Cost per TB Frequency" column="CostPerTbFrequency" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">28. Costing &amp; Commercials</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="FqdnDisplay">
+  <Hierarchy hasAll="true" allMemberName="All FqdnDisplay">
+    <Level name="FQDN Display" column="FqdnDisplay" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">16. Host &amp; Endpoint</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="OwnerFirstName">
+  <Hierarchy hasAll="true" allMemberName="All OwnerFirstName">
+    <Level name="Owner First Name" column="OwnerFirstName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Ownership &amp; Stewardship</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="OwnerLastName">
+  <Hierarchy hasAll="true" allMemberName="All OwnerLastName">
+    <Level name="Owner Last Name" column="OwnerLastName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Ownership &amp; Stewardship</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="OwnerEmail">
+  <Hierarchy hasAll="true" allMemberName="All OwnerEmail">
+    <Level name="Owner Email" column="OwnerEmail" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Ownership &amp; Stewardship</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="OwnerUserName">
+  <Hierarchy hasAll="true" allMemberName="All OwnerUserName">
+    <Level name="Owner User Name" column="OwnerUserName" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">13. Ownership &amp; Stewardship</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="Sensitivity">
+  <Hierarchy hasAll="true" allMemberName="All Sensitivity">
+    <Level name="Sensitivity" column="Sensitivity" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">12. Security &amp; Compliance</Annotation></Annotations>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="PageCountBand">
+  <Hierarchy hasAll="true" allMemberName="All PageCount Bands">
+    <Level name="Page Count Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Document Content Summary</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "PageCount" IS NULL THEN -1
+            WHEN "PageCount" = 0 THEN 0
+            WHEN "PageCount" BETWEEN 1 AND 2 THEN 1
+            WHEN "PageCount" BETWEEN 3 AND 5 THEN 2
+            WHEN "PageCount" BETWEEN 6 AND 20 THEN 3
+            WHEN "PageCount" BETWEEN 21 AND 100 THEN 4
+            ELSE 5
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "PageCount" IS NULL THEN 'Unknown'
+            WHEN "PageCount" = 0 THEN '0'
+            WHEN "PageCount" BETWEEN 1 AND 2 THEN '1–2'
+            WHEN "PageCount" BETWEEN 3 AND 5 THEN '3–5'
+            WHEN "PageCount" BETWEEN 6 AND 20 THEN '6–20'
+            WHEN "PageCount" BETWEEN 21 AND 100 THEN '21–100'
+            ELSE '101+'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+
+<Dimension name="DocumentSizeBand">
+  <Hierarchy hasAll="true" allMemberName="All Document Size Bands">
+    <Level name="Document Size Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">25. Document Production</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "DocumentSize" IS NULL THEN -1
+            WHEN "DocumentSize" &lt; 100*1024 THEN 1
+            WHEN "DocumentSize" &lt; 1024*1024 THEN 2
+            WHEN "DocumentSize" &lt; 10*1024*1024 THEN 3
+            WHEN "DocumentSize" &lt; 100*1024*1024 THEN 4
+            ELSE 5
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "DocumentSize" IS NULL THEN 'Unknown'
+            WHEN "DocumentSize" &lt; 100*1024 THEN '&lt;100 KB'
+            WHEN "DocumentSize" &lt; 1024*1024 THEN '100 KB–1 MB'
+            WHEN "DocumentSize" &lt; 10*1024*1024 THEN '1–10 MB'
+            WHEN "DocumentSize" &lt; 100*1024*1024 THEN '10–100 MB'
+            ELSE '&gt;100 MB'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+
+<Dimension name="SizeBand">
+  <Hierarchy hasAll="true" allMemberName="All Size Bands">
+    <Level name="Size Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "Size" IS NULL THEN -1
+            WHEN "Size" &lt; 100*1024 THEN 1
+            WHEN "Size" &lt; 1024*1024 THEN 2
+            WHEN "Size" &lt; 10*1024*1024 THEN 3
+            WHEN "Size" &lt; 100*1024*1024 THEN 4
+            ELSE 5
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "Size" IS NULL THEN 'Unknown'
+            WHEN "Size" &lt; 100*1024 THEN '&lt;100 KB'
+            WHEN "Size" &lt; 1024*1024 THEN '100 KB–1 MB'
+            WHEN "Size" &lt; 10*1024*1024 THEN '1–10 MB'
+            WHEN "Size" &lt; 100*1024*1024 THEN '10–100 MB'
+            ELSE '&gt;100 MB'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+
+<Dimension name="TotalChildFileSizeBand">
+  <Hierarchy hasAll="true" allMemberName="All Total Child File Size Bands">
+    <Level name="Total Child File Size Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "TotalChildFileSize" IS NULL THEN -1
+            WHEN "TotalChildFileSize" &lt; 10*1024*1024 THEN 1
+            WHEN "TotalChildFileSize" &lt; 100*1024*1024 THEN 2
+            WHEN "TotalChildFileSize" &lt; 1024*1024*1024 THEN 3
+            WHEN "TotalChildFileSize" &lt; 10*1024*1024*1024 THEN 4
+            ELSE 5
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "TotalChildFileSize" IS NULL THEN 'Unknown'
+            WHEN "TotalChildFileSize" &lt; 10*1024*1024 THEN '&lt;10 MB'
+            WHEN "TotalChildFileSize" &lt; 100*1024*1024 THEN '10–100 MB'
+            WHEN "TotalChildFileSize" &lt; 1024*1024*1024 THEN '100 MB–1 GB'
+            WHEN "TotalChildFileSize" &lt; 10*1024*1024*1024 THEN '1–10 GB'
+            ELSE '&gt;10 GB'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+
+<Dimension name="RowCountBand">
+  <Hierarchy hasAll="true" allMemberName="All Row Count Bands">
+    <Level name="Row Count Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">11. Quality &amp; Profiling</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "RowCount" IS NULL THEN -1
+            WHEN "RowCount" = 0 THEN 0
+            WHEN "RowCount" &lt;= 1000 THEN 1
+            WHEN "RowCount" &lt;= 10000 THEN 2
+            WHEN "RowCount" &lt;= 100000 THEN 3
+            WHEN "RowCount" &lt;= 1000000 THEN 4
+            ELSE 5
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "RowCount" IS NULL THEN 'Unknown'
+            WHEN "RowCount" = 0 THEN '0'
+            WHEN "RowCount" &lt;= 1000 THEN '1–1K'
+            WHEN "RowCount" &lt;= 10000 THEN '1K–10K'
+            WHEN "RowCount" &lt;= 100000 THEN '10K–100K'
+            WHEN "RowCount" &lt;= 1000000 THEN '100K–1M'
+            ELSE '1M+'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+
+<Dimension name="TotalTablesBand">
+  <Hierarchy hasAll="true" allMemberName="All Total Tables Bands">
+    <Level name="Total Tables Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "TotalTables" IS NULL THEN -1
+            WHEN "TotalTables" = 0 THEN 0
+            WHEN "TotalTables" &lt;= 10 THEN 1
+            WHEN "TotalTables" &lt;= 50 THEN 2
+            WHEN "TotalTables" &lt;= 200 THEN 3
+            ELSE 4
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "TotalTables" IS NULL THEN 'Unknown'
+            WHEN "TotalTables" = 0 THEN '0'
+            WHEN "TotalTables" &lt;= 10 THEN '1–10'
+            WHEN "TotalTables" &lt;= 50 THEN '11–50'
+            WHEN "TotalTables" &lt;= 200 THEN '51–200'
+            ELSE '201+'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="TotalColumnsBand">
+  <Hierarchy hasAll="true" allMemberName="All Total Columns Bands">
+    <Level name="Total Columns Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">07. Database &amp; Schema</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "TotalColumns" IS NULL THEN -1
+            WHEN "TotalColumns" = 0 THEN 0
+            WHEN "TotalColumns" &lt;= 50 THEN 1
+            WHEN "TotalColumns" &lt;= 200 THEN 2
+            WHEN "TotalColumns" &lt;= 1000 THEN 3
+            ELSE 4
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "TotalColumns" IS NULL THEN 'Unknown'
+            WHEN "TotalColumns" = 0 THEN '0'
+            WHEN "TotalColumns" &lt;= 50 THEN '1–50'
+            WHEN "TotalColumns" &lt;= 200 THEN '51–200'
+            WHEN "TotalColumns" &lt;= 1000 THEN '201–1000'
+            ELSE '1001+'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+
+<Dimension name="WordsBand">
+  <Hierarchy hasAll="true" allMemberName="All Words Bands">
+    <Level name="Words Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Document Content Summary</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "Words" IS NULL THEN -1
+            WHEN "Words" = 0 THEN 0
+            WHEN "Words" &lt;= 200 THEN 1
+            WHEN "Words" &lt;= 1000 THEN 2
+            WHEN "Words" &lt;= 5000 THEN 3
+            ELSE 4
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "Words" IS NULL THEN 'Unknown'
+            WHEN "Words" = 0 THEN '0'
+            WHEN "Words" &lt;= 200 THEN '1–200'
+            WHEN "Words" &lt;= 1000 THEN '201–1K'
+            WHEN "Words" &lt;= 5000 THEN '1K–5K'
+            ELSE '5K+'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="CharactersBand">
+  <Hierarchy hasAll="true" allMemberName="All Characters Bands">
+    <Level name="Characters Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Document Content Summary</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "Characters" IS NULL THEN -1
+            WHEN "Characters" = 0 THEN 0
+            WHEN "Characters" &lt;= 1000 THEN 1
+            WHEN "Characters" &lt;= 5000 THEN 2
+            WHEN "Characters" &lt;= 20000 THEN 3
+            ELSE 4
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "Characters" IS NULL THEN 'Unknown'
+            WHEN "Characters" = 0 THEN '0'
+            WHEN "Characters" &lt;= 1000 THEN '1–1K'
+            WHEN "Characters" &lt;= 5000 THEN '1K–5K'
+            WHEN "Characters" &lt;= 20000 THEN '5K–20K'
+            ELSE '20K+'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+
+<Dimension name="ChildFilesBand">
+  <Hierarchy hasAll="true" allMemberName="All Child Files Bands">
+    <Level name="Child Files Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "ChildFiles" IS NULL THEN -1
+            WHEN "ChildFiles" = 0 THEN 0
+            WHEN "ChildFiles" &lt;= 10 THEN 1
+            WHEN "ChildFiles" &lt;= 100 THEN 2
+            WHEN "ChildFiles" &lt;= 1000 THEN 3
+            ELSE 4
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "ChildFiles" IS NULL THEN 'Unknown'
+            WHEN "ChildFiles" = 0 THEN '0'
+            WHEN "ChildFiles" &lt;= 10 THEN '1–10'
+            WHEN "ChildFiles" &lt;= 100 THEN '11–100'
+            WHEN "ChildFiles" &lt;= 1000 THEN '101–1K'
+            ELSE '1K+'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+<Dimension name="ChildDirsBand">
+  <Hierarchy hasAll="true" allMemberName="All Child Dirs Bands">
+    <Level name="Child Dirs Band" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">19. File &amp; Object Attributes</Annotation></Annotations>
+      <KeyExpression>
+        <SQL>
+          CASE
+            WHEN "ChildDirs" IS NULL THEN -1
+            WHEN "ChildDirs" = 0 THEN 0
+            WHEN "ChildDirs" &lt;= 10 THEN 1
+            WHEN "ChildDirs" &lt;= 100 THEN 2
+            WHEN "ChildDirs" &lt;= 1000 THEN 3
+            ELSE 4
+          END
+        </SQL>
+      </KeyExpression>
+      <NameExpression>
+        <SQL>
+          CASE
+            WHEN "ChildDirs" IS NULL THEN 'Unknown'
+            WHEN "ChildDirs" = 0 THEN '0'
+            WHEN "ChildDirs" &lt;= 10 THEN '1–10'
+            WHEN "ChildDirs" &lt;= 100 THEN '11–100'
+            WHEN "ChildDirs" &lt;= 1000 THEN '101–1K'
+            ELSE '1K+'
+          END
+        </SQL>
+      </NameExpression>
+    </Level>
+  </Hierarchy>
+</Dimension>
+
+    <DimensionUsage name="Datasource category mapping" source="Datasource category mapping" foreignKey="DataSourceType" />
+    <Measure name="Number of Objects" column="_id" aggregator="count">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Average Value" column="AvgValue" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Average Width" column="AvgWidth" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">92. Metric - Column Width &amp; Precision</Annotation></Annotations>
+    </Measure>
+    <Measure name="Blank Count" column="BlankCount" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Buffer Length" column="BufferLength" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">93. Metric - Column Metadata</Annotation></Annotations>
+    </Measure>
+    <Measure name="Cardinality (Est.)" column="Cardinality" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Character Count" column="Characters" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">91. Metric - Document Content Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Character Count (with spaces)" column="CharactersWithSpaces" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">91. Metric - Document Content Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Child Directory Size (total)" column="ChildDirSize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Child Directories" column="ChildDirs" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Child File Size (total)" column="ChildFileSize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Child Files" column="ChildFiles" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Column Size" column="ColumnSize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">93. Metric - Column Metadata</Annotation></Annotations>
+    </Measure>
+    <Measure name="Column Count" column="ColumnsCount" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Data Source Cost per TB" column="DataSourceCostPerTbPrice" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">96. Metric - Costing &amp; Commercials</Annotation></Annotations>
+    </Measure>
+    <Measure name="Decimal Digits" column="DecimalDigits" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">92. Metric - Column Width &amp; Precision</Annotation></Annotations>
+    </Measure>
+    <Measure name="Document Size (bytes)" column="DocumentSize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">91. Metric - Document Content Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Flags" column="Flags" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">93. Metric - Column Metadata</Annotation></Annotations>
+    </Measure>
+    <Measure name="HLL Cardinality" column="Hll" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Line Count" column="Lines" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">91. Metric - Document Content Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Maximum Value" column="Max" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Maximum Width" column="MaxWidth" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">92. Metric - Column Width &amp; Precision</Annotation></Annotations>
+    </Measure>
+    <Measure name="Minimum Value" column="Min" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Minimum Width" column="MinWidth" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">92. Metric - Column Width &amp; Precision</Annotation></Annotations>
+    </Measure>
+    <Measure name="Null Count" column="NullCount" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Numeric Precision Radix" column="NumPrecRadix" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">92. Metric - Column Width &amp; Precision</Annotation></Annotations>
+    </Measure>
+    <Measure name="Ordinal Position" column="OrdinalPosition" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">93. Metric - Column Metadata</Annotation></Annotations>
+    </Measure>
+    <Measure name="Page Count" column="PageCount" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">91. Metric - Document Content Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Page Size (bytes)" column="PageSize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">91. Metric - Document Content Metrics</Annotation></Annotations>
+    </Measure>
+    <Measure name="Row Count" column="RowCount" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">90. Metric - Quality &amp; Profiling</Annotation></Annotations>
+    </Measure>
+    <Measure name="Size (bytes)" column="Size" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Child Directory Size" column="TotalChildDirSize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Child Directories" column="TotalChildDirs" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Child File Size" column="TotalChildFileSize" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">94. Metric - File &amp; Directory Sizes</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Child Files" column="TotalChildFiles" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Columns" column="TotalColumns" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Total Tables" column="TotalTables" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">95. Metric - Object &amp; Schema Counts</Annotation></Annotations>
+    </Measure>
+    <Measure name="Word Count" column="Words" aggregator="sum">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">91. Metric - Document Content Metrics</Annotation></Annotations>
+    </Measure>
+  </Cube>
+</Schema>

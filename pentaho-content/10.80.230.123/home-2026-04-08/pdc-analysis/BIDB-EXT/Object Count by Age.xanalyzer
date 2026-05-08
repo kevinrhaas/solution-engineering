@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reportRecord xmlns="http://www.pentaho.com">
+    <commonStorageAttributes createdBy="admin" updatedBy="admin" created="2025-12-08T12:59:52.435+01:00" update="2025-12-08T13:12:37.623+01:00">
+        <path name="Objectcount by age" folder="/home/clemens/PDSO/Objectcount by age.xanalyzer"/>
+    </commonStorageAttributes>
+    <report catalog="PDSO_entities" cube="PDSO_entities" reportTypeEnum="JSON" showRowGrandTotal="true" showColumnGrandTotal="true" showSubTotals="true" totalsOnTopLeft="false" useNonVisualTotals="false" showEmptyCells="false" showEmptyEnum="SHOW_MEASURE" emptyCellDisplay="-" showDrillLinks="false" version="15" autoRefresh="true" freezeColumns="true" freezeRows="true">
+        <measures>
+            <measure formula="[Measures].[File Count]" showSum="true" showAggregate="false" showAverage="false" showCount="false" showMax="false" showMin="false" hideInChart="false" measureTypeEnum="VALUE" sortOrderEnum="NONE" id="[MEASURE:0]" gembarId="measures" gembarOrdinal="0">
+                <displayLabels>
+                    <displayLabel locale="" label="Objectcount" labelPlural=""/>
+                </displayLabels>
+                <numberFormat formatCategory="Default" formatScale="0" formatShortcut="NONE" currencySymbol="$" measureDisplayUnits="UNITS_0">
+                    <formatExpression></formatExpression>
+                </numberFormat>
+            </measure>
+        </measures>
+        <columnAttributes>
+            <attribute formula="[Modified At Year].[Modified At Year]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="rows" gembarOrdinal="0"/>
+        </columnAttributes>
+        <rowAttributes>
+            <attribute formula="[Data Source Name].[Data Source Name]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="multi" gembarOrdinal="0"/>
+            <attribute formula="[Type].[Type]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="columns" gembarOrdinal="0"/>
+            <attribute formula="[File Type].[File Type]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="columns" gembarOrdinal="1"/>
+        </rowAttributes>
+        <filters defaultFiltersAvailable="false">
+            <filter formula="[Type].[Type]" viewFilterEnum="MULTIPLE" isDefaultFilter="false" isDefaultMetricFilter="false">
+                <predicates>
+                    <predicate ordinal="1" operatorEnum="EQUAL">
+                        <member formula="[Type].[FILE]" caption="FILE" pos="0"/>
+                        <member formula="[Type].[FOLDER]" caption="FOLDER" pos="0"/>
+                    </predicate>
+                </predicates>
+            </filter>
+            <filter formula="[Modified At Year].[Modified At Year]" viewFilterEnum="MULTIPLE" isDefaultFilter="false" isDefaultMetricFilter="false">
+                <predicates>
+                    <predicate ordinal="1" operatorEnum="NOT_EQUAL">
+                        <member formula="[Modified At Year].[#null]" caption="Nicht verfügbar" pos="0"/>
+                    </predicate>
+                </predicates>
+            </filter>
+        </filters>
+        <chartOptions vizApiVersion="3.0" chartType="CUSTOM" customChartType="pentaho/visual/models/BarStacked" showMultiChart="false" legendPosition="RIGHT" showLegend="true" autoRange="true" displayUnits="UNITS_0" autoRangeSecondary="true" displayUnitsSecondary="UNITS_0" lineWidth="2" lineShape="CIRCLE" maxValues="100" backgroundColor="#ffffff" labelColor="#000000" labelSize="12" backgroundFill="NONE" maxChartsPerRow="3" multiChartMax="50" multiChartRangeScope="GLOBAL" emptyCellMode="GAP" sizeByNegativesMode="NEG_LOWEST" backgroundColorEnd="#ffffff" labelStyle="PLAIN" legendBackgroundColor="#ffffff" legendSize="12" legendColor="#000000" legendStyle="PLAIN" labelFontFamily="Default" legendFontFamily="Default" scatterReverseColors="false"/>
+        <selectionFilters/>
+        <selectionItems/>
+        <pageSetup excelPageSize="LETTER" pdfPageSize="LETTER" excelOrientation="LANDSCAPE" pdfOrientation="LANDSCAPE" excelScalingType="PERCENT" excelScalingPercent="100" excelScalingPageWide="1" excelScalingPageTall="1" excelMergePivotCells="true" csvIncludeSubtotals="true" csvFormatNumbers="true"/>
+        <drillColumns/>
+    </report>
+    <uiAttributes showFieldList="true" showFieldLayout="true" showFilterPanel="false" fieldListView="CMDVIEWTYPE">
+        <rowFieldWidths actualWidths="119,80"/>
+        <columnDataFieldWidths actualWidths="120,120,120,120,120,120,120">
+            <labelWidth index="0">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="1">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="2">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="3">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="4">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="5">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="6">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="7">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="8">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="9">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="10">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="11">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="12">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="13">
+                <width>0</width>
+            </labelWidth>
+        </columnDataFieldWidths>
+        <pluginData>[{}]</pluginData>
+    </uiAttributes>
+</reportRecord>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reportRecord xmlns="http://www.pentaho.com">
+    <commonStorageAttributes createdBy="admin" updatedBy="admin" created="2025-11-26T17:31:09.931Z" update="2025-11-26T17:46:21.037Z">
+        <path name="structured_largest_tables_by_sourcetype" folder="/home/brian/bidb_analysis/structured_largest_tables_by_sourcetype.xanalyzer"/>
+    </commonStorageAttributes>
+    <report catalog="Data Catalog Analysis" cube="Entity Master" reportTypeEnum="JSON" showRowGrandTotal="false" showColumnGrandTotal="false" showSubTotals="true" totalsOnTopLeft="false" useNonVisualTotals="false" showEmptyCells="false" showEmptyEnum="SHOW_MEASURE" emptyCellDisplay="-" showDrillLinks="false" version="15" autoRefresh="true" freezeColumns="true" freezeRows="true">
+        <measures>
+            <measure formula="[Measures].[Total Tables]" showSum="true" showAggregate="false" showAverage="false" showCount="false" showMax="false" showMin="false" measureTypeEnum="VALUE" sortOrderEnum="DESC" id="[MEASURE:1]" gembarId="measures" gembarOrdinal="0"/>
+        </measures>
+        <columnAttributes/>
+        <rowAttributes>
+            <attribute formula="[DataSourceType].[Data Source Type]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="rows" gembarOrdinal="0"/>
+            <attribute formula="[DataSourceName].[Data Source Name]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="columns" gembarOrdinal="0"/>
+        </rowAttributes>
+        <filters defaultFiltersAvailable="false">
+            <filter formula="[ResourceType].[Resource Type]" viewFilterEnum="MULTIPLE" isDefaultFilter="false" isDefaultMetricFilter="false">
+                <predicates>
+                    <predicate ordinal="1" operatorEnum="EQUAL" parameterName="resource_type">
+                        <member formula="[ResourceType].[Structured]" caption="Structured" pos="0"/>
+                    </predicate>
+                </predicates>
+            </filter>
+            <filter formula="[DataSourceType].[Data Source Type]" viewFilterEnum="MULTIPLE" isDefaultFilter="false" isDefaultMetricFilter="false">
+                <predicates>
+                    <predicate ordinal="1" operatorEnum="EQUAL">
+                        <member formula="[DataSourceType].[AWS]" caption="AWS" pos="0"/>
+                        <member formula="[DataSourceType].[BIGQUERY]" caption="BIGQUERY" pos="0"/>
+                        <member formula="[DataSourceType].[MSSQL]" caption="MSSQL" pos="0"/>
+                        <member formula="[DataSourceType].[ORACLE]" caption="ORACLE" pos="0"/>
+                        <member formula="[DataSourceType].[POSTGRES]" caption="POSTGRES" pos="0"/>
+                        <member formula="[DataSourceType].[SNOWFLAKE]" caption="SNOWFLAKE" pos="0"/>
+                    </predicate>
+                </predicates>
+            </filter>
+        </filters>
+        <chartOptions vizApiVersion="3.0" chartType="CUSTOM" customChartType="pentaho/visual/models/BarStacked" showMultiChart="false" legendPosition="RIGHT" showLegend="true" autoRange="true" displayUnits="UNITS_0" autoRangeSecondary="true" displayUnitsSecondary="UNITS_0" lineWidth="2" lineShape="CIRCLE" maxValues="250" backgroundColor="#ffffff" labelColor="#000000" labelSize="12" backgroundFill="NONE" maxChartsPerRow="3" multiChartMax="50" multiChartRangeScope="GLOBAL" emptyCellMode="GAP" sizeByNegativesMode="NEG_LOWEST" backgroundColorEnd="#ffffff" labelStyle="PLAIN" legendBackgroundColor="#ffffff" legendSize="12" legendColor="#000000" legendStyle="PLAIN" labelFontFamily="Default" legendFontFamily="Default" scatterReverseColors="false"/>
+        <selectionFilters/>
+        <selectionItems/>
+        <pageSetup excelPageSize="LETTER" pdfPageSize="LETTER" excelOrientation="LANDSCAPE" pdfOrientation="LANDSCAPE" excelScalingType="PERCENT" excelScalingPercent="100" excelScalingPageWide="1" excelScalingPageTall="1" excelMergePivotCells="true" csvIncludeSubtotals="true" csvFormatNumbers="true"/>
+        <drillColumns/>
+    </report>
+    <uiAttributes showFieldList="true" showFieldLayout="true" showFilterPanel="false" fieldListView="CMDVIEWCATEGORY">
+        <rowFieldWidths actualWidths="80,140"/>
+        <columnDataFieldWidths actualWidths="120">
+            <labelWidth index="0">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="1">
+                <width>0</width>
+            </labelWidth>
+        </columnDataFieldWidths>
+        <pluginData>[{}]</pluginData>
+        <pluginViewData>[
+  {
+    "select": {
+      "module": [
+        "pentaho/ccc/visual/Pie",
+        "pentaho/ccc/visual/Bar",
+        "pentaho/ccc/visual/BarStacked",
+        "pentaho/ccc/visual/BarNormalized",
+        "pentaho/ccc/visual/BarHorizontal",
+        "pentaho/ccc/visual/BarStackedHorizontal",
+        "pentaho/ccc/visual/BarNormalizedHorizontal",
+        "pentaho/ccc/visual/Line",
+        "pentaho/ccc/visual/AreaStacked",
+        "pentaho/ccc/visual/BarLine",
+        "pentaho/ccc/visual/HeatGrid",
+        "pentaho/ccc/visual/Bubble",
+        "pentaho/ccc/visual/Scatter",
+        "pentaho/ccc/visual/Sunburst"
+      ]
+    },
+    "apply": {
+      "extension": {
+        "animate": true,
+        "hoverable": true,
+        "selectable": true,
+        "colors": [
+          "#00ffff",
+          "#17e8ff",
+          "#2ed1ff",
+          "#45baff",
+          "#5da2ff",
+          "#748bff",
+          "#8b74ff",
+          "#a25dff",
+          "#ba45ff",
+          "#d12eff",
+          "#e817ff",
+          "#ff00ff"
+        ]
+      }
+    }
+  },
+  {
+    "select": {
+      "module": "pentaho/ccc/visual/Pie",
+      "application": "pentaho/dashboardDesigner"
+    },
+    "apply": {
+      "extension": {
+        "animate": true,
+        "hoverable": true,
+        "selectable": true,
+        "tooltipOpacity": "0.7",
+        "slice_innerRadiusEx": "15%",
+        "explodedSliceIndex": "7",
+        "explodedSliceRadius": "5%",
+        "colors": [
+          "#00ffff",
+          "#17e8ff",
+          "#2ed1ff",
+          "#45baff",
+          "#5da2ff",
+          "#748bff",
+          "#8b74ff",
+          "#a25dff",
+          "#ba45ff",
+          "#d12eff",
+          "#e817ff",
+          "#ff00ff"
+        ]
+      }
+    }
+  }
+]</pluginViewData>
+    </uiAttributes>
+</reportRecord>

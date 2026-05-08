@@ -1,0 +1,122 @@
+
+
+curl "https://pentahoopenai.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2025-01-01-preview" \
+  -H "Content-Type: application/json" \
+  -H "api-key: $API_KEY" \
+  -d '{
+    "messages": [
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "Write a limerick about Pentaho."}
+    ]
+  }'
+
+  curl "https://kevin-md39ipdd-eastus2.cognitiveservices.azure.com/openai/deployments/gpt-5-chat/chat/completions?api-version=2025-01-01-preview" \
+  -H "Content-Type: application/json" \
+  -H "api-key: REDACTED_AZURE_OPENAI_KEY" \
+  -d '{
+    "messages": [
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "Write a limerick about Pentaho."}
+    ]
+  }'
+
+
+curl -X POST "https://kevin-md39ipdd-eastus2.openai.azure.com/openai/v1/responses" \
+  -H "Content-Type: application/json" \
+  -H "api-key: REDACTED_AZURE_OPENAI_KEY" \
+  -d '{
+    "model": "gpt-5-chat", 
+    "input": "Say hello from GPT-5 Pro."
+  }'
+
+
+curl -X POST "https://kevin-md39ipdd-eastus2.openai.azure.com/openai/v1/responses" \
+  -H "Content-Type: application/json" \
+  -H "api-key: REDACTED_AZURE_OPENAI_KEY" \
+  -d '{
+    "model": "gpt-5-pro",
+    "input": "Say hello from GPT-5 Pro."
+  }'
+
+
+
+curl -X POST "https://kevin-md39ipdd-eastus2.openai.azure.com/openai/v1/responses" \
+  -H "Content-Type: application/json" \
+  -H "api-key: REDACTED_AZURE_OPENAI_KEY" \
+  -d '{
+    "model": "gpt-5-pro",
+    "input": "Hello world",
+    "tools": [
+      { "type": "web_search" }
+    ],
+    "tool_choice": "auto",
+    "text": {
+      "format": { "type": "text" }
+    }
+  }'
+
+
+
+
+curl -X POST "https://kevin-md39ipdd-eastus2.openai.azure.com/openai/v1/responses" \
+  -H "Content-Type: application/json" \
+  -H "api-key: REDACTED_AZURE_OPENAI_KEY" \
+  -d '{
+    "model": "gpt-5-pro",
+    "input": "Act as a professional enterprise-grade research analyst specializing in aggressive lead discovery. Your mission is to identify real human individuals at organizations with leadership who occupy roles as Pentaho buyers or key influencers. Operate like a high-precision web researcher: ambitious in discovery, exhaustive in validation, and absolutely strict about refusing to invent people or unverifiable data.\n\nYou must find at least 25 Pentaho target contacts for the United States region and significant businessess, corporations or organizations with headquarters or major offices in cities found in the US states of MN, MI, IL, IN, MO, OH, WI subregion and Across all industries industries based on the below Pentaho customer targeting profile.\n\nAggressively search for individuals who influence or own data engineering, ETL/integration/ingestion platforms, analytics and BI, cloud data modernization, data governance/metadata/cataloging, data warehouse or lakehouse architecture, DevOps or platform engineering, enterprise architecture, AI/ML platform strategy, information management leadership, or CIO/CTO/VP/director-level decisions. If in doubt, include a role only if it plausibly influences data, analytics, integration, governance, or cloud modernization—and only if the human is fully verified.\n\nPerform broad and deep evidence gathering across corporate website sections (leadership, executive team, technology leadership, engineering, analytics, press, news, blogs, author pages), public professional profiles such as LinkedIn, press releases, conference speaker listings, GitHub or engineering posts tied to the company, industry articles, and government or regulatory filings. Every person must meet the verification standard.\n\nA person may only be included if a real, publicly visible website confirms they exist and are tied to the organization. Acceptable evidence sources include company websites, LinkedIn profiles, trusted media (TechCrunch, Bloomberg, Forbes, CRN, etc.), conference or event websites, government filings, or GitHub accounts with verified corporate affiliation. Never infer or generate a name, never fabricate a role, and never invent URLs. If verification fails, do not include the person. If someone looks promising but cannot be confirmed, treat them internally as UNVERIFIED – DO NOT USE and exclude them from the final output.\n\nUse current roles when available; if only historical roles exist, state the time context. Return only a JSON array following the user-provided schema. Each entry must include name, current or most recent verifiable title, department or domain, direct evidence URL, evidence source type, brief explanation of the person’s relevance to Pentaho, and a confidence score. Never include guessed people, placeholders, unverifiable individuals, or fabricated links. If no verified individuals exist, return an empty array.\n\nFollow this methodology: begin with the company’s own site (leadership, engineering, analytics, cloud, architecture), then examine news, press, blog authors, and quoted leaders. Search for conference speakers associated with data, analytics, or cloud. Cross-verify each name with LinkedIn, external publications, conference listings, or GitHub with corporate identity. Extract full name, job title, domain area, and confirmation evidence, and construct the JSON using only fully verified humans. If insufficient data exists, return an empty array. These are the elements you will return\n\n\n1) org_name: Full legal or common name of the organization.\n2) org_site_location: City and state (or region/country) of company headquarters or main office.\n3) org_confidence_score: System’s confidence (0–100) that the company fits the target profile.\n4) contact_name: Full name of the most relevant person for outreach or influence.\n5) contact_role: Professional title directly related to data, analytics, or IT initiatives.\n6) contact_confidence_score: Confidence (0–100) that this person is the right contact for outreach.\n7) contact_email_address: Work or publicly listed professional email address. Avoid personal domains (e.g., Gmail).\n8) contact_email_confidence_score: Confidence (0–100) that the email is valid, current, and correctly attributed.\n9) contact_phone: Work or main office phone number for the contact, formatted with international code.\n10) contact_phone_confidence_score: Confidence (0–100) that the phone number is valid, current, and reachable.\n11) contact_url_source: The URL where the contact and rationale were verified (LinkedIn, corporate bio, press release, job posting, etc.).\n12) justification_rationale: Short (1–2 sentence) factual reason the contact/company was identified. Should reference events like funding, hiring, technology adoption, or press coverage.\n\nCreate the JSON object with the 25 number of org contact records using the following format, but of course these should be verifiable orgs and contacts and contact info:\n\n[\n  {\n    \"org_name\": \"Fidelity Investments\",\n    \"org_site_location\": \"Boston, MA\",\n    \"org_confidence_score\": 95,\n    \"contact_name\": \"Allison Grant\",\n    \"contact_role\": \"VP of Data Platforms\",\n    \"contact_confidence_score\": 90,\n    \"contact_email_address\": \"allison.grant@fidelity.com\",\n    \"contact_email_confidence_score\": 92,\n    \"contact_phone\": \"+1-617-555-8123\",\n    \"contact_phone_confidence_score\": 85,\n    \"contact_url_source\": \"https://www.linkedin.com/in/allisongrantdata\",\n    \"justification_rationale\": \"Fidelity expanding multi-cloud analytics footprint; new VP hired from Google Cloud in 2025.\"\n  },\n  {\n    \"org_name\": \"Delta Health Systems\",\n    \"org_site_location\": \"Minneapolis, MN\",\n    \"contact_name\": \"Michael Ortega\",\n    \"contact_role\": \"Chief Information Officer\",\n    \"justification_rationale\": \"Announced $12M investment in migrating on-prem analytics to Azure Synapse; published RFP for enterprise data governance tools.\",\n    \"org_confidence_score\": 93,\n    \"contact_confidence_score\": 88,\n    \"contact_email_address\": \"michael.ortega@deltahealthsystems.org\",\n    \"email_confidence_score\": 89,\n    \"contact_phone\": \"+1-952-555-2934\",\n    \"phone_confidence_score\": 82,\n    \"contact_url_source\": \"https://www.deltahealthsystems.com/news/modernization-program\"\n  },\n  {\n    \"org_name\": \"Summit Retail Group\",\n    \"org_site_location\": \"Dallas, TX\",\n    \"contact_name\": \"Priya Shah\",\n    \"contact_role\": \"Director of Business Intelligence\",\n    \"justification_rationale\": \"Hiring surge for data engineers and ML developers; job listings emphasize integrating e-commerce and supply chain analytics.\",\n    \"org_confidence_score\": 91,\n    \"contact_confidence_score\": 83,\n    \"contact_email_address\": \"priya.shah@summitretailgroup.com\",\n    \"email_confidence_score\": 86,\n    \"contact_phone\": \"+1-214-555-4478\",\n    \"phone_confidence_score\": 80,\n    \"contact_url_source\": \"https://www.linkedin.com/in/priyashahbi\"\n  }\n]",
+    "tools": [
+      { "type": "web_search" }
+    ],
+    "tool_choice": "auto",
+    "text": {
+      "format": { "type": "text" }
+    }
+  }'
+
+
+
+
+
+Responses Recieved 11/24 from gpt5-pro:
+
+
+{  "id": "resp_066c1f557825ea6f006924724e278c8197bb23d3e3cbe9165e",  "object": "response",  "created_at": 1763996238,  "status": "completed",  "background": false,  "content_filters": null,  "error": null,  "incomplete_details": null,  "instructions": null,  "max_output_tokens": null,  "max_tool_calls": null,  "model": "gpt-5-pro",  "output": [    {      "id": "rs_066c1f557825ea6f00692473da12ec81978fd56484e5610404",      "type": "reasoning",      "summary": []    },    {      "id": "msg_066c1f557825ea6f00692473da17c48197b168ef8d9b86f759",      "type": "message",      "status": "completed",      "content": [        {          "type": "output_text",          "annotations": [],          "logprobs": [],          "text": "[\n  {\n    \"error\": \"I can\u2019t reliably provide 25 Minnesota-based target contacts with validated, person-specific work emails and phone numbers without accessing current public sources. To avoid fabricating data, please confirm if you\u2019d like me to: (a) provide 25 verified contacts with LinkedIn/corporate bio sources but omit emails/phones, (b) include pattern-based corporate emails with lower confidence, or (c) focus on public-sector/education organizations that publish leader emails.\"\n  }\n]"        }      ],      "role": "assistant"    }  ],  "parallel_tool_calls": true,  "previous_response_id": null,  "prompt_cache_key": null,  "reasoning": {    "effort": "high",    "summary": null  },  "safety_identifier": null,  "service_tier": "default",  "store": true,  "temperature": 1.0,  "text": {    "format": {      "type": "text"    },    "verbosity": "medium"  },  "tool_choice": "auto",  "tools": [],  "top_logprobs": 0,  "top_p": 1.0,  "truncation": "disabled",  "usage": {    "input_tokens": 961,    "input_tokens_details": {      "cached_tokens": 0    },    "output_tokens": 11437,    "output_tokens_details": {      "reasoning_tokens": 11328    },    "total_tokens": 12398  },  "user": null,  "metadata": {}}
+
+
+
+with web search:
+
+
+SELECT
+    json_build_object(
+        'model', '${MODEL}',
+        'input', replace(prompt, '{{CONTACTVOLUME}}', '${CONTACTVOLUME}'),
+        'tools', json_build_array(
+            json_build_object('type', 'web_search')
+        ),
+        'tool_choice', 'auto',
+        'text', json_build_object(
+            'format', json_build_object('type', 'text')
+        )
+    ) AS request_raw,
+    prompt_name,
+    prompt_id
+FROM gen_ai.prompt_library
+WHERE prompt_type = 'lead-list-generation-2';
+
+
+
+without:
+
+SELECT
+    json_build_object(
+        'model', '${MODEL}',
+        'input', replace(prompt, '{{CONTACTVOLUME}}', '${CONTACTVOLUME}')
+        )
+    ) AS request_raw,
+    prompt_name,
+    prompt_id
+FROM gen_ai.prompt_library
+WHERE prompt_type = 'lead-list-generation-2';
+
+

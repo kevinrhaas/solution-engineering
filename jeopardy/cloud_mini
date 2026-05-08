@@ -1,0 +1,29 @@
+{
+  "name": "Cloud Computing Jeopardy",
+  "categories": [
+    {
+      "title": "Name That Cloud Service",
+      "questions": [
+        { "q": "Amazon’s object storage service that organizes files in 'buckets'.", "a": "What is Amazon S3?", "v": 100 },
+        { "q": "Google Cloud’s fully managed data warehouse designed for running SQL analytics on massive datasets.", "a": "What is BigQuery?", "v": 200 },
+        { "q": "Amazon’s virtual machine service that allows customers to launch servers in the cloud.", "a": "What is EC2 (Elastic Compute Cloud)?", "v": 300 }
+      ]
+    },
+    {
+      "title": "Where It Lives in the Stack",
+      "questions": [
+        { "q": "Salesforce and Workday are examples of this top cloud layer where users interact directly with the software.", "a": "What are applications (SaaS)?", "v": 100 },
+        { "q": "Snowflake and Databricks fall into this category of systems designed for analytics and large-scale data processing.", "a": "What are data platforms?", "v": 200 },
+        { "q": "Services like EC2, Azure Virtual Machines, and Google Compute Engine belong to this cloud stack layer.", "a": "What is compute?", "v": 300 }
+      ]
+    },
+    {
+      "title": "Core Cloud Concepts",
+      "questions": [
+        { "q": "The cloud capability that allows infrastructure to automatically increase or decrease when demand changes.", "a": "What is elastic scalability?", "v": 100 },
+        { "q": "The pricing model where customers pay only for the compute, storage, or services they actually use.", "a": "What is pay-as-you-go pricing?", "v": 200 },
+        { "q": "Amazon S3, Azure Blob Storage, and Google Cloud Storage are all examples of this cloud capability.", "a": "What is object storage?", "v": 300 }
+      ]
+    }
+  ]
+}

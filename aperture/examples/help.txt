@@ -1,0 +1,311 @@
+INVOKE-MODEL()                                                  INVOKE-MODEL()
+
+NNAAMMEE
+       invoke-model -
+
+DDEESSCCRRIIPPTTIIOONN
+       Invokes the specified Amazon Bedrock model to run inference using the
+       prompt and inference parameters provided in the request body. You use
+       model inference to generate text, images, and embeddings.
+
+       For example code, see _I_n_v_o_k_e _m_o_d_e_l _c_o_d_e _e_x_a_m_p_l_e_s in the _A_m_a_z_o_n _B_e_d_r_o_c_k
+       _U_s_e_r _G_u_i_d_e .
+
+       This operation requires permission for the bbeeddrroocckk::IInnvvookkeeMMooddeell action.
+
+       WWAARRNNIINNGG::
+          To deny all inference access to resources that you specify in the
+          modelId field, you need to deny access to the bbeeddrroocckk::IInnvvookkeeMMooddeell
+          and bbeeddrroocckk::IInnvvookkeeMMooddeellWWiitthhRReessppoonnsseeSSttrreeaamm actions. Doing this also
+          denies access to the resource through the Converse API actions
+          (_C_o_n_v_e_r_s_e and _C_o_n_v_e_r_s_e_S_t_r_e_a_m ). For more information see _D_e_n_y _a_c_c_e_s_s
+          _f_o_r _i_n_f_e_r_e_n_c_e _o_n _s_p_e_c_i_f_i_c _m_o_d_e_l_s .
+
+       For troubleshooting some of the common errors you might encounter when
+       using the IInnvvookkeeMMooddeell API, see _T_r_o_u_b_l_e_s_h_o_o_t_i_n_g _A_m_a_z_o_n _B_e_d_r_o_c_k _A_P_I _E_r_r_o_r
+       _C_o_d_e_s in the Amazon Bedrock User Guide
+
+       See also: AWS API Documentation
+
+SSYYNNOOPPSSIISS
+
+            invoke-model
+          [--body <value>]
+          [--content-type <value>]
+          [--accept <value>]
+          --model-id <value>
+          [--trace <value>]
+          [--guardrail-identifier <value>]
+          [--guardrail-version <value>]
+          [--performance-config-latency <value>]
+          <outfile>
+          [--debug]
+          [--endpoint-url <value>]
+          [--no-verify-ssl]
+          [--no-paginate]
+          [--output <value>]
+          [--query <value>]
+          [--profile <value>]
+          [--region <value>]
+          [--version <value>]
+          [--color <value>]
+          [--no-sign-request]
+          [--ca-bundle <value>]
+          [--cli-read-timeout <value>]
+          [--cli-connect-timeout <value>]
+          [--cli-binary-format <value>]
+          [--no-cli-pager]
+          [--cli-auto-prompt]
+          [--no-cli-auto-prompt]
+
+OOPPTTIIOONNSS
+       ----bbooddyy (blob)
+          The prompt and inference parameters in the format specified in the
+          ccoonntteennttTTyyppee in the header. You must provide the body in JSON format.
+          To see the format and content of the request and response bodies for
+          different models, refer to _I_n_f_e_r_e_n_c_e _p_a_r_a_m_e_t_e_r_s . For more
+          information, see _R_u_n _i_n_f_e_r_e_n_c_e in the Bedrock User Guide.
+
+          Constraints:
+
+          +o min: 00
+
+          +o max: 2255000000000000
+
+       ----ccoonntteenntt--ttyyppee (string)
+          The MIME type of the input data in the request. You must specify
+          aapppplliiccaattiioonn//jjssoonn .
+
+       ----aacccceepptt (string)
+          The desired MIME type of the inference body in the response. The
+          default value is aapppplliiccaattiioonn//jjssoonn .
+
+       ----mmooddeell--iidd (string) [required]
+          The unique identifier of the model to invoke to run inference.
+
+          The mmooddeellIIdd to provide depends on the type of model or throughput
+          that you use:
+
+          +o If you use a base model, specify the model ID or its ARN. For a
+            list of model IDs for base models, see _A_m_a_z_o_n _B_e_d_r_o_c_k _b_a_s_e _m_o_d_e_l
+            _I_D_s _(_o_n_-_d_e_m_a_n_d _t_h_r_o_u_g_h_p_u_t_) in the Amazon Bedrock User Guide.
+
+          +o If you use an inference profile, specify the inference profile ID
+            or its ARN. For a list of inference profile IDs, see _S_u_p_p_o_r_t_e_d
+            _R_e_g_i_o_n_s _a_n_d _m_o_d_e_l_s _f_o_r _c_r_o_s_s_-_r_e_g_i_o_n _i_n_f_e_r_e_n_c_e in the Amazon
+            Bedrock User Guide.
+
+          +o If you use a provisioned model, specify the ARN of the Provisioned
+            Throughput. For more information, see _R_u_n _i_n_f_e_r_e_n_c_e _u_s_i_n_g _a
+            _P_r_o_v_i_s_i_o_n_e_d _T_h_r_o_u_g_h_p_u_t in the Amazon Bedrock User Guide.
+
+          +o If you use a custom model, specify the ARN of the custom model
+            deployment (for on-demand inference) or the ARN of your
+            provisioned model (for Provisioned Throughput). For more
+            information, see _U_s_e _a _c_u_s_t_o_m _m_o_d_e_l _i_n _A_m_a_z_o_n _B_e_d_r_o_c_k in the
+            Amazon Bedrock User Guide.
+
+          +o If you use an _i_m_p_o_r_t_e_d _m_o_d_e_l , specify the ARN of the imported
+            model. You can get the model ARN from a successful call to
+            _C_r_e_a_t_e_M_o_d_e_l_I_m_p_o_r_t_J_o_b or from the Imported models page in the
+            Amazon Bedrock console.
+
+          Constraints:
+
+          +o min: 11
+
+          +o max: 22004488
+
+          +o pattern:
+            ((aarrnn::aawwss((--[[^^::]]++))??::bbeeddrroocckk::[[aa--zz00--99--]]{{11,,2200}}::(((([[00--99]]{{1122}}::ccuussttoomm--mmooddeell//[[aa--zz00--99--]]{{11,,6633}}[[..]]{{11}}[[aa--zz00--99--]]{{11,,6633}}//[[aa--zz00--99]]{{1122}}))||((::ffoouunnddaattiioonn--mmooddeell//[[aa--zz00--99--]]{{11,,6633}}[[..]]{{11}}[[aa--zz00--99--]]{{11,,6633}}(([[..::]]??[[aa--zz00--99--]]{{11,,6633}}))))||(([[00--99]]{{1122}}::iimmppoorrtteedd--mmooddeell//[[aa--zz00--99]]{{1122}}))||(([[00--99]]{{1122}}::pprroovviissiioonneedd--mmooddeell//[[aa--zz00--99]]{{1122}}))||(([[00--99]]{{1122}}::ccuussttoomm--mmooddeell--ddeeppllooyymmeenntt//[[aa--zz00--99]]{{1122}}))||(([[00--99]]{{1122}}::((iinnffeerreennccee--pprrooffiillee||aapppplliiccaattiioonn--iinnffeerreennccee--pprrooffiillee))//[[aa--zzAA--ZZ00--99--::..]]++))))))||(([[aa--zz00--99--]]{{11,,6633}}[[..]]{{11}}[[aa--zz00--99--]]{{11,,6633}}(([[..::]]??[[aa--zz00--99--]]{{11,,6633}}))))||(((([[00--99aa--zzAA--ZZ]][[__--]]??))++))||(([[aa--zzAA--ZZ00--99--::..]]++))$$||((^^((aarrnn::aawwss((--[[^^::]]++))??::bbeeddrroocckk::[[aa--zz00--99--]]{{11,,2200}}::[[00--99]]{{1122}}::pprroommpptt//[[00--99aa--zzAA--ZZ]]{{1100}}((??::::[[00--99]]{{11,,55}}))??))))$$||((^^aarrnn::aawwss::ssaaggeemmaakkeerr::[[aa--zz00--99--]]++::[[00--99]]{{1122}}::eennddppooiinntt//[[aa--zzAA--ZZ00--99--]]++$$))||((^^aarrnn::aawwss((--[[^^::]]++))??::bbeeddrroocckk::(([[00--99aa--zz--]]{{11,,2200}}))::(([[00--99]]{{1122}}))::((ddeeffaauulltt--))??pprroommpptt--rroouutteerr//[[aa--zzAA--ZZ00--99--::..]]++$$))
+
+       ----ttrraaccee (string)
+          Specifies whether to enable or disable the Bedrock trace. If
+          enabled, you can see the full Bedrock trace.
+
+          Possible values:
+
+          +o EENNAABBLLEEDD
+
+          +o DDIISSAABBLLEEDD
+
+          +o EENNAABBLLEEDD__FFUULLLL
+
+       ----gguuaarrddrraaiill--iiddeennttiiffiieerr (string)
+          The unique identifier of the guardrail that you want to use. If you
+          don't provide a value, no guardrail is applied to the invocation.
+
+          An error will be thrown in the following situations.
+
+          +o You don't provide a guardrail identifier but you specify the
+            aammaazzoonn--bbeeddrroocckk--gguuaarrddrraaiillCCoonnffiigg field in the request body.
+
+          +o You enable the guardrail but the ccoonntteennttTTyyppee isn't
+            aapppplliiccaattiioonn//jjssoonn .
+
+          +o You provide a guardrail identifier, but gguuaarrddrraaiillVVeerrssiioonn isn't
+            specified.
+
+          Constraints:
+
+          +o min: 00
+
+          +o max: 22004488
+
+          +o pattern:
+            (((([[aa--zz00--99]]++))||((aarrnn::aawwss((--[[^^::]]++))??::bbeeddrroocckk::[[aa--zz00--99--]]{{11,,2200}}::[[00--99]]{{1122}}::gguuaarrddrraaiill//[[aa--zz00--99]]++))))
+
+       ----gguuaarrddrraaiill--vveerrssiioonn (string)
+          The version number for the guardrail. The value can also be DDRRAAFFTT .
+
+          Constraints:
+
+          +o pattern: (((([[11--99]][[00--99]]{{00,,77}}))||((DDRRAAFFTT))))
+
+       ----ppeerrffoorrmmaannccee--ccoonnffiigg--llaatteennccyy (string)
+          Model performance settings for the request.
+
+          Possible values:
+
+          +o ssttaannddaarrdd
+
+          +o ooppttiimmiizzeedd
+
+       oouuttffiillee (string) [required] Filename where the content will be saved
+
+GGLLOOBBAALL OOPPTTIIOONNSS
+       ----ddeebbuugg (boolean)
+
+       Turn on debug logging.
+
+       ----eennddppooiinntt--uurrll (string)
+
+       Override command's default URL with the given URL.
+
+       ----nnoo--vveerriiffyy--ssssll (boolean)
+
+       By default, the AWS CLI uses SSL when communicating with AWS services.
+       For each SSL connection, the AWS CLI will verify SSL certificates. This
+       option overrides the default behavior of verifying SSL certificates.
+
+       ----nnoo--ppaaggiinnaattee (boolean)
+
+       Disable automatic pagination. If automatic pagination is disabled, the
+       AWS CLI will only make one call, for the first page of results.
+
+       ----oouuttppuutt (string)
+
+       The formatting style for command output.
+
+       +o json
+
+       +o text
+
+       +o table
+
+       +o yaml
+
+       +o yaml-stream
+
+       ----qquueerryy (string)
+
+       A JMESPath query to use in filtering the response data.
+
+       ----pprrooffiillee (string)
+
+       Use a specific profile from your credential file.
+
+       ----rreeggiioonn (string)
+
+       The region to use. Overrides config/env settings.
+
+       ----vveerrssiioonn (string)
+
+       Display the version of this tool.
+
+       ----ccoolloorr (string)
+
+       Turn on/off color output.
+
+       +o on
+
+       +o off
+
+       +o auto
+
+       ----nnoo--ssiiggnn--rreeqquueesstt (boolean)
+
+       Do not sign requests. Credentials will not be loaded if this argument
+       is provided.
+
+       ----ccaa--bbuunnddllee (string)
+
+       The CA certificate bundle to use when verifying SSL certificates.
+       Overrides config/env settings.
+
+       ----ccllii--rreeaadd--ttiimmeeoouutt (int)
+
+       The maximum socket read time in seconds. If the value is set to 0, the
+       socket read will be blocking and not timeout. The default value is 60
+       seconds.
+
+       ----ccllii--ccoonnnneecctt--ttiimmeeoouutt (int)
+
+       The maximum socket connect time in seconds. If the value is set to 0,
+       the socket connect will be blocking and not timeout. The default value
+       is 60 seconds.
+
+       ----ccllii--bbiinnaarryy--ffoorrmmaatt (string)
+
+       The formatting style to be used for binary blobs. The default format is
+       base64. The base64 format expects binary blobs to be provided as a
+       base64 encoded string. The raw-in-base64-out format preserves
+       compatibility with AWS CLI V1 behavior and binary values must be passed
+       literally. When providing contents from a file that map to a binary
+       blob ffiilleebb:://// will always be treated as binary and use the file
+       contents directly regardless of the ccllii--bbiinnaarryy--ffoorrmmaatt setting. When
+       using ffiillee:://// the file contents will need to properly formatted for the
+       configured ccllii--bbiinnaarryy--ffoorrmmaatt.
+
+       +o base64
+
+       +o raw-in-base64-out
+
+       ----nnoo--ccllii--ppaaggeerr (boolean)
+
+       Disable cli pager for output.
+
+       ----ccllii--aauuttoo--pprroommpptt (boolean)
+
+       Automatically prompt for CLI input parameters.
+
+       ----nnoo--ccllii--aauuttoo--pprroommpptt (boolean)
+
+       Disable automatically prompt for CLI input parameters.
+
+OOUUTTPPUUTT
+       body -> (blob)
+          Inference response from the model in the format specified in the
+          ccoonntteennttTTyyppee header. To see the format and content of the request and
+          response bodies for different models, refer to _I_n_f_e_r_e_n_c_e _p_a_r_a_m_e_t_e_r_s
+          .
+
+          Constraints:
+
+          +o min: 00
+
+          +o max: 2255000000000000
+
+       contentType -> (string)
+          The MIME type of the inference result.
+
+       performanceConfigLatency -> (string)
+          Model performance settings for the request.
+
+          Possible values:
+
+          +o ssttaannddaarrdd
+
+          +o ooppttiimmiizzeedd
+
+                                                                INVOKE-MODEL()

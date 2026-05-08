@@ -1,0 +1,1260 @@
+<Schema name="PDC">
+
+  <!-- ===================================================== -->
+  <!-- CORE SHARED DIMENSIONS (CONFORMED) -->
+  <!-- ===================================================== -->
+
+  <Dimension name="Entity">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Entity" column="entity_key" nameColumn="entity_name" uniqueMembers="true" type="String" description="Identifies each catalog entity for reporting. (technical: uses entity_key and entity_name.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Term">
+    <Hierarchy hasAll="true" primaryKey="term_key">
+      <Table  name="dim_term"/>
+      <Level name="Term" column="term_key" nameColumn="term_name" uniqueMembers="true" type="String" description="Identifies classification terms for analysis. (technical: uses term_key and term_name.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">10. Term Classification</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Business Glossary">
+    <Hierarchy hasAll="true" primaryKey="glossary_term_key" allMemberName="All Glossaries">
+      <Table  name="dim_glossary_term"/>
+      
+      <!-- Level 1: Glossary (always present) -->
+      <Level name="Glossary" column="level_1_glossary" uniqueMembers="false" description="Groups entries by top‑level glossary. (technical: uses level_1_glossary.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">08. Business Glossary</Annotation>
+        </Annotations>
+      </Level>
+      
+      <!-- Level 2: Category or Term -->
+      <Level name="Level 2" column="level_2" uniqueMembers="false" ordinalColumn="level_2_sort" orderBy="key" description="Shows the second glossary hierarchy level for navigation. (technical: uses level_2.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">08. Business Glossary</Annotation>
+        </Annotations>
+      </Level>
+      
+      <!-- Level 3: Category or Term -->
+      <Level name="Level 3" column="level_3" uniqueMembers="false" description="Shows the third glossary hierarchy level for navigation. (technical: uses level_3.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">08. Business Glossary</Annotation>
+        </Annotations>
+      </Level>
+      
+      <!-- Level 4: Category or Term -->
+      <Level name="Level 4" column="level_4" uniqueMembers="false" description="Shows the fourth glossary hierarchy level for navigation. (technical: uses level_4.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">08. Business Glossary</Annotation>
+        </Annotations>
+      </Level>
+      
+      <!-- Level 5: Category or Term -->
+      <Level name="Level 5" column="level_5" uniqueMembers="false" description="Shows the fifth glossary hierarchy level for navigation. (technical: uses level_5.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">08. Business Glossary</Annotation>
+        </Annotations>
+      </Level>
+      
+      <!-- Level 6: Category or Term (leaf level) -->
+      <Level name="Level 6" column="level_6" uniqueMembers="false" description="Shows the leaf glossary level (may be a term or category). (technical: uses level_6.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">08. Business Glossary</Annotation>
+        </Annotations>
+      </Level>
+
+      <!-- Leaf attributes (separate group) -->
+      <Level name="Leaf Name" column="leaf_name" uniqueMembers="false" description="Displays the leaf label. (technical: uses leaf_name, the last FQDN segment.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">09. Glossary Leaf Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Is Leaf Term" column="is_leaf_term" uniqueMembers="false" type="Boolean" description="Flags whether the leaf is a term (true/false). (technical: uses is_leaf_term.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">09. Glossary Leaf Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Hierarchy Depth" column="hierarchy_depth" uniqueMembers="false" type="Numeric" description="Shows how deep the glossary path is. (technical: uses hierarchy_depth.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">09. Glossary Leaf Attributes</Annotation>
+        </Annotations>
+      </Level>
+      
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Leaf Term Flag">
+    <Hierarchy hasAll="true" primaryKey="leaf_flag_key">
+      <Table  name="dim_leaf_flag"/>
+      <Level name="Leaf Term Flag" column="leaf_flag_key" nameColumn="leaf_flag_label" uniqueMembers="true" type="Boolean" description="Filters glossary terms to leaf-only or non-leaf nodes. (technical: uses leaf_flag_key and leaf_flag_label.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">09. Glossary Leaf Attributes</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Data Source">
+    <Hierarchy hasAll="true" primaryKey="datasource_key">
+      <Table  name="dim_datasource"/>
+      <Level name="Data Source Type" column="datasource_type" uniqueMembers="false" type="String" description="Groups sources by platform or system type. (technical: uses datasource_type.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Data Source" column="datasource_key" nameColumn="datasource_name" uniqueMembers="true" type="String" description="Identifies each source system. (technical: uses datasource_key and datasource_name.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Date">
+    <Hierarchy hasAll="true" primaryKey="date_key">
+      <Table  name="dim_date"/>
+      <Level name="Year" column="year" type="Numeric" levelType="TimeYears" uniqueMembers="false" description="Rolls up dates at the year level. (technical: uses year.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">11. Time Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false" description="Year and month as 2026-Jan. Sorts by year_month_number (2026-01). (technical: uses year_month_name, year_month_number.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">11. Time Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Month Name" column="month_name" ordinalColumn="month" type="String" levelType="TimeMonths" uniqueMembers="false" description="Abbreviated month name (Jan, Feb, ...). Sorts by month number. (technical: uses month_name, month.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">11. Time Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Month" column="month" type="Numeric" levelType="TimeMonths" uniqueMembers="false" description="Rolls up dates at the month number (1-12). (technical: uses month.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">11. Time Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Date" column="date_key" nameColumn="full_date" type="Numeric" levelType="TimeDays" uniqueMembers="true" description="Shows the specific calendar date. (technical: uses date_key and full_date.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">11. Time Attributes</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <!-- ===================================================== -->
+  <!-- ATTRIBUTE DIMENSIONS (Analyzer-style, single-level) -->
+  <!-- Backed by dim_entity (not the fact), so they work in both cubes -->
+  <!-- ===================================================== -->
+
+  <Dimension name="Name">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Name" uniqueMembers="false" column="entity_name" type="String" caption="Name" description="Displays the business‑friendly entity name. (technical: uses entity_name.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Type">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Type" uniqueMembers="false" column="entity_type" type="String" caption="Type" description="Classifies entities (e.g., table, file, report). (technical: uses entity_type.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Resource Type">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Resource Type" uniqueMembers="false" column="resource_type" type="String" caption="Resource Type" description="Groups entities by storage or system resource type. (technical: uses resource_type.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">01. Entity Identity</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Path">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Path" uniqueMembers="false" column="path" type="String" description="Shows the full hierarchical location of the entity. (technical: uses path.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">04. Hierarchy and Navigation</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Parent Path">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Parent Path" uniqueMembers="false" column="parent_path" type="String" caption="Parent Path" description="Shows the parent container path for navigation. (technical: uses parent_path.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">04. Hierarchy and Navigation</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Owner">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Owner" uniqueMembers="false" column="owner_name" type="String" description="Shows the accountable owner of the entity. (technical: uses owner_name.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">05. Ownership and Permissions</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Group">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Group" uniqueMembers="false" column="group_name" type="String" description="Shows the owning or access group. (technical: uses group_name.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">05. Ownership and Permissions</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="File Type">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="File Type" uniqueMembers="false" column="filetype" type="String" caption="File Type" description="Shows the file format or object type. (technical: uses filetype.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="File Extension">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="File Extension" uniqueMembers="false" column="file_extension" type="String" caption="File Extension" description="Shows the file extension (e.g., csv, parquet). (technical: uses file_extension.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Path Type">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Path Type" uniqueMembers="false" column="path_type" type="String" caption="Path Type" description="Describes the path classification (e.g., file, folder). (technical: uses path_type.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">03. File and Object Attributes</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Structured Data Attributes">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Schema" uniqueMembers="false" column="structured_schema" type="String" description="Schema name for structured assets. (technical: uses structured_schema.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">06. Structured Data Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Table" uniqueMembers="false" column="structured_table" type="String" description="Table name within the schema. (technical: uses structured_table.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">06. Structured Data Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Schema.Table.Column" uniqueMembers="true" column="structured_fqdn" type="String" description="Schema, table, and column on one line. (technical: uses structured_fqdn.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">06. Structured Data Attributes</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Unstructured Path Attributes">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Level 1" uniqueMembers="false" column="unstructured_level_1" type="String" description="Top‑level folder in the unstructured path. (technical: uses unstructured_level_1.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">07. Unstructured Path Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Level 2" uniqueMembers="false" column="unstructured_level_2" type="String" description="Second folder level in the unstructured path. (technical: uses unstructured_level_2.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">07. Unstructured Path Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Level 3" uniqueMembers="false" column="unstructured_level_3" type="String" description="Third folder level in the unstructured path. (technical: uses unstructured_level_3.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">07. Unstructured Path Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Level 4" uniqueMembers="false" column="unstructured_level_4" type="String" description="Fourth folder level in the unstructured path. (technical: uses unstructured_level_4.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">07. Unstructured Path Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Level 5" uniqueMembers="false" column="unstructured_level_5" type="String" description="Fifth folder level in the unstructured path. (technical: uses unstructured_level_5.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">07. Unstructured Path Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Level 6" uniqueMembers="false" column="unstructured_level_6" type="String" description="Sixth folder level in the unstructured path. (technical: uses unstructured_level_6.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">07. Unstructured Path Attributes</Annotation>
+        </Annotations>
+      </Level>
+      <Level name="Leaf" uniqueMembers="false" column="unstructured_leaf" type="String" description="Leaf file or folder name in the unstructured path. (technical: uses unstructured_leaf.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">07. Unstructured Path Attributes</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="FQDN">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="FQDN" uniqueMembers="false" column="entity_fqdn" type="String" description="Shows the fully qualified identifier of the entity. (technical: uses entity_fqdn.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="URL">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="URL" uniqueMembers="false" column="url" type="String" description="Links to the entity’s source location. (technical: uses url.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Physical Location">
+    <Hierarchy hasAll="true" primaryKey="entity_key">
+      <Table  name="dim_entity"/>
+      <Level name="Physical Location" uniqueMembers="false" column="physicallocation" type="String" description="Shows the physical storage location. (technical: uses physicallocation.)">
+        <Annotations>
+          <Annotation name="AnalyzerBusinessGroup">02. Data Source</Annotation>
+        </Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <!-- ===================================================== -->
+  <!-- CUBE 1: Entity Snapshot (entity/day metrics) -->
+  <!-- ===================================================== -->
+
+  <Cube name="71. Entity Snapshot" cache="true" enabled="true">
+    <Table  name="fact_entity_snapshot"/>
+
+    <DimensionUsage name="Data Source" source="Data Source" foreignKey="datasource_key"/>
+    <DimensionUsage name="Business Glossary" source="Business Glossary" foreignKey="glossary_term_key"/>
+    
+    <!-- Term dimension (points to default "No Term Available" for all rows) -->
+    <DimensionUsage name="Term" source="Term" foreignKey="term_key"/>
+
+    <!-- Role-playing dates -->
+    <Dimension name="Scanned Date" foreignKey="scanned_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key">
+        <Table  name="dim_date"/>
+        <Level name="Scanned Year" column="year" type="Numeric" levelType="TimeYears" uniqueMembers="false" hideMemberIf="Never" description="Rolls up scan dates by year. (technical: uses year.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Scanned Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up scan dates by year-month (e.g., 2026-Jan). (technical: uses year_month_name, year_month_number.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Scanned Month Name" column="month_name" ordinalColumn="month" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Abbreviated month name for scan date (Jan, Feb, …). Sorts by month number. (technical: uses month_name, month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Scanned Month" column="month" type="Numeric" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up scan dates by month. (technical: uses month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Scanned Date" column="date_key" nameColumn="full_date" type="Numeric" levelType="TimeDays" uniqueMembers="true" hideMemberIf="Never" description="Shows the scan date. (technical: uses date_key and full_date.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Last Update Date" foreignKey="last_update_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key">
+        <Table  name="dim_date"/>
+        <Level name="Last Update Year" column="year" type="Numeric" levelType="TimeYears" uniqueMembers="false" hideMemberIf="Never" description="Rolls up last update dates by year. (technical: uses year.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Last Update Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up last update dates by year-month (e.g., 2026-Jan). (technical: uses year_month_name, year_month_number.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Last Update Month Name" column="month_name" ordinalColumn="month" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Abbreviated month name for last update date (Jan, Feb, …). Sorts by month number. (technical: uses month_name, month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Last Update Month" column="month" type="Numeric" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up last update dates by month. (technical: uses month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Last Update Date" column="date_key" nameColumn="full_date" type="Numeric" levelType="TimeDays" uniqueMembers="true" hideMemberIf="Never" description="Shows the last update date. (technical: uses date_key and full_date.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Last Update Statistics Date" foreignKey="last_update_statistics_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key">
+        <Table  name="dim_date"/>
+        <Level name="Last Update Statistics Year" column="year" type="Numeric" levelType="TimeYears" uniqueMembers="false" hideMemberIf="Never" description="Rolls up last statistics update dates by year. (technical: uses year.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update Statistics</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Last Update Statistics Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up last statistics update dates by year-month (e.g., 2026-Jan). (technical: uses year_month_name, year_month_number.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update Statistics</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Last Update Statistics Month Name" column="month_name" ordinalColumn="month" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Abbreviated month name for last statistics update date (Jan, Feb, …). Sorts by month number. (technical: uses month_name, month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update Statistics</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Last Update Statistics Month" column="month" type="Numeric" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up last statistics update dates by month. (technical: uses month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update Statistics</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Last Update Statistics Date" column="date_key" nameColumn="full_date" type="Numeric" levelType="TimeDays" uniqueMembers="true" hideMemberIf="Never" description="Shows the last statistics update date. (technical: uses date_key and full_date.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update Statistics</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <!-- Degenerate numeric dimensions (keep your current style) -->
+    <Dimension name="Accessed Age Months">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Accessed Age Months" uniqueMembers="false" column="accessed_age_months" type="Numeric" description="Months since last access at scan time. (technical: uses accessed_age_months.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">12. Time Attributes - Accessed (Age)</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Accessed Age Years">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Accessed Age Years" uniqueMembers="false" column="accessed_age_years" type="Numeric" description="Years since last access at scan time. (technical: uses accessed_age_years.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">12. Time Attributes - Accessed (Age)</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Modified Age Months">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Modified Age Months" uniqueMembers="false" column="modified_age_months" type="Numeric" caption="Modified Age Months" description="Months since last modification at scan time. (technical: uses modified_age_months.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">12. Time Attributes - Modified (Age)</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Modified Age Years">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Modified Age Years" uniqueMembers="false" column="modified_age_years" type="Numeric" caption="Modified Age Years" description="Years since last modification at scan time. (technical: uses modified_age_years.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">12. Time Attributes - Modified (Age)</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Created Age Months">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Created Age Months" uniqueMembers="false" column="created_age_months" type="Numeric" description="Months since creation at scan time. (technical: uses created_age_months.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">12. Time Attributes - Created (Age)</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Created Age Years">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Created Age Years" uniqueMembers="false" column="created_age_years" type="Numeric" description="Years since creation at scan time. (technical: uses created_age_years.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">12. Time Attributes - Created (Age)</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <!-- Bring over your attribute dims (Analyzer users love these) -->
+    <DimensionUsage name="Name" source="Name" foreignKey="entity_key"/>
+    <DimensionUsage name="Type" source="Type" foreignKey="entity_key"/>
+    <DimensionUsage name="Resource Type" source="Resource Type" foreignKey="entity_key"/>
+    <DimensionUsage name="Path" source="Path" foreignKey="entity_key"/>
+    <DimensionUsage name="Parent Path" source="Parent Path" foreignKey="entity_key"/>
+    <DimensionUsage name="Owner" source="Owner" foreignKey="entity_key"/>
+    <DimensionUsage name="Group" source="Group" foreignKey="entity_key"/>
+    <DimensionUsage name="File Type" source="File Type" foreignKey="entity_key"/>
+    <DimensionUsage name="File Extension" source="File Extension" foreignKey="entity_key"/>
+    <DimensionUsage name="Path Type" source="Path Type" foreignKey="entity_key"/>
+    <DimensionUsage name="Structured Data Attributes" source="Structured Data Attributes" foreignKey="entity_key"/>
+    <DimensionUsage name="Unstructured Path Attributes" source="Unstructured Path Attributes" foreignKey="entity_key"/>
+    <DimensionUsage name="FQDN" source="FQDN" foreignKey="entity_key"/>
+    <DimensionUsage name="URL" source="URL" foreignKey="entity_key"/>
+    <DimensionUsage name="Physical Location" source="Physical Location" foreignKey="entity_key"/>
+
+    <!-- Measures -->
+    <Measure name="Entity Count" column="entity_count" aggregator="sum" caption="Number of Objects" formatString="#,###" description="Counts catalog objects in the snapshot. (technical: uses entity_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">12. Metrics - Object Volume</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Storage - Size Bytes" column="bytes" aggregator="sum" caption="Storage - Size Bytes" formatString="#,###" description="Raw storage size in bytes. (technical: uses bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Storage - Number of Child Directories" column="child_dirs" aggregator="sum" formatString="#,###" description="Immediate child directory count. (technical: uses child_dirs.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Storage - Child Directory Size Bytes" column="child_dir_bytes" aggregator="sum" formatString="#,###" description="Immediate child directory size in bytes. (technical: uses child_dir_bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Storage - Number of Child Files" column="child_files" aggregator="sum" formatString="#,###" description="Immediate child file count. (technical: uses child_files.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Storage - Child File Size Bytes" column="child_file_bytes" aggregator="sum" formatString="#,###" description="Immediate child file size in bytes. (technical: uses child_file_bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Storage - Total Number of Child Directories" column="total_child_dirs" aggregator="sum" formatString="#,###" description="Total descendant directory count. (technical: uses total_child_dirs.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Storage - Total Child Directory Size Bytes" column="total_child_dir_bytes" aggregator="sum" formatString="#,###" description="Total descendant directory size in bytes. (technical: uses total_child_dir_bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Storage - Total Number of Child Files" column="total_child_files" aggregator="sum" formatString="#,###" description="Total descendant file count. (technical: uses total_child_files.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Storage - Total Child File Size Bytes" column="total_child_file_bytes" aggregator="sum" formatString="#,###" description="Total descendant file size in bytes. (technical: uses total_child_file_bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </Measure>
+
+    <!-- Calculated measures (ported from your original cube) -->
+    <CalculatedMember name="Storage - Size GB" dimension="Measures" formula="[Measures].[Storage - Size Bytes] / 1073741824" formatString="#,###.00" description="Storage size in gigabytes for easier reading. (technical: [Measures].[Storage - Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Size TB" dimension="Measures" formula="[Measures].[Storage - Size Bytes] / 1099511627776" formatString="#,###.000" description="Storage size in terabytes for capacity reporting. (technical: [Measures].[Storage - Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Average Object Size Bytes" dimension="Measures"
+      formula="IIF([Measures].[Entity Count] = 0, 0, [Measures].[Storage - Size Bytes] / [Measures].[Entity Count])"
+      formatString="#,###.00" description="Average bytes per object. (technical: [Measures].[Storage - Size Bytes] / [Measures].[Entity Count], with zero guard.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Storage - Child Directory Size GB" dimension="Measures" formula="[Measures].[Storage - Child Directory Size Bytes] / 1073741824" formatString="#,###.00" description="Child directory size in gigabytes. (technical: [Measures].[Storage - Child Directory Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Child Directory Size TB" dimension="Measures" formula="[Measures].[Storage - Child Directory Size Bytes] / 1099511627776" formatString="#,###.000" description="Child directory size in terabytes. (technical: [Measures].[Storage - Child Directory Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Average Child Directory Size Bytes" dimension="Measures"
+      formula="IIF([Measures].[Storage - Number of Child Directories] = 0, 0, [Measures].[Storage - Child Directory Size Bytes] / [Measures].[Storage - Number of Child Directories])"
+      formatString="#,###.00" description="Average bytes per child directory. (technical: [Measures].[Storage - Child Directory Size Bytes] / [Measures].[Storage - Number of Child Directories], with zero guard.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Storage - Child File Size GB" dimension="Measures" formula="[Measures].[Storage - Child File Size Bytes] / 1073741824" formatString="#,###.00" description="Child file size in gigabytes. (technical: [Measures].[Storage - Child File Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Child File Size TB" dimension="Measures" formula="[Measures].[Storage - Child File Size Bytes] / 1099511627776" formatString="#,###.000" description="Child file size in terabytes. (technical: [Measures].[Storage - Child File Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Average Child File Size Bytes" dimension="Measures"
+      formula="IIF([Measures].[Storage - Number of Child Files] = 0, 0, [Measures].[Storage - Child File Size Bytes] / [Measures].[Storage - Number of Child Files])"
+      formatString="#,###.00" description="Average bytes per child file. (technical: [Measures].[Storage - Child File Size Bytes] / [Measures].[Storage - Number of Child Files], with zero guard.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Storage - Total Child Directory Size GB" dimension="Measures" formula="[Measures].[Storage - Total Child Directory Size Bytes] / 1073741824" formatString="#,###.00" description="Total descendant directory size in gigabytes. (technical: [Measures].[Storage - Total Child Directory Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Total Child Directory Size TB" dimension="Measures" formula="[Measures].[Storage - Total Child Directory Size Bytes] / 1099511627776" formatString="#,###.000" description="Total descendant directory size in terabytes. (technical: [Measures].[Storage - Total Child Directory Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Average Total Child Directory Size Bytes" dimension="Measures"
+      formula="IIF([Measures].[Storage - Total Number of Child Directories] = 0, 0, [Measures].[Storage - Total Child Directory Size Bytes] / [Measures].[Storage - Total Number of Child Directories])"
+      formatString="#,###.00" description="Average bytes per descendant directory. (technical: [Measures].[Storage - Total Child Directory Size Bytes] / [Measures].[Storage - Total Number of Child Directories], with zero guard.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Storage - Total Child File Size GB" dimension="Measures" formula="[Measures].[Storage - Total Child File Size Bytes] / 1073741824" formatString="#,###.00" description="Total descendant file size in gigabytes. (technical: [Measures].[Storage - Total Child File Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Total Child File Size TB" dimension="Measures" formula="[Measures].[Storage - Total Child File Size Bytes] / 1099511627776" formatString="#,###.000" description="Total descendant file size in terabytes. (technical: [Measures].[Storage - Total Child File Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Storage - Average Total Child File Size Bytes" dimension="Measures"
+      formula="IIF([Measures].[Storage - Total Number of Child Files] = 0, 0, [Measures].[Storage - Total Child File Size Bytes] / [Measures].[Storage - Total Number of Child Files])"
+      formatString="#,###.00" description="Average bytes per descendant file. (technical: [Measures].[Storage - Total Child File Size Bytes] / [Measures].[Storage - Total Number of Child Files], with zero guard.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Estimated CO2e (Metric Tons/Year)" dimension="Measures" formula="[Measures].[Storage - Size TB] * 0.35" formatString="#,###.00" description="Estimated annual CO2 emissions in metric tons. (technical: [Measures].[Storage - Size TB] * 0.35.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">16. Metrics - Environmental Impact</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Estimated CO2e (kg/Year)" dimension="Measures" formula="[Measures].[Storage - Size GB] * 0.341796875" formatString="#,###.00" description="Estimated annual CO2 emissions in kilograms. (technical: [Measures].[Storage - Size GB] * 0.341796875.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">16. Metrics - Environmental Impact</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+  </Cube>
+
+  <!-- ===================================================== -->
+  <!-- CUBE 2: Entity Term (entity-term grain) -->
+  <!-- ===================================================== -->
+
+  <Cube name="72. Entity Term" cache="true" enabled="true">
+    <Table  name="fact_entity_term"/>
+
+    <DimensionUsage name="Term" source="Term" foreignKey="term_key"/>
+    <DimensionUsage name="Business Glossary" source="Business Glossary" foreignKey="glossary_term_key"/>
+    <DimensionUsage name="Leaf Term Flag" source="Leaf Term Flag" foreignKey="is_leaf_term"/>
+    <DimensionUsage name="Data Source" source="Data Source" foreignKey="datasource_key"/>
+
+    <!-- Role-playing dates (optional, but useful) -->
+    <Dimension name="Created Date" foreignKey="created_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key">
+        <Table  name="dim_date"/>
+        <Level name="Created Year" column="year" type="Numeric" levelType="TimeYears" uniqueMembers="false" hideMemberIf="Never" description="Rolls up created dates by year. (technical: uses year.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Created</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Created Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up created dates by year-month (e.g., 2026-Jan). (technical: uses year_month_name, year_month_number.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Created</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Created Month Name" column="month_name" ordinalColumn="month" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Abbreviated month name for created date (Jan, Feb, …). Sorts by month number. (technical: uses month_name, month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Created</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Created Month" column="month" type="Numeric" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up created dates by month. (technical: uses month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Created</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Created Date" column="date_key" nameColumn="full_date" type="Numeric" levelType="TimeDays" uniqueMembers="true" hideMemberIf="Never" description="Shows the creation date. (technical: uses date_key and full_date.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Created</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Modified Date" foreignKey="modified_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key">
+        <Table  name="dim_date"/>
+        <Level name="Modified Year" column="year" type="Numeric" levelType="TimeYears" uniqueMembers="false" hideMemberIf="Never" description="Rolls up modified dates by year. (technical: uses year.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Modified</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Modified Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up modified dates by year-month (e.g., 2026-Jan). (technical: uses year_month_name, year_month_number.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Modified</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Modified Month Name" column="month_name" ordinalColumn="month" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Abbreviated month name for modified date (Jan, Feb, …). Sorts by month number. (technical: uses month_name, month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Modified</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Modified Month" column="month" type="Numeric" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up modified dates by month. (technical: uses month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Modified</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Modified Date" column="date_key" nameColumn="full_date" type="Numeric" levelType="TimeDays" uniqueMembers="true" hideMemberIf="Never" description="Shows the last modified date. (technical: uses date_key and full_date.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Modified</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Accessed Date" foreignKey="accessed_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key">
+        <Table  name="dim_date"/>
+        <Level name="Accessed Year" column="year" type="Numeric" levelType="TimeYears" uniqueMembers="false" hideMemberIf="Never" description="Rolls up accessed dates by year. (technical: uses year.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Accessed</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Accessed Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up accessed dates by year-month (e.g., 2026-Jan). (technical: uses year_month_name, year_month_number.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Accessed</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Accessed Month Name" column="month_name" ordinalColumn="month" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Abbreviated month name for accessed date (Jan, Feb, …). Sorts by month number. (technical: uses month_name, month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Accessed</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Accessed Month" column="month" type="Numeric" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up accessed dates by month. (technical: uses month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Accessed</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Accessed Date" column="date_key" nameColumn="full_date" type="Numeric" levelType="TimeDays" uniqueMembers="true" hideMemberIf="Never" description="Shows the last accessed date. (technical: uses date_key and full_date.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Accessed</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Scanned Date" foreignKey="scanned_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key">
+        <Table  name="dim_date"/>
+        <Level name="Scanned Year" column="year" type="Numeric" levelType="TimeYears" uniqueMembers="false" hideMemberIf="Never" description="Rolls up scan dates by year. (technical: uses year.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Scanned Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up scan dates by year-month (e.g., 2026-Jan). (technical: uses year_month_name, year_month_number.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Scanned Month Name" column="month_name" ordinalColumn="month" type="String" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Abbreviated month name for scan date (Jan, Feb, …). Sorts by month number. (technical: uses month_name, month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Scanned Month" column="month" type="Numeric" levelType="TimeMonths" uniqueMembers="false" hideMemberIf="Never" description="Rolls up scan dates by month. (technical: uses month.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+        <Level name="Scanned Date" column="date_key" nameColumn="full_date" type="Numeric" levelType="TimeDays" uniqueMembers="true" hideMemberIf="Never" description="Shows the scan date. (technical: uses date_key and full_date.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <!-- Bring over key entity attributes so Analyzer users can slice associations -->
+    <DimensionUsage name="Name" source="Name" foreignKey="entity_key"/>
+    <DimensionUsage name="Type" source="Type" foreignKey="entity_key"/>
+    <DimensionUsage name="Resource Type" source="Resource Type" foreignKey="entity_key"/>
+    <DimensionUsage name="Path" source="Path" foreignKey="entity_key"/>
+    <DimensionUsage name="Parent Path" source="Parent Path" foreignKey="entity_key"/>
+    <DimensionUsage name="Owner" source="Owner" foreignKey="entity_key"/>
+    <DimensionUsage name="Group" source="Group" foreignKey="entity_key"/>
+    <DimensionUsage name="File Type" source="File Type" foreignKey="entity_key"/>
+    <DimensionUsage name="File Extension" source="File Extension" foreignKey="entity_key"/>
+    <DimensionUsage name="Path Type" source="Path Type" foreignKey="entity_key"/>
+    <DimensionUsage name="Structured Data Attributes" source="Structured Data Attributes" foreignKey="entity_key"/>
+    <DimensionUsage name="Unstructured Path Attributes" source="Unstructured Path Attributes" foreignKey="entity_key"/>
+    <DimensionUsage name="FQDN" source="FQDN" foreignKey="entity_key"/>
+    <DimensionUsage name="URL" source="URL" foreignKey="entity_key"/>
+    <DimensionUsage name="Physical Location" source="Physical Location" foreignKey="entity_key"/>
+
+    <Measure name="Entity–Term Associations" column="association_count" aggregator="sum" formatString="#,###" description="Counts entity‑to‑term links. (technical: uses association_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Distinct Entities" column="entity_key" aggregator="distinct-count" formatString="#,###" description="Distinct entities across term assignments. (technical: distinct count of entity_key.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Distinct Terms" column="term_key" aggregator="distinct-count" formatString="#,###" description="Distinct terms used in assignments. (technical: distinct count of term_key.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <!-- Storage metrics for entity-term analysis -->
+    <!-- NOTE: These duplicate entity storage per term assignment - use for "GB by Term" analysis -->
+    
+    <Measure name="Term - Size Bytes" column="bytes" aggregator="sum" formatString="#,###" description="Storage size for entities assigned to each term. (technical: uses bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Term - Number of Child Directories" column="child_dirs" aggregator="sum" formatString="#,###" description="Immediate child directory count for term‑assigned entities. (technical: uses child_dirs.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Term - Child Directory Size Bytes" column="child_dir_bytes" aggregator="sum" formatString="#,###" description="Immediate child directory size in bytes for term‑assigned entities. (technical: uses child_dir_bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Term - Number of Child Files" column="child_files" aggregator="sum" formatString="#,###" description="Immediate child file count for term‑assigned entities. (technical: uses child_files.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Term - Child File Size Bytes" column="child_file_bytes" aggregator="sum" formatString="#,###" description="Immediate child file size in bytes for term‑assigned entities. (technical: uses child_file_bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Term - Total Number of Child Directories" column="total_child_dirs" aggregator="sum" formatString="#,###" description="Total descendant directory count for term‑assigned entities. (technical: uses total_child_dirs.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Term - Total Child Directory Size Bytes" column="total_child_dir_bytes" aggregator="sum" formatString="#,###" description="Total descendant directory size in bytes for term‑assigned entities. (technical: uses total_child_dir_bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Term - Total Number of Child Files" column="total_child_files" aggregator="sum" formatString="#,###" description="Total descendant file count for term‑assigned entities. (technical: uses total_child_files.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Term - Total Child File Size Bytes" column="total_child_file_bytes" aggregator="sum" formatString="#,###" description="Total descendant file size in bytes for term‑assigned entities. (technical: uses total_child_file_bytes.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </Measure>
+
+    <CalculatedMember name="Term - Size GB" dimension="Measures" formula="[Measures].[Term - Size Bytes] / 1073741824" formatString="#,###.00" description="Term‑assigned storage size in gigabytes. (technical: [Measures].[Term - Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Term - Size TB" dimension="Measures" formula="[Measures].[Term - Size Bytes] / 1099511627776" formatString="#,###.000" description="Term‑assigned storage size in terabytes. (technical: [Measures].[Term - Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    
+    <CalculatedMember name="Term - Child Directory Size GB" dimension="Measures" formula="[Measures].[Term - Child Directory Size Bytes] / 1073741824" formatString="#,###.00" description="Term‑assigned child directory size in gigabytes. (technical: [Measures].[Term - Child Directory Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Term - Child Directory Size TB" dimension="Measures" formula="[Measures].[Term - Child Directory Size Bytes] / 1099511627776" formatString="#,###.000" description="Term‑assigned child directory size in terabytes. (technical: [Measures].[Term - Child Directory Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Term - Child File Size GB" dimension="Measures" formula="[Measures].[Term - Child File Size Bytes] / 1073741824" formatString="#,###.00" description="Term‑assigned child file size in gigabytes. (technical: [Measures].[Term - Child File Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Term - Child File Size TB" dimension="Measures" formula="[Measures].[Term - Child File Size Bytes] / 1099511627776" formatString="#,###.000" description="Term‑assigned child file size in terabytes. (technical: [Measures].[Term - Child File Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Term - Total Child Directory Size GB" dimension="Measures" formula="[Measures].[Term - Total Child Directory Size Bytes] / 1073741824" formatString="#,###.00" description="Term‑assigned total child directory size in gigabytes. (technical: [Measures].[Term - Total Child Directory Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Term - Total Child Directory Size TB" dimension="Measures" formula="[Measures].[Term - Total Child Directory Size Bytes] / 1099511627776" formatString="#,###.000" description="Term‑assigned total child directory size in terabytes. (technical: [Measures].[Term - Total Child Directory Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Term - Total Child File Size GB" dimension="Measures" formula="[Measures].[Term - Total Child File Size Bytes] / 1073741824" formatString="#,###.00" description="Term‑assigned total child file size in gigabytes. (technical: [Measures].[Term - Total Child File Size Bytes] / 1073741824.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Term - Total Child File Size TB" dimension="Measures" formula="[Measures].[Term - Total Child File Size Bytes] / 1099511627776" formatString="#,###.000" description="Term‑assigned total child file size in terabytes. (technical: [Measures].[Term - Total Child File Size Bytes] / 1099511627776.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Term - Estimated CO2e (Metric Tons/Year)" dimension="Measures"
+      formula="[Measures].[Term - Size TB] * 0.35" formatString="#,###.00" description="Estimated annual CO2 emissions in metric tons for term‑assigned storage. (technical: [Measures].[Term - Size TB] * 0.35.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Term - Estimated CO2e (kg/Year)" dimension="Measures"
+      formula="[Measures].[Term - Size GB] * 0.341796875" formatString="#,###.00" description="Estimated annual CO2 emissions in kilograms for term‑assigned storage. (technical: [Measures].[Term - Size GB] * 0.341796875.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+  </Cube>
+
+  <!-- ===================================================== -->
+  <!-- VIRTUAL CUBE: combine snapshot + term -->
+  <!-- ===================================================== -->
+
+  <VirtualCube name="01. Data Asset Analysis" enabled="true">
+    <VirtualCubeDimension name="Data Source" description="Grouping by system and type. (technical: uses Data Source dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Scanned Date" description="Time‑based analysis by scan date. (technical: uses Scanned Date dimension.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Scanned</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+
+    <VirtualCubeDimension name="Term" description="Grouping by glossary terms. (technical: uses Term dimension.)"/>
+    <VirtualCubeDimension name="Business Glossary">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">08. Business Glossary</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+    <VirtualCubeDimension name="Leaf Term Flag" description="Filter to leaf-only glossary terms. (technical: uses Leaf Term Flag dimension.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">09. Glossary Leaf Attributes</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+    <VirtualCubeDimension cubeName="72. Entity Term" name="Created Date" description="Time slicing by assignment created date. (technical: uses Created Date dimension.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Created</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+    <VirtualCubeDimension cubeName="72. Entity Term" name="Modified Date" description="Time slicing by assignment modified date. (technical: uses Modified Date dimension.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Modified</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+    <VirtualCubeDimension cubeName="72. Entity Term" name="Accessed Date" description="Time slicing by assignment accessed date. (technical: uses Accessed Date dimension.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Accessed</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Last Update Date" description="Time slicing by last update date. (technical: uses Last Update Date dimension.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Last Update Statistics Date" description="Time slicing by last statistics update date. (technical: uses Last Update Statistics Date dimension.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">11. Time Attributes - Last Update Statistics</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+
+    <!-- Attribute dims (optional but very Analyzer-friendly) -->
+    <VirtualCubeDimension name="Name" description="Friendly entity name for display. (technical: uses Name attribute dimension.)"/>
+    <VirtualCubeDimension name="Type" description="Entity type for grouping. (technical: uses Type attribute dimension.)"/>
+    <VirtualCubeDimension name="Resource Type" description="Resource type for grouping by storage or system. (technical: uses Resource Type attribute dimension.)"/>
+    <VirtualCubeDimension name="Path" description="Hierarchical path for navigation. (technical: uses Path attribute dimension.)"/>
+    <VirtualCubeDimension name="Parent Path" description="Parent container path for navigation. (technical: uses Parent Path attribute dimension.)"/>
+    <VirtualCubeDimension name="Owner" description="Accountable owner for the entity. (technical: uses Owner attribute dimension.)"/>
+    <VirtualCubeDimension name="Group" description="Owning or access group. (technical: uses Group attribute dimension.)"/>
+    <VirtualCubeDimension name="File Type" description="File type or format grouping. (technical: uses File Type attribute dimension.)"/>
+    <VirtualCubeDimension name="File Extension" description="File extension grouping. (technical: uses File Extension attribute dimension.)"/>
+    <VirtualCubeDimension name="Path Type" description="Path classification (file, folder, etc.). (technical: uses Path Type attribute dimension.)"/>
+    <VirtualCubeDimension name="Structured Data Attributes" description="Structured schema/table/column drill hierarchy. (technical: uses Structured Data Attributes dimension.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">06. Structured Data Attributes</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+    <VirtualCubeDimension name="Unstructured Path Attributes" description="Unstructured path levels and leaf. (technical: uses Unstructured Path Attributes dimension.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">07. Unstructured Path Attributes</Annotation>
+      </Annotations>
+    </VirtualCubeDimension>
+    <VirtualCubeDimension name="FQDN" description="Fully qualified identifier. (technical: uses FQDN attribute dimension.)"/>
+    <VirtualCubeDimension name="URL" description="Source URL for navigation. (technical: uses URL attribute dimension.)"/>
+    <VirtualCubeDimension name="Physical Location" description="Physical storage context. (technical: uses Physical Location attribute dimension.)"/>
+
+    <!-- Degenerate age dims from snapshot cube -->
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Accessed Age Months" description="Months since last access at scan time. (technical: uses Accessed Age Months dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Accessed Age Years" description="Years since last access at scan time. (technical: uses Accessed Age Years dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Modified Age Months" description="Months since last modification at scan time. (technical: uses Modified Age Months dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Modified Age Years" description="Years since last modification at scan time. (technical: uses Modified Age Years dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Created Age Months" description="Months since creation at scan time. (technical: uses Created Age Months dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Created Age Years" description="Years since creation at scan time. (technical: uses Created Age Years dimension.)"/>
+
+    <!-- Measures from Entity Snapshot -->
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Entity Count]" description="Counts catalog objects. (technical: uses [Measures].[Entity Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">12. Metrics - Object Volume</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Size Bytes]" description="Total storage size in bytes. (technical: uses [Measures].[Storage - Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Number of Child Directories]" description="Immediate child directory count. (technical: uses [Measures].[Storage - Number of Child Directories].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Child Directory Size Bytes]" description="Immediate child directory size in bytes. (technical: uses [Measures].[Storage - Child Directory Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Number of Child Files]" description="Immediate child file count. (technical: uses [Measures].[Storage - Number of Child Files].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Child File Size Bytes]" description="Immediate child file size in bytes. (technical: uses [Measures].[Storage - Child File Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">14. Metrics - Child Containers</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Total Number of Child Directories]" description="Total descendant directory count. (technical: uses [Measures].[Storage - Total Number of Child Directories].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Total Child Directory Size Bytes]" description="Total descendant directory size in bytes. (technical: uses [Measures].[Storage - Total Child Directory Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Total Number of Child Files]" description="Total descendant file count. (technical: uses [Measures].[Storage - Total Number of Child Files].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Total Child File Size Bytes]" description="Total descendant file size in bytes. (technical: uses [Measures].[Storage - Total Child File Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">15. Metrics - Total Children</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Size GB]" description="Storage size in gigabytes. (technical: uses [Measures].[Storage - Size GB].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Size TB]" description="Storage size in terabytes. (technical: uses [Measures].[Storage - Size TB].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Average Object Size Bytes]" description="Average object size in bytes. (technical: uses [Measures].[Storage - Average Object Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Estimated CO2e (Metric Tons/Year)]" description="Estimated annual CO2e in metric tons. (technical: uses [Measures].[Estimated CO2e (Metric Tons/Year)].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">16. Metrics - Environmental Impact</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Estimated CO2e (kg/Year)]" description="Estimated annual CO2e in kilograms. (technical: uses [Measures].[Estimated CO2e (kg/Year)].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">16. Metrics - Environmental Impact</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+
+    <!-- Measures from Entity Term -->
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Entity–Term Associations]" description="Counts entity‑to‑term associations. (technical: uses [Measures].[Entity–Term Associations].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Distinct Entities]" description="Distinct entities participating in term assignments. (technical: uses [Measures].[Distinct Entities].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Distinct Terms]" description="Distinct terms used in assignments. (technical: uses [Measures].[Distinct Terms].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+
+    <!-- Storage metrics from Entity Term (for term-based analysis) -->
+    <!-- NOTE: Only base measures are included; calculated members are inherited automatically -->
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Size Bytes]" description="Total size in bytes for entities assigned to each term. (technical: uses [Measures].[Term - Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Size GB]" description="Term‑assigned size in gigabytes. (technical: uses [Measures].[Term - Size GB].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Size TB]" description="Term‑assigned size in terabytes. (technical: uses [Measures].[Term - Size TB].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Number of Child Directories]" description="Immediate child directory count for term‑assigned entities. (technical: uses [Measures].[Term - Number of Child Directories].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Child Directory Size Bytes]" description="Child directory size in bytes for term‑assigned entities. (technical: uses [Measures].[Term - Child Directory Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Number of Child Files]" description="Immediate child file count for term‑assigned entities. (technical: uses [Measures].[Term - Number of Child Files].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Child File Size Bytes]" description="Child file size in bytes for term‑assigned entities. (technical: uses [Measures].[Term - Child File Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Total Number of Child Directories]" description="Total descendant directory count for term‑assigned entities. (technical: uses [Measures].[Term - Total Number of Child Directories].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Total Child Directory Size Bytes]" description="Total descendant directory size in bytes for term‑assigned entities. (technical: uses [Measures].[Term - Total Child Directory Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Total Number of Child Files]" description="Total descendant file count for term‑assigned entities. (technical: uses [Measures].[Term - Total Number of Child Files].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Total Child File Size Bytes]" description="Total descendant file size in bytes for term‑assigned entities. (technical: uses [Measures].[Term - Total Child File Size Bytes].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Estimated CO2e (Metric Tons/Year)]" description="Estimated annual CO2e in metric tons for term‑assigned storage. (technical: uses [Measures].[Term - Estimated CO2e (Metric Tons/Year)].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="72. Entity Term" name="[Measures].[Term - Estimated CO2e (kg/Year)]" description="Estimated annual CO2e in kilograms for term‑assigned storage. (technical: uses [Measures].[Term - Estimated CO2e (kg/Year)].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">17. Entity-Term Metrics</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+  </VirtualCube>
+
+  <!-- Leave your Data Asset Summary cube as-is (not shown here) -->
+
+</Schema>

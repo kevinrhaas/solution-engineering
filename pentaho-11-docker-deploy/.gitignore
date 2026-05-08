@@ -1,0 +1,27 @@
+# Generated Files (auto-created during deployment)
+generatedFiles/
+*-runtime.state
+
+# Environment-specific overrides (contain credentials)
+*.env.local
+*.env.*.local
+
+# Log files
+*.log
+
+# macOS
+.DS_Store
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Downloaded artifacts and archive (large binary files and old versions)
+downloads/
+archive/

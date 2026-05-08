@@ -1,0 +1,58 @@
+from pptx import Presentation
+from pptx.util import Inches, Pt
+from pptx.dml.color import RGBColor
+from pptx.enum.shapes import MSO_CONNECTOR
+
+# Create presentation
+prs = Presentation()
+slide_layout = prs.slide_layouts[6]
+slide = prs.slides.add_slide(slide_layout)
+
+# Title
+left = Inches(0.5)
+top = Inches(0.2)
+width = Inches(9)
+height = Inches(0.6)
+shape = slide.shapes.add_textbox(left, top, width, height)
+tf = shape.text_frame
+tf.text = "Automated Loan Document Intelligence Pipeline"
+tf.paragraphs[0].font.bold = True
+tf.paragraphs[0].font.size = Pt(28)
+
+# Define helper function for boxes
+def add_box(slide, text, left, top, width=2.2, height=1.0, color=(0,102,204)):
+    shape = slide.shapes.add_shape(
+        1, Inches(left), Inches(top), Inches(width), Inches(height)
+    )
+    fill = shape.fill
+    fill.solid()
+    fill.fore_color.rgb = RGBColor(*color)
+    line = shape.line
+    line.color.rgb = RGBColor(255, 255, 255)
+    tf = shape.text_frame
+    p = tf.paragraphs[0]
+    p.text = text
+    p.font.size = Pt(12)
+    p.font.color.rgb = RGBColor(255, 255, 255)
+    p.font.bold = True
+    tf.word_wrap = True
+    return shape
+
+# Add boxes for each system
+boxes = {}
+boxes['docai'] = add_box(slide, 'Document AI\nExtract Data from Loan Docs', 0.5, 2)
+boxes['pdi'] = add_box(slide, 'Pentaho Data Integration\nETL & Workflow Orchestration', 3.2, 2, color=(0,153,76))
+boxes['alloydb'] = add_box(slide, 'AlloyDB\nOperational Data Store', 3.2, 4, color=(0,102,102))
+boxes['vertex'] = add_box(slide, 'Vertex AI\nRisk Scoring Model', 6.0, 2)
+boxes['gemini'] = add_box(slide, 'Gemini\nSummary Generation', 6.0, 0.7)
+boxes['bigquery'] = add_box(slide, 'BigQuery\nAnalytics & Reporting', 6.0, 4, color=(153,102,51))
+
+# Connectors
+slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(2.7), Inches(2.5), Inches(3.2), Inches(2.5))  # DocAI -> PDI
+slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(4.3), Inches(3.0), Inches(4.3), Inches(4))    # PDI -> AlloyDB
+slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(5.4), Inches(2.5), Inches(6.0), Inches(2.5))  # PDI -> Vertex
+slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(5.4), Inches(2.2), Inches(6.0), Inches(1.1))  # PDI -> Gemini
+slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(4.3), Inches(4.8), Inches(6.0), Inches(4.8))  # AlloyDB -> BigQuery
+
+# Save file
+prs.save('/mnt/data/Pentaho_Google_AI_Pipeline.pptx')

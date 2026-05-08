@@ -1,0 +1,65 @@
+{
+  "name": "Sample Trivia Game",
+  "categories": [
+    {
+      "title": "History",
+      "questions": [
+        { "q": "The first president of the USA.", "a": "George Washington", "v": 100 },
+        { "q": "The year the Titanic sank.", "a": "1912", "v": 200 },
+        { "q": "The shortest war in history was between Britain and this country.", "a": "Zanzibar", "v": 300 },
+        { "q": "He was the first emperor of Rome.", "a": "Augustus", "v": 400 },
+        { "q": "This empire was conquered by Francisco Pizarro.", "a": "Inca Empire", "v": 500 }
+      ]
+    },
+    {
+      "title": "Science",
+      "questions": [
+        { "q": "The chemical symbol for water.", "a": "H2O", "v": 100 },
+        { "q": "The closest planet to the Sun.", "a": "Mercury", "v": 200 },
+        { "q": "This organ is responsible for pumping blood.", "a": "Heart", "v": 300 },
+        { "q": "The process by which plants make their food.", "a": "Photosynthesis", "v": 400 },
+        { "q": "He developed the theory of general relativity.", "a": "Albert Einstein", "v": 500 }
+      ]
+    },
+    {
+      "title": "Geography",
+      "questions": [
+        { "q": "The capital of France.", "a": "Paris", "v": 100 },
+        { "q": "The largest ocean on Earth.", "a": "Pacific Ocean", "v": 200 },
+        { "q": "This country has the largest population in the world.", "a": "India", "v": 300 },
+        { "q": "The longest river in the world.", "a": "The Nile", "v": 400 },
+        { "q": "This continent is known as the 'Frozen Continent'.", "a": "Antarctica", "v": 500 }
+      ]
+    },
+    {
+      "title": "Pop Culture",
+      "questions": [
+        { "q": "The artist known as the King of Pop.", "a": "Michael Jackson", "v": 100 },
+        { "q": "The wizard boy with a lightning scar.", "a": "Harry Potter", "v": 200 },
+        { "q": "The highest grossing movie of all time (unadjusted).", "a": "Avatar", "v": 300 },
+        { "q": "This band wrote 'Stairway to Heaven'.", "a": "Led Zeppelin", "v": 400 },
+        { "q": "The first feature-length animated movie released by Disney.", "a": "Snow White", "v": 500 }
+      ]
+    },
+    {
+      "title": "Sports",
+      "questions": [
+        { "q": "The sport played in the Super Bowl.", "a": "American Football", "v": 100 },
+        { "q": "The object hit in badminton.", "a": "Shuttlecock / Birdie", "v": 200 },
+        { "q": "He holds the record for the most Olympic gold medals.", "a": "Michael Phelps", "v": 300 },
+        { "q": "The country that won the first FIFA World Cup.", "a": "Uruguay", "v": 400 },
+        { "q": "The maximum score in a single frame of bowling.", "a": "30", "v": 500 }
+      ]
+    },
+    {
+      "title": "Misc",
+      "questions": [
+        { "q": "A baker's dozen.", "a": "13", "v": 100 },
+        { "q": "The primary ingredient in hummus.", "a": "Chickpeas", "v": 200 },
+        { "q": "The fear of spiders.", "a": "Arachnophobia", "v": 300 },
+        { "q": "This company makes the iPhone.", "a": "Apple", "v": 400 },
+        { "q": "The smallest unit of a chemical element.", "a": "Atom", "v": 500 }
+      ]
+    }
+  ]
+}

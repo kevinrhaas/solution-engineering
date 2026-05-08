@@ -1,0 +1,26 @@
+analyzer-cubes/archive/
+archive/content-backup/
+
+# PDI specific files
+*.log
+*.tmp
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Credentials and sensitive data
+**/credentials.properties
+**/passwords.txt
+*.key
+*.pem
+
+
+globalRuby.css

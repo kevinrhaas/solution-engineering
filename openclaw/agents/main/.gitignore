@@ -1,0 +1,5 @@
+# Auth profiles contain API keys — never commit
+agent/auth-profiles.json
+
+# macOS
+.DS_Store

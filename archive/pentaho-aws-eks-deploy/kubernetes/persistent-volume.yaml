@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pentaho-s3-pv
+  labels:
+    app.kubernetes.io/name: pentaho-server
+    app.kubernetes.io/component: storage
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: s3-csi
+  csi:
+    driver: s3.csi.aws.com
+    volumeHandle: pentaho-s3-volume
+    volumeAttributes:
+      bucketName: PLACEHOLDER_S3_BUCKET_NAME
+      prefix: "database/"
+    nodePublishSecretRef:
+      name: csi-s3-secret
+      namespace: pentaho-server
+  mountOptions:
+    - allow-other
+    - region=PLACEHOLDER_S3_REGION
+    - prefix=database/
