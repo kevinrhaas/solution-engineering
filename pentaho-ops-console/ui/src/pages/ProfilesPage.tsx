@@ -620,26 +620,29 @@ export default function ProfilesPage() {
 const searchInput: React.CSSProperties = {
   padding: '7px 12px',
   borderRadius: 6,
-  border: '1px solid #ddd',
+  border: '1px solid var(--field-border)',
   fontSize: 13,
   width: 220,
-  background: '#fff',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const sortSelect: React.CSSProperties = {
   padding: '7px 10px',
   borderRadius: 6,
-  border: '1px solid #ddd',
+  border: '1px solid var(--field-border)',
   fontSize: 13,
-  background: '#fff',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const cardStyle: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   padding: 12,
   borderRadius: 6,
   marginBottom: 8,
-  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+  boxShadow: 'var(--panel-shadow)',
 };
 
 const instanceLink: React.CSSProperties = {
@@ -654,7 +657,7 @@ const instanceLink: React.CSSProperties = {
 const thStyle: React.CSSProperties = {
   textAlign: 'left',
   padding: '6px 10px',
-  background: '#ecf0f1',
+  background: 'var(--panel-header-bg)',
   fontSize: 13,
   position: 'sticky',
   top: 0,
@@ -673,10 +676,11 @@ const textareaStyle: React.CSSProperties = {
   lineHeight: '1.5',
   padding: 10,
   borderRadius: 4,
-  border: '1px solid #ccc',
+  border: '1px solid var(--field-border)',
   boxSizing: 'border-box',
   resize: 'vertical',
-  background: '#fafafa',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const inputStyle: React.CSSProperties = {
@@ -684,10 +688,12 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '8px 10px',
   borderRadius: 4,
-  border: '1px solid #ccc',
+  border: '1px solid var(--field-border)',
   fontSize: 14,
   boxSizing: 'border-box',
   marginTop: 4,
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const labelStyle: React.CSSProperties = {
@@ -708,8 +714,8 @@ const primaryBtn: React.CSSProperties = {
 };
 
 const secondaryBtn: React.CSSProperties = {
-  background: '#ecf0f1',
-  color: '#2c3e50',
+  background: 'var(--button-subtle-bg)',
+  color: 'var(--button-subtle-text)',
   border: 'none',
   padding: '8px 16px',
   borderRadius: 4,
@@ -731,8 +737,8 @@ const runtimeSectionStyle: React.CSSProperties = {
   marginTop: 18,
   padding: 14,
   borderRadius: 6,
-  border: '1px solid #d8e2ec',
-  background: '#f7fafc',
+  border: '1px solid var(--panel-subtle-border)',
+  background: 'var(--panel-subtle-bg)',
 };
 
 const runtimeHeaderStyle: React.CSSProperties = {
@@ -750,12 +756,12 @@ const runtimeGridStyle: React.CSSProperties = {
 };
 
 const runtimeCardStyle: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--panel-bg)',
   borderRadius: 6,
-  border: '1px solid #dfe7ef',
+  border: '1px solid var(--panel-border)',
   borderLeft: '4px solid #7b8a99',
   padding: 12,
-  boxShadow: '0 1px 2px rgba(31,45,61,0.06)',
+  boxShadow: 'var(--panel-shadow)',
 };
 
 const runtimeCardTopStyle: React.CSSProperties = {
@@ -782,11 +788,11 @@ const runtimeFieldsStyle: React.CSSProperties = {
 };
 
 const fieldLabelMini: React.CSSProperties = {
-  color: '#8a98a8',
+  color: 'var(--text-muted)',
 };
 
 const fieldValueMini: React.CSSProperties = {
-  color: '#1f2d3d',
+  color: 'var(--text-primary)',
   minWidth: 0,
   overflowWrap: 'anywhere',
 };
@@ -819,12 +825,12 @@ const runtimeTextButtonStyle: React.CSSProperties = {
 };
 
 const emptyRuntimeStyle: React.CSSProperties = {
-  border: '1px dashed #cfd8e3',
+  border: '1px dashed var(--placeholder-border)',
   borderRadius: 6,
   padding: 14,
-  color: '#7b8a99',
+  color: 'var(--text-muted)',
   fontSize: 13,
-  background: '#fff',
+  background: 'var(--placeholder-bg)',
 };
 
 const overlay: React.CSSProperties = {
@@ -838,7 +844,8 @@ const overlay: React.CSSProperties = {
 };
 
 const dialog: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
   padding: 24,
   maxWidth: 640,

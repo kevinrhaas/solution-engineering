@@ -1063,7 +1063,7 @@ export default function InstancesPage() {
             <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
               <button
                 onClick={() => setTeardownTarget(null)}
-                style={{ padding: '8px 18px', borderRadius: 6, border: '1px solid #ddd', background: '#fff', cursor: 'pointer', fontSize: 13 }}
+                style={{ padding: '8px 18px', borderRadius: 6, border: '1px solid var(--field-border)', background: 'var(--field-bg)', color: 'var(--text-primary)', cursor: 'pointer', fontSize: 13 }}
                 title="Cancel teardown"
               >
                 Cancel
@@ -1132,18 +1132,20 @@ function ContentTable({ items }: { items: Array<{ path?: string; size?: number; 
 const searchInput: React.CSSProperties = {
   padding: '7px 12px',
   borderRadius: 6,
-  border: '1px solid #ddd',
+  border: '1px solid var(--field-border)',
   fontSize: 13,
   width: 220,
-  background: '#fff',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const sortSelect: React.CSSProperties = {
   padding: '7px 10px',
   borderRadius: 6,
-  border: '1px solid #ddd',
+  border: '1px solid var(--field-border)',
   fontSize: 13,
-  background: '#fff',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const countBadge: React.CSSProperties = {
@@ -1178,18 +1180,19 @@ const clearProfileFilterBtn: React.CSSProperties = {
 };
 
 const instanceCard: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   padding: 12,
   borderRadius: 8,
-  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+  boxShadow: 'var(--panel-shadow)',
   display: 'flex',
   flexDirection: 'column',
   minHeight: 290,
 };
 
 const cardTitleBar: React.CSSProperties = {
-  background: '#f7fafc',
-  border: '1px solid #e6edf3',
+  background: 'var(--panel-subtle-bg)',
+  border: '1px solid var(--panel-subtle-border)',
   borderRadius: 6,
   padding: '7px 10px',
   display: 'flex',
@@ -1199,7 +1202,7 @@ const cardTitleBar: React.CSSProperties = {
 const cardTitleText: React.CSSProperties = {
   fontWeight: 700,
   fontSize: 13,
-  color: '#1f2d3d',
+  color: 'var(--text-primary)',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -1230,19 +1233,19 @@ const stateBadge: React.CSSProperties = {
 };
 
 const fieldLabel: React.CSSProperties = {
-  color: '#8e9eab',
+  color: 'var(--text-muted)',
   fontSize: 12,
 };
 
 const fieldValue: React.CSSProperties = {
   fontSize: 12,
-  color: '#2c3e50',
+  color: 'var(--text-primary)',
 };
 
 const menuToggleBtn: React.CSSProperties = {
-  border: '1px solid #d4dde6',
-  background: '#fff',
-  color: '#4a6075',
+  border: '1px solid var(--panel-border)',
+  background: 'var(--panel-bg)',
+  color: 'var(--text-muted)',
   borderRadius: 6,
   width: 28,
   height: 28,
@@ -1255,8 +1258,8 @@ const menuToggleBtn: React.CSSProperties = {
 };
 
 const starBtn: React.CSSProperties = {
-  border: '1px solid #d4dde6',
-  background: '#fff',
+  border: '1px solid var(--panel-border)',
+  background: 'var(--panel-bg)',
   borderRadius: 6,
   width: 28,
   height: 28,
@@ -1274,8 +1277,8 @@ const cardMenu: React.CSSProperties = {
   top: 32,
   right: 0,
   minWidth: 190,
-  background: '#fff',
-  border: '1px solid #dfe6ee',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
   boxShadow: '0 8px 24px rgba(15, 23, 42, 0.16)',
   padding: 6,
@@ -1289,14 +1292,14 @@ const menuItemBtn: React.CSSProperties = {
   border: 'none',
   borderRadius: 6,
   padding: '8px 10px',
-  color: '#2f455a',
+  color: 'var(--text-primary)',
   fontSize: 12,
   cursor: 'pointer',
 };
 
 const menuDivider: React.CSSProperties = {
   height: 1,
-  background: '#ebf0f5',
+  background: 'var(--panel-subtle-border)',
   margin: '6px 2px',
 };
 
@@ -1316,8 +1319,8 @@ const menuActionDangerBtn: React.CSSProperties = {
 };
 
 const secondaryBtn: React.CSSProperties = {
-  background: '#ecf0f1',
-  color: '#2c3e50',
+  background: 'var(--button-subtle-bg)',
+  color: 'var(--button-subtle-text)',
   border: 'none',
   padding: '8px 16px',
   borderRadius: 4,
@@ -1336,7 +1339,8 @@ const overlay: React.CSSProperties = {
 };
 
 const dialog: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
   padding: 24,
   maxWidth: 640,
@@ -1385,7 +1389,7 @@ const authBtnPrimary: React.CSSProperties = {
 };
 
 const authBtnSecondary: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--panel-bg)',
   color: '#5a3a00',
   border: '1px solid #d4a01a',
   padding: '7px 14px',
@@ -1395,16 +1399,16 @@ const authBtnSecondary: React.CSSProperties = {
 };
 
 const statCard: React.CSSProperties = {
-  border: '1px solid #e6ebf0',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
   padding: '10px 12px',
-  background: '#fff',
+  background: 'var(--panel-bg)',
 };
 
 const tabBtn: React.CSSProperties = {
-  border: '1px solid #dbe5ef',
-  background: '#fff',
-  color: '#5a6c7d',
+  border: '1px solid var(--panel-border)',
+  background: 'var(--panel-bg)',
+  color: 'var(--text-muted)',
   borderRadius: 14,
   padding: '4px 10px',
   fontSize: 12,
@@ -1419,10 +1423,10 @@ const activeTabBtn: React.CSSProperties = {
 };
 
 const reportBody: React.CSSProperties = {
-  border: '1px solid #e6ebf0',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
   padding: 10,
-  background: '#fff',
+  background: 'var(--panel-bg)',
 };
 
 const reportPre: React.CSSProperties = {
@@ -1433,7 +1437,8 @@ const reportPre: React.CSSProperties = {
   overflow: 'auto',
   fontSize: 12,
   fontFamily: 'Menlo, Monaco, monospace',
-  background: '#f8fafc',
+  background: 'var(--code-bg)',
+  color: 'var(--text-primary)',
   padding: 10,
   borderRadius: 6,
 };
@@ -1442,18 +1447,18 @@ const thStyle: React.CSSProperties = {
   textAlign: 'left',
   fontWeight: 600,
   padding: '8px 10px',
-  borderBottom: '1px solid #e6ebf0',
+  borderBottom: '1px solid var(--panel-subtle-border)',
 };
 
 const tdStyle: React.CSSProperties = {
   padding: '7px 10px',
-  borderBottom: '1px solid #f0f4f8',
+  borderBottom: '1px solid var(--panel-subtle-border)',
   verticalAlign: 'top',
 };
 
 const cardFooter: React.CSSProperties = {
   marginTop: 'auto',
-  borderTop: '1px solid #f0f0f0',
+  borderTop: '1px solid var(--panel-subtle-border)',
   paddingTop: 8,
   display: 'flex',
   flexDirection: 'column',
@@ -1471,13 +1476,13 @@ const commentInput: React.CSSProperties = {
   minHeight: 46,
   maxHeight: 46,
   resize: 'none',
-  border: '1px solid #e0e6ed',
+  border: '1px solid var(--field-border)',
   borderRadius: 6,
   padding: '6px 8px',
   boxSizing: 'border-box',
   fontSize: 13,
-  color: '#334e68',
-  background: '#fdfefe',
+  color: 'var(--text-primary)',
+  background: 'var(--field-bg)',
   lineHeight: 1.35,
 };
 
@@ -1486,7 +1491,7 @@ const commentHint: React.CSSProperties = {
   top: 8,
   left: 9,
   fontSize: 11,
-  color: '#9aa7b3',
+  color: 'var(--text-muted)',
   pointerEvents: 'none',
 };
 
@@ -1496,7 +1501,7 @@ const clearNoteBtn: React.CSSProperties = {
   right: 6,
   border: 'none',
   background: 'transparent',
-  color: '#8fa1b3',
+  color: 'var(--text-muted)',
   fontSize: 10,
   cursor: 'pointer',
   textTransform: 'lowercase',
@@ -1517,9 +1522,9 @@ const cardFooterButtonsRow: React.CSSProperties = {
 };
 
 const filterChipBtn: React.CSSProperties = {
-  border: '1px solid #d4dde6',
-  background: '#fff',
-  color: '#2f455a',
+  border: '1px solid var(--panel-border)',
+  background: 'var(--panel-bg)',
+  color: 'var(--text-primary)',
   borderRadius: 14,
   padding: '4px 10px',
   fontSize: 12,

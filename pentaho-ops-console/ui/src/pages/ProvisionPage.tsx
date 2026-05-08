@@ -374,14 +374,15 @@ const selectStyle: React.CSSProperties = {
   maxWidth: 340,
   padding: '8px 12px',
   borderRadius: 6,
-  border: '1px solid #ddd',
+  border: '1px solid var(--field-border)',
   fontSize: 14,
-  background: '#fff',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const instancePanel: React.CSSProperties = {
-  background: '#f8f9fb',
-  border: '1px solid #e2e6ea',
+  background: 'var(--panel-subtle-bg)',
+  border: '1px solid var(--panel-subtle-border)',
   borderRadius: 8,
   padding: '12px 16px',
   marginBottom: 16,
@@ -396,9 +397,10 @@ const statusDot: React.CSSProperties = {
 };
 
 const card: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
-  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+  boxShadow: 'var(--panel-shadow)',
   marginBottom: 16,
   overflow: 'hidden',
 };
@@ -406,7 +408,7 @@ const card: React.CSSProperties = {
 const cardHeader: React.CSSProperties = {
   fontSize: 11,
   fontWeight: 700,
-  color: '#8e9eab',
+  color: 'var(--text-muted)',
   textTransform: 'uppercase',
   letterSpacing: 1,
   padding: '10px 16px 0',
@@ -450,9 +452,9 @@ const stepBtn: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: 6,
-  background: '#fff',
-  color: '#2c3e50',
-  border: '1px solid #d5dbe0',
+  background: 'var(--panel-bg)',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--panel-border)',
   padding: '7px 14px',
   borderRadius: 6,
   cursor: 'pointer',
@@ -484,22 +486,22 @@ const modeTab: React.CSSProperties = {
 };
 
 const cardDesc: React.CSSProperties = {
-  color: '#8e9eab',
+  color: 'var(--text-muted)',
   fontSize: 12,
   margin: '0 0 0',
   padding: '4px 16px 0',
 };
 
 const stepSection: React.CSSProperties = {
-  borderTop: '1px solid #e8ecef',
+  borderTop: '1px solid var(--panel-header-border)',
   padding: '10px 16px 14px',
-  background: '#fafbfc',
+  background: 'var(--panel-subtle-bg)',
 };
 
 const stepSectionLabel: React.CSSProperties = {
   fontSize: 11,
   fontWeight: 600,
-  color: '#8e9eab',
+  color: 'var(--text-muted)',
   textTransform: 'uppercase',
   letterSpacing: 0.5,
   marginBottom: 8,

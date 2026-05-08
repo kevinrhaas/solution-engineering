@@ -359,18 +359,18 @@ export default function ManagePage() {
             margin: '10px 16px 0',
             padding: '8px 10px',
             borderRadius: 6,
-            background: '#fff6e5',
-            border: '1px solid #ffe2ad',
+            background: 'var(--panel-subtle-bg)',
+            border: '1px solid var(--panel-subtle-border)',
             fontSize: 12,
             color: '#7a4b00',
           }}
         >
           Experimental: API behavior can vary by PDC version and some actions may require manual verification.
         </div>
-        <div style={{ display: 'flex', borderTop: '1px solid #f0f2f4', marginTop: 8 }}>
+        <div style={{ display: 'flex', borderTop: '1px solid var(--panel-header-border)', marginTop: 8 }}>
 
           {/* Left tab nav */}
-          <div style={{ width: 148, flexShrink: 0, background: '#f8f9fa', borderRight: '1px solid #e8eaed', padding: '6px 0 12px' }}>
+          <div style={{ width: 148, flexShrink: 0, background: 'var(--panel-subtle-bg)', borderRight: '1px solid var(--panel-subtle-border)', padding: '6px 0 12px' }}>
             {([
               { group: 'Workflow', items: WORKFLOW_ACTIONS.filter((a) => !OPTIONAL_JOBS.has(a.action) && a.action !== 'tagging') },
               { group: 'Analysis', items: WORKFLOW_ACTIONS.filter((a) => OPTIONAL_JOBS.has(a.action)) },
@@ -388,10 +388,10 @@ export default function ManagePage() {
                     style={{
                       display: 'block', width: '100%', textAlign: 'left',
                       padding: '7px 12px 7px 13px',
-                      background: selectedPdcAction === a.action ? '#fff' : 'transparent',
+                      background: selectedPdcAction === a.action ? 'var(--panel-bg)' : 'transparent',
                       border: 'none',
                       borderLeft: `3px solid ${selectedPdcAction === a.action ? '#1f6feb' : 'transparent'}`,
-                      color: selectedPdcAction === a.action ? '#1f6feb' : '#374151',
+                      color: selectedPdcAction === a.action ? '#1f6feb' : 'var(--text-primary)',
                       fontWeight: selectedPdcAction === a.action ? 600 : 400,
                       fontSize: 13,
                       cursor: 'pointer',
@@ -428,7 +428,7 @@ export default function ManagePage() {
                       />
                       <button
                         type="button"
-                        style={{ padding: '6px 12px', fontSize: 12, border: '1px solid #c5cdd6', borderRadius: 4, background: '#f5f8fb', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                        style={{ padding: '6px 12px', fontSize: 12, border: '1px solid var(--panel-subtle-border)', borderRadius: 4, background: 'var(--panel-subtle-bg)', color: 'var(--text-primary)', cursor: 'pointer', whiteSpace: 'nowrap' }}
                         onClick={() => {
                           if (!inst) return;
                           const q = datasourceName.trim();
@@ -457,7 +457,7 @@ export default function ManagePage() {
                           />
                           <button
                             type="button"
-                            style={{ padding: '6px 12px', fontSize: 12, border: '1px solid #c5cdd6', borderRadius: 4, background: '#f5f8fb', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                            style={{ padding: '6px 12px', fontSize: 12, border: '1px solid var(--panel-subtle-border)', borderRadius: 4, background: 'var(--panel-subtle-bg)', color: 'var(--text-primary)', cursor: 'pointer', whiteSpace: 'nowrap' }}
                             onClick={async () => {
                               if (!inst || !datasourceName.trim()) return;
                               setDsPickerError('');
@@ -481,22 +481,22 @@ export default function ManagePage() {
                       </div>
                     )}
                     {dsPickerOpen && (
-                      <div style={{ marginTop: 6, border: '1px solid #c5cdd6', borderRadius: 6, background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', maxHeight: 220, overflowY: 'auto' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 10px', borderBottom: '1px solid #eef0f3', fontSize: 12, color: '#5a6c7d' }}>
+                      <div style={{ marginTop: 6, border: '1px solid var(--panel-border)', borderRadius: 6, background: 'var(--panel-bg)', boxShadow: 'var(--panel-shadow)', maxHeight: 220, overflowY: 'auto' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 10px', borderBottom: '1px solid var(--panel-subtle-border)', fontSize: 12, color: 'var(--text-muted)' }}>
                           <span>Select a datasource — click a row to use its <strong>_id</strong></span>
-                          <button type="button" onClick={() => setDsPickerOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 14, color: '#5a6c7d' }}>✕</button>
+                          <button type="button" onClick={() => setDsPickerOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 14, color: 'var(--text-muted)' }}>✕</button>
                         </div>
-                        {dsPickerLoading && <div style={{ padding: '10px 12px', fontSize: 13, color: '#5a6c7d' }}>Loading…</div>}
+                        {dsPickerLoading && <div style={{ padding: '10px 12px', fontSize: 13, color: 'var(--text-muted)' }}>Loading…</div>}
                         {dsPickerError && <div style={{ padding: '10px 12px', fontSize: 12, color: '#c0392b' }}>{dsPickerError}</div>}
                         {!dsPickerLoading && !dsPickerError && dsPickerItems.length === 0 && (
-                          <div style={{ padding: '10px 12px', fontSize: 13, color: '#5a6c7d' }}>No datasources found.</div>
+                          <div style={{ padding: '10px 12px', fontSize: 13, color: 'var(--text-muted)' }}>No datasources found.</div>
                         )}
                         {dsPickerItems.map((ds) => (
                           <div
                             key={ds._id}
                             onClick={() => { setDatasourceId(ds._id); setDsPickerOpen(false); }}
-                            style={{ padding: '8px 12px', cursor: 'pointer', borderBottom: '1px solid #f0f2f5', fontSize: 13 }}
-                            onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f8fb')}
+                            style={{ padding: '8px 12px', cursor: 'pointer', borderBottom: '1px solid var(--panel-subtle-border)', fontSize: 13 }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--panel-subtle-bg)')}
                             onMouseLeave={(e) => (e.currentTarget.style.background = '')}
                           >
                             <strong>{ds.resourceName}</strong>
@@ -625,15 +625,17 @@ const selectStyle: React.CSSProperties = {
   maxWidth: 340,
   padding: '8px 12px',
   borderRadius: 6,
-  border: '1px solid #ddd',
+  border: '1px solid var(--field-border)',
   fontSize: 14,
-  background: '#fff',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const card: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
-  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+  boxShadow: 'var(--panel-shadow)',
   marginBottom: 16,
   overflow: 'hidden',
 };
@@ -641,7 +643,7 @@ const card: React.CSSProperties = {
 const cardHeader: React.CSSProperties = {
   fontSize: 11,
   fontWeight: 700,
-  color: '#8e9eab',
+  color: 'var(--text-muted)',
   textTransform: 'uppercase',
   letterSpacing: 1,
   padding: '10px 16px 0',
@@ -700,7 +702,8 @@ const comboSelect: React.CSSProperties = {
 
 const codeStyle: React.CSSProperties = {
   display: 'block',
-  background: '#f4f5f7',
+  background: 'var(--code-bg)',
+  color: 'var(--text-primary)',
   padding: '6px 10px',
   borderRadius: 4,
   fontFamily: 'Menlo, Monaco, monospace',
@@ -710,7 +713,7 @@ const codeStyle: React.CSSProperties = {
 };
 
 const helpStyle: React.CSSProperties = {
-  color: '#7b8a97',
+  color: 'var(--text-muted)',
   fontSize: 12,
   marginTop: -2,
 };
@@ -720,9 +723,10 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '8px 12px',
   borderRadius: 6,
-  border: '1px solid #ddd',
+  border: '1px solid var(--field-border)',
   fontSize: 13,
-  background: '#fff',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const formGridStyle: React.CSSProperties = {
@@ -736,7 +740,9 @@ const textareaStyle: React.CSSProperties = {
   minHeight: 90,
   padding: '8px 10px',
   borderRadius: 6,
-  border: '1px solid #ddd',
+  border: '1px solid var(--field-border)',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
   fontFamily: 'Menlo, Monaco, "Courier New", monospace',
   fontSize: 12,
   lineHeight: 1.4,

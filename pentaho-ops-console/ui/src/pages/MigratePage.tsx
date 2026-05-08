@@ -395,9 +395,10 @@ export default function MigratePage() {
 /* ── Styles ──────────────────────────────────────────────────────────────── */
 
 const card: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
-  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+  boxShadow: 'var(--panel-shadow)',
   marginBottom: 16,
   overflow: 'hidden',
 };
@@ -417,7 +418,7 @@ const pdcNote: React.CSSProperties = {
 const cardHeader: React.CSSProperties = {
   fontSize: 11,
   fontWeight: 700,
-  color: '#8e9eab',
+  color: 'var(--text-muted)',
   textTransform: 'uppercase',
   letterSpacing: 1,
   padding: '10px 16px 0',
@@ -432,7 +433,7 @@ const gridStyle: React.CSSProperties = {
 const labelStyle: React.CSSProperties = {
   fontSize: 13,
   fontWeight: 500,
-  color: '#2c3e50',
+  color: 'var(--text-primary)',
 };
 
 const inputStyle: React.CSSProperties = {
@@ -440,11 +441,12 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '7px 10px',
   borderRadius: 6,
-  border: '1px solid #ddd',
+  border: '1px solid var(--field-border)',
   fontSize: 13,
   marginTop: 4,
   boxSizing: 'border-box',
-  background: '#fafafa',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
 };
 
 const primaryBtn: React.CSSProperties = {

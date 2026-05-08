@@ -233,7 +233,7 @@ export default function JobsPage() {
         <div style={listPanel}>
           <div style={panelHeader}>Process List</div>
           <div style={tableWrap}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', borderRadius: 6 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', background: 'var(--panel-bg)', borderRadius: 6 }}>
               <thead>
                 <tr>
                   <th style={thStyle}>
@@ -272,7 +272,7 @@ export default function JobsPage() {
                 {filteredSorted.map((j) => (
                   <tr
                     key={j.id}
-                    style={checked.has(j.id) || selectedId === j.id ? { background: '#eaf2ff' } : undefined}
+                    style={checked.has(j.id) || selectedId === j.id ? { background: 'var(--panel-selected-bg)' } : undefined}
                   >
                     <td style={tdStyle}>
                       <input
@@ -419,8 +419,8 @@ const splitContainer: React.CSSProperties = {
 };
 
 const listPanel: React.CSSProperties = {
-  background: '#fff',
-  border: '1px solid #dde4ec',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
   overflow: 'hidden',
   display: 'flex',
@@ -428,8 +428,8 @@ const listPanel: React.CSSProperties = {
 };
 
 const detailPanel: React.CSSProperties = {
-  background: '#fff',
-  border: '1px solid #dde4ec',
+  background: 'var(--panel-bg)',
+  border: '1px solid var(--panel-border)',
   borderRadius: 8,
   overflow: 'hidden',
   display: 'flex',
@@ -441,10 +441,10 @@ const panelHeader: React.CSSProperties = {
   fontWeight: 700,
   textTransform: 'uppercase',
   letterSpacing: 0.5,
-  color: '#617487',
-  background: '#f4f7fa',
+  color: 'var(--text-muted)',
+  background: 'var(--panel-header-bg)',
   padding: '8px 12px',
-  borderBottom: '1px solid #e3e9ef',
+  borderBottom: '1px solid var(--panel-header-border)',
 };
 
 const tableWrap: React.CSSProperties = {
@@ -461,27 +461,27 @@ const detailBody: React.CSSProperties = {
 const placeholderStyle: React.CSSProperties = {
   height: '100%',
   minHeight: 120,
-  border: '1px dashed #c7d3df',
+  border: '1px dashed var(--placeholder-border)',
   borderRadius: 6,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '#6c7f90',
+  color: 'var(--text-muted)',
   fontSize: 13,
-  background: '#f9fbfd',
+  background: 'var(--placeholder-bg)',
 };
 
 const thStyle: React.CSSProperties = {
   textAlign: 'left',
   padding: '8px 12px',
-  background: '#ecf0f1',
+  background: 'var(--panel-header-bg)',
   fontSize: 13,
 };
 
 const thFilterStyle: React.CSSProperties = {
   textAlign: 'left',
   padding: '6px 12px',
-  background: '#f6f8fa',
+  background: 'var(--panel-subtle-bg)',
   fontSize: 12,
 };
 
@@ -507,7 +507,9 @@ const columnInput: React.CSSProperties = {
   boxSizing: 'border-box',
   padding: '5px 8px',
   borderRadius: 4,
-  border: '1px solid #d0d7de',
+  border: '1px solid var(--field-border)',
+  background: 'var(--field-bg)',
+  color: 'var(--text-primary)',
   fontSize: 12,
 };
 
