@@ -68,7 +68,7 @@ export default function InstancesPage() {
   const [instances, setInstances] = useState<InstanceSummary[]>([]);
   const [filterText, setFilterText] = useState(searchParams.get('profile') || '');
   const [sortKey, setSortKey] = useState<'name-asc' | 'name-desc' | 'ip-asc' | 'created-desc' | 'created-asc' | 'state' | 'favorites'>('favorites');
-  const [statusFilters, setStatusFilters] = useState<Set<'running' | 'untracked' | 'unreachable' | 'orphan'>>(new Set());
+  const [statusFilters, setStatusFilters] = useState<Set<'running' | 'untracked' | 'unreachable' | 'orphan' | 'reachable'>>(new Set());
   const [serverFilters, setServerFilters] = useState<Set<'pentaho' | 'pdc'>>(new Set());
   const [favoriteOnly, setFavoriteOnly] = useState(false);
   const [favorites, setFavorites] = useState<Set<string>>(() => new Set(safeParseStringArray(localStorage.getItem(FAVORITES_STORAGE_KEY))));
@@ -291,11 +291,13 @@ export default function InstancesPage() {
       const isRunning = i.instance_state === 'running';
       const isUntracked = i.tracking_status === 'untracked';
       const isUnreachable = Boolean(i.server_url) && healthMap[i.server_url] === false;
+      const isReachable = Boolean(i.server_url) && healthMap[i.server_url] === true;
       const isOrphan = !i.has_profile && !isUntracked;
 
       if (statusFilters.has('running') && !isRunning) return false;
       if (statusFilters.has('untracked') && !isUntracked) return false;
       if (statusFilters.has('unreachable') && !isUnreachable) return false;
+      if (statusFilters.has('reachable') && !isReachable) return false;
       if (statusFilters.has('orphan') && !isOrphan) return false;
     }
 
@@ -334,12 +336,13 @@ export default function InstancesPage() {
   const runningCount = instances.filter((i) => i.instance_state === 'running').length;
   const untrackedCount = instances.filter((i) => i.tracking_status === 'untracked').length;
   const unreachableCount = instances.filter((i) => i.server_url && healthMap[i.server_url] === false).length;
+  const reachableCount = instances.filter((i) => i.server_url && healthMap[i.server_url] === true).length;
   const orphanCount = instances.filter((i) => !i.has_profile && i.tracking_status !== 'untracked').length;
   const pentahoCount = instances.filter((i) => i.server_type === 'pentaho').length;
   const pdcCount = instances.filter((i) => i.server_type === 'pdc').length;
   const favoritesCount = instances.filter((i) => favorites.has(cardStateKey(i))).length;
 
-  function toggleStatusFilter(k: 'running' | 'untracked' | 'unreachable' | 'orphan') {
+  function toggleStatusFilter(k: 'running' | 'untracked' | 'unreachable' | 'orphan' | 'reachable') {
     setStatusFilters((prev) => {
       const next = new Set(prev);
       if (next.has(k)) next.delete(k);
@@ -516,6 +519,9 @@ export default function InstancesPage() {
         </button>
         <button onClick={() => toggleStatusFilter('unreachable')} style={{ ...filterChipBtn, ...(statusFilters.has('unreachable') ? filterChipBtnActive : {}) }}>
           Unreachable {unreachableCount > 0 ? `(${unreachableCount})` : ''}
+        </button>
+        <button onClick={() => toggleStatusFilter('reachable')} style={{ ...filterChipBtn, ...(statusFilters.has('reachable') ? filterChipBtnActive : {}) }}>
+          Reachable {reachableCount > 0 ? `(${reachableCount})` : ''}
         </button>
         <button onClick={() => toggleStatusFilter('orphan')} style={{ ...filterChipBtn, ...(statusFilters.has('orphan') ? filterChipBtnActive : {}) }}>
           Orphan {orphanCount > 0 ? `(${orphanCount})` : ''}
