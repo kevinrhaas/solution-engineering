@@ -520,20 +520,20 @@ export default function InstancesPage() {
         <button onClick={() => toggleStatusFilter('running')} style={{ ...filterChipBtn, ...(statusFilters.has('running') ? filterChipBtnActive : {}) }}>
           Running {runningCount > 0 ? `(${runningCount})` : ''}
         </button>
-        <button onClick={() => toggleStatusFilter('untracked')} style={{ ...filterChipBtn, ...(statusFilters.has('untracked') ? filterChipBtnActive : {}) }}>
-          Untracked {untrackedCount > 0 ? `(${untrackedCount})` : ''}
-        </button>
-        <button onClick={() => toggleStatusFilter('unreachable')} style={{ ...filterChipBtn, ...(statusFilters.has('unreachable') ? filterChipBtnActive : {}) }}>
-          Unreachable {unreachableCount > 0 ? `(${unreachableCount})` : ''}
+        <button onClick={() => toggleStatusFilter('stopped')} style={{ ...filterChipBtn, ...(statusFilters.has('stopped') ? filterChipBtnActive : {}) }}>
+          Stopped {stoppedCount > 0 ? `(${stoppedCount})` : ''}
         </button>
         <button onClick={() => toggleStatusFilter('reachable')} style={{ ...filterChipBtn, ...(statusFilters.has('reachable') ? filterChipBtnActive : {}) }}>
           Reachable {reachableCount > 0 ? `(${reachableCount})` : ''}
         </button>
+        <button onClick={() => toggleStatusFilter('unreachable')} style={{ ...filterChipBtn, ...(statusFilters.has('unreachable') ? filterChipBtnActive : {}) }}>
+          Unreachable {unreachableCount > 0 ? `(${unreachableCount})` : ''}
+        </button>
+        <button onClick={() => toggleStatusFilter('untracked')} style={{ ...filterChipBtn, ...(statusFilters.has('untracked') ? filterChipBtnActive : {}) }}>
+          Untracked {untrackedCount > 0 ? `(${untrackedCount})` : ''}
+        </button>
         <button onClick={() => toggleStatusFilter('orphan')} style={{ ...filterChipBtn, ...(statusFilters.has('orphan') ? filterChipBtnActive : {}) }}>
           Orphan {orphanCount > 0 ? `(${orphanCount})` : ''}
-        </button>
-        <button onClick={() => toggleStatusFilter('stopped')} style={{ ...filterChipBtn, ...(statusFilters.has('stopped') ? filterChipBtnActive : {}) }}>
-          Stopped {stoppedCount > 0 ? `(${stoppedCount})` : ''}
         </button>
 
         <span style={{ width: 1, height: 16, background: '#dfe5ea', margin: '0 4px' }} />
