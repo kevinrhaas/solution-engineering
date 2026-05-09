@@ -6,7 +6,6 @@ import {
   startEc2Instance,
   stopEc2Instance,
   teardown,
-  deleteInstance,
   checkHealth,
   startContentPreview,
   getContentPreviewStatus,
@@ -684,26 +683,6 @@ export default function InstancesPage() {
                             Teardown Instance
                           </button>
                         </>
-                      )}
-
-                      {!isUntracked && inst.has_profile && (
-                        <button
-                          onClick={async () => {
-                            if (confirm(`Remove "${inst.name}" from tracking? This only removes it from the database, not from AWS.`)) {
-                              try {
-                                setMenuOpenFor(null);
-                                await deleteInstance(inst.state_file);
-                                // Refresh to remove from list
-                                await refreshWithDiscovery();
-                              } catch (e: unknown) {
-                                alert(`Error removing instance: ${String(e)}`);
-                              }
-                            }
-                          }}
-                          style={{ ...menuItemBtn, ...menuActionDangerBtn }}
-                        >
-                          Remove from Tracking
-                        </button>
                       )}
                     </div>
                   )}
