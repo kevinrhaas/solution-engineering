@@ -707,16 +707,16 @@ export default function InstancesPage() {
                       ...stateBadge,
                       background: isUntracked ? 'var(--badge-yellow-bg)'
                         : tornDown.has(stateKey) ? 'var(--badge-gray-bg)'
-                        : inst.instance_state === 'running' && isUnreachable ? 'var(--badge-orange-bg)'
+                        : isUnreachable ? 'var(--badge-orange-bg)'
                         : inst.instance_state === 'running' ? 'var(--badge-green-bg)' : 'var(--badge-orange-bg)',
                       color: isUntracked ? 'var(--badge-yellow-fg)'
                         : tornDown.has(stateKey) ? 'var(--badge-gray-fg)'
-                        : inst.instance_state === 'running' && isUnreachable ? 'var(--badge-orange-fg)'
+                        : isUnreachable ? 'var(--badge-orange-fg)'
                         : inst.instance_state === 'running' ? 'var(--badge-green-fg)' : 'var(--badge-orange-fg)',
                     }}>
                       {isUntracked ? '? unknown'
                         : tornDown.has(stateKey) ? '✕ terminated'
-                        : inst.instance_state === 'running' && isUnreachable ? `⚠ unreachable`
+                        : isUnreachable ? `○ stopped`
                         : inst.instance_state === 'running' ? `● ${inst.instance_state}`
                         : `○ ${inst.instance_state || 'unknown'}`}
                     </span>
