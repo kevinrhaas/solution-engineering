@@ -716,18 +716,20 @@ export default function InstancesPage() {
                       ...stateBadge,
                       background: tornDown.has(stateKey) ? 'var(--badge-gray-bg)'
                         : isUnreachable ? 'var(--badge-orange-bg)'
-                        : (isUntracked && !Boolean(inst.server_url)) ? 'var(--badge-yellow-bg)'
-                        : inst.instance_state === 'running' ? 'var(--badge-green-bg)' : 'var(--badge-orange-bg)',
+                        : inst.instance_state === 'running' ? 'var(--badge-green-bg)'
+                        : inst.instance_state ? 'var(--badge-orange-bg)'
+                        : 'var(--badge-yellow-bg)',
                       color: tornDown.has(stateKey) ? 'var(--badge-gray-fg)'
                         : isUnreachable ? 'var(--badge-orange-fg)'
-                        : (isUntracked && !Boolean(inst.server_url)) ? 'var(--badge-yellow-fg)'
-                        : inst.instance_state === 'running' ? 'var(--badge-green-fg)' : 'var(--badge-orange-fg)',
+                        : inst.instance_state === 'running' ? 'var(--badge-green-fg)'
+                        : inst.instance_state ? 'var(--badge-orange-fg)'
+                        : 'var(--badge-yellow-fg)',
                     }}>
                       {tornDown.has(stateKey) ? '✕ terminated'
                         : isUnreachable ? `○ stopped`
-                        : (isUntracked && !Boolean(inst.server_url)) ? '? unknown'
                         : inst.instance_state === 'running' ? `● ${inst.instance_state}`
-                        : `○ ${inst.instance_state || 'unknown'}`}
+                        : inst.instance_state ? `○ ${inst.instance_state}`
+                        : '? unknown'}
                     </span>
                   </div>
 
