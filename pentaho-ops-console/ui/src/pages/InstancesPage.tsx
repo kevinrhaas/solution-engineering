@@ -714,18 +714,18 @@ export default function InstancesPage() {
                     <span style={{ ...stateBadge, ...serverBadgeStyle, fontSize: 10 }}>{serverLabel}</span>
                     <span style={{
                       ...stateBadge,
-                      background: isUntracked ? 'var(--badge-yellow-bg)'
-                        : tornDown.has(stateKey) ? 'var(--badge-gray-bg)'
+                      background: tornDown.has(stateKey) ? 'var(--badge-gray-bg)'
                         : isUnreachable ? 'var(--badge-orange-bg)'
+                        : (isUntracked && !Boolean(inst.server_url)) ? 'var(--badge-yellow-bg)'
                         : inst.instance_state === 'running' ? 'var(--badge-green-bg)' : 'var(--badge-orange-bg)',
-                      color: isUntracked ? 'var(--badge-yellow-fg)'
-                        : tornDown.has(stateKey) ? 'var(--badge-gray-fg)'
+                      color: tornDown.has(stateKey) ? 'var(--badge-gray-fg)'
                         : isUnreachable ? 'var(--badge-orange-fg)'
+                        : (isUntracked && !Boolean(inst.server_url)) ? 'var(--badge-yellow-fg)'
                         : inst.instance_state === 'running' ? 'var(--badge-green-fg)' : 'var(--badge-orange-fg)',
                     }}>
-                      {isUntracked ? '? unknown'
-                        : tornDown.has(stateKey) ? '✕ terminated'
+                      {tornDown.has(stateKey) ? '✕ terminated'
                         : isUnreachable ? `○ stopped`
+                        : (isUntracked && !Boolean(inst.server_url)) ? '? unknown'
                         : inst.instance_state === 'running' ? `● ${inst.instance_state}`
                         : `○ ${inst.instance_state || 'unknown'}`}
                     </span>
