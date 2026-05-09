@@ -294,11 +294,14 @@ export default function InstancesPage() {
       const isReachable = Boolean(i.server_url) && healthMap[i.server_url] === true;
       const isOrphan = !i.has_profile && !isUntracked;
 
-      if (statusFilters.has('running') && !isRunning) return false;
-      if (statusFilters.has('untracked') && !isUntracked) return false;
-      if (statusFilters.has('unreachable') && !isUnreachable) return false;
-      if (statusFilters.has('reachable') && !isReachable) return false;
-      if (statusFilters.has('orphan') && !isOrphan) return false;
+      const matchesAnyFilter =
+        (statusFilters.has('running') && isRunning) ||
+        (statusFilters.has('untracked') && isUntracked) ||
+        (statusFilters.has('unreachable') && isUnreachable) ||
+        (statusFilters.has('reachable') && isReachable) ||
+        (statusFilters.has('orphan') && isOrphan);
+
+      if (!matchesAnyFilter) return false;
     }
 
     return true;
