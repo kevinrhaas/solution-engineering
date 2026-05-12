@@ -12,18 +12,18 @@ The platform is organized around eleven analytical perspectives. Each dashboard 
 
 | Category | What it answers | Coverage |
 |---|---|---|
-| **Storage Capacity** | Where is my data, how much, and where is it growing? | ✅ D00 Storage Overview, D12 Storage Footprint, `10-storage-by-data-source` |
-| **Data Sensitivity** | Where is my regulated/sensitive data and is it protected? | ✅ D00 Data Sensitivity, D00 Sensitivity Analysis, `00-sensitivity-*` |
-| **Policy Adherence** | Is the catalog actually being governed? Coverage by source? | ✅ D11 Governance Health, `10-governance-coverage`, `11-governance-mix-*` |
-| **Data Source Usage** | Which sources contribute the most data and the most risk? | ✅ Cross‑cut on every D1x and `00-resource-type-data-source-*` |
-| **Data Quality** | How complete is the metadata? What's missing? | ✅ D11 Governance Health, `10-metadata-completeness`, `11-missing-attributes-by-source` |
-| **PDC Administration** | Tag assessment, refresh status, repository health | ✅ Job consoles + variable manager (see *How to Configure*) |
-| **PDC Application Usage** | How is PDC being used by people? | ✅ D15 Application Reach, D17 Pipeline Operations, `14-app-*`, `16-pipeline-*` |
-| **Data Temperature** *(Obsolescence)* | Which data is hot, warm, cold, frozen — and stale? | ✅ D00/D01/D02 Data Temperature, `10-lifecycle-by-accessed-age`, `00-temperature-*` |
-| **Redundant Data** | Where is duplicate / near‑duplicate content? | ✅ D16 Duplicate Savings, `15-duplicate-*` (cube `75. Duplicate Savings`) |
+| **Storage Capacity** | Where is my data, how much, and where is it growing? | ✅ D10 Storage Footprint, D11 Storage Overview, D12 Structured / D13 Unstructured, D14 Top Heavies, `10-storage-by-data-source` |
+| **Data Sensitivity** | Where is my regulated/sensitive data and is it protected? | ✅ D20 Data Sensitivity, D21 Sensitivity Analysis, `00-sensitivity-*` |
+| **Policy Adherence** | Is the catalog actually being governed? Coverage by source? | ✅ D30 Policy Coverage, D31 Governance Health, `12-policy-*`, `10-governance-coverage`, `11-governance-mix-*` |
+| **Data Source Usage** | Which sources contribute the most data and the most risk? | ✅ Cross‑cut on every dashboard, D40 Extension Trends, `00-resource-type-data-source-*` |
+| **Data Quality** | How complete is the metadata? What's missing? | ✅ D31 Governance Health, `10-metadata-completeness`, `11-missing-attributes-by-source` |
+| **PDC Administration** | Tag assessment, refresh status, repository health | ✅ D60 Pipeline Operations, `16-pipeline-*`, job consoles + variable manager (see *How to Configure*) |
+| **PDC Application Usage** | How is PDC being used by people? | ✅ D70 Application Reach, `14-app-*` |
+| **Data Temperature** *(Obsolescence)* | Which data is hot, warm, cold, frozen — and stale? | ✅ D80 Data Temperature, D81/D82 Data Temperature — Filtered, D83 Temperature Trends, `10-lifecycle-by-accessed-age`, `00-temperature-*`, `18-temperature-*` |
+| **Redundant Data** | Where is duplicate / near‑duplicate content? | ✅ D90 Redundant Data Savings, `15-duplicate-*` (cube `75. Duplicate Savings`) |
 | **Lineage Analysis** | What flows where? Term‑to‑entity reach? | ✅ Entity↔Term cube (`72. Entity Term`) + 6‑level glossary hierarchy |
-| **Workflow / Collaboration** | Who owns what, who's accountable, who's the risk? | ✅ D13 Ownership Accountability, `10-owner-accountability`, `11-owner-risk-scatter` |
-| **Cost Optimization / Planning** | What can be tiered or deleted? Sustainability impact? | ✅ D12 Storage & Sustainability, `11-co2e-by-data-source`, `10-lifecycle-by-accessed-age` |
+| **Workflow / Collaboration** | Who owns what, who's accountable, who's the risk? | ✅ D95 Ownership Accountability, `10-owner-accountability`, `11-owner-risk-scatter` |
+| **Cost Optimization / Planning** | What can be tiered or deleted? Sustainability impact? | ✅ D98 Cost Optimization, D10 Storage & Sustainability, `12-policy-cost-*`, `15-duplicate-savings-*`, `11-co2e-by-data-source`, `10-lifecycle-by-accessed-age` |
 
 ---
 
@@ -46,36 +46,71 @@ Open Pentaho User Console: **`http://<server>/pentaho/Home`** → **Browse Files
 
 Double‑click any `.xdash` file to open it. Each dashboard is a single page of related panels.
 
-### Storage & Sustainability
-| Dashboard | Use when you need to… |
-|---|---|
-| **D00 — Exec Summary: Storage Overview** | Get a one‑glance picture of total storage and where it concentrates (sunburst). |
-| **D12 — Storage Footprint & Sustainability** | Combine TB by source + lifecycle (accessed‑age) + CO₂e to make a tiering / archival case. |
-| **D00 — Top Heavies & Hotspots** | Identify the largest paths and objects to target for remediation first. |
-| **D00 — Structured Data Footprint** | Profile relational/structured assets — counts, scatter, top‑10. |
-| **D00 — Unstructured Data Footprint** | Profile files/objects — size patterns, top‑10 largest. |
-
-### Governance & Quality
-| Dashboard | Use when you need to… |
-|---|---|
-| **D11 — Governance Health** | Show coverage %, governed vs ungoverned counts, donut of governance status, and what attributes are missing. |
-| **D00 — Data Health Heatmap** | Spot governance/quality gaps across the estate at a glance. |
-| **D00 — Data Sensitivity** / **Sensitivity Analysis** | Locate regulated data and high‑risk concentrations. |
-
-### Lifecycle & Temperature
-| Dashboard | Use when you need to… |
-|---|---|
-| **D00 / D01 / D02 — Data Temperature** | See hot / warm / cold / frozen distribution by glossary level and file type. |
-
-### Ownership & Accountability
-| Dashboard | Use when you need to… |
-|---|---|
-| **D13 — Ownership Accountability** | Find top owners by storage, plot owner‑risk (completeness × storage × ungoverned count), and target stewardship outreach. |
-
 ### Executive Roll‑up
 | Dashboard | Use when you need to… |
 |---|---|
-| **D10 — Executive Value Command Center** | Single board with KPIs + storage by source + lifecycle + governance % + completeness % + top 10 owners. |
+| **D00 — Executive Value Command Center** | Single board with KPIs + storage by source + lifecycle + governance % + completeness % + top 10 owners. |
+| **D01 — Data Health Heatmap** | Spot governance/quality gaps across the estate at a glance. |
+| **D99 — PDC Operations Overview** | Cross‑cut snapshot: pipeline status, policy mix, app mix, redundancy, temperature. |
+
+### Storage Capacity
+| Dashboard | Use when you need to… |
+|---|---|
+| **D10 — Storage Footprint & Sustainability** | Combine TB by source + lifecycle (accessed‑age) + CO₂e to make a tiering / archival case. |
+| **D11 — Storage Overview** | One‑glance picture of total storage and where it concentrates (sunburst). |
+| **D12 — Structured Data Footprint** | Profile relational/structured assets — counts, scatter, top‑10. |
+| **D13 — Unstructured Data Footprint** | Profile files/objects — size patterns, top‑10 largest. |
+| **D14 — Top Heavies & Hotspots** | Identify the largest paths and objects to target for remediation first. |
+
+### Data Sensitivity
+| Dashboard | Use when you need to… |
+|---|---|
+| **D20 — Data Sensitivity** | Locate regulated data across sources. |
+| **D21 — Sensitivity Analysis** | Drill into high‑risk sensitivity concentrations. |
+
+### Policy Adherence & Data Quality
+| Dashboard | Use when you need to… |
+|---|---|
+| **D30 — Policy Coverage** | Show policy coverage breadth, top policies, coverage by source/owner, governed cost. |
+| **D31 — Governance Health** | Coverage %, governed vs ungoverned counts, donut of governance status, missing attributes. |
+
+### Data Source Usage
+| Dashboard | Use when you need to… |
+|---|---|
+| **D40 — Extension Trends** | File extension distribution and trend by category, source, and time. |
+
+### PDC Administration
+| Dashboard | Use when you need to… |
+|---|---|
+| **D60 — Pipeline Operations** | ETL pipeline run health: success rates, runtimes, status mix and trend. |
+
+### PDC Application Usage
+| Dashboard | Use when you need to… |
+|---|---|
+| **D70 — Application Reach** | Application access reach by app, source, owner; type mix. |
+
+### Data Temperature (Obsolescence)
+| Dashboard | Use when you need to… |
+|---|---|
+| **D80 — Data Temperature** | Hot / warm / cold / frozen distribution by glossary level and file type. |
+| **D81 — Data Temperature — Filtered** | Filtered view (drilldown variant). |
+| **D82 — Data Temperature — Filtered v2** | Alternative filtered view. |
+| **D83 — Temperature Trends** | Temperature mix and trend over time, by source. |
+
+### Redundant Data
+| Dashboard | Use when you need to… |
+|---|---|
+| **D90 — Redundant Data Savings** | Storage redundancy savings — bytes, cost, category, resource‑type breakdowns. |
+
+### Workflow / Collaboration
+| Dashboard | Use when you need to… |
+|---|---|
+| **D95 — Ownership Accountability** | Find top owners by storage, plot owner‑risk (completeness × storage × ungoverned count). |
+
+### Cost Optimization / Planning
+| Dashboard | Use when you need to… |
+|---|---|
+| **D98 — Cost Optimization** | Cost rollups across policy, app, savings, temperature — single‑metric charts. |
 
 ## 1.3 Reading the panels — design rules
 
