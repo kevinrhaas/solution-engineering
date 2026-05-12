@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dashboard>
-<title>D82 Data Temperature - Filtered v2</title>
+<title>D02 Data Temperature</title>
 <heading>Data Temperature</heading>
 <enableWidgetPrinting>false</enableWidgetPrinting>
 <documentation>

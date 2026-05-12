@@ -19,7 +19,7 @@ The platform is organized around eleven analytical perspectives. Each dashboard 
 | **Data Quality** | How complete is the metadata? What's missing? | ✅ D31 Governance Health, `10-metadata-completeness`, `11-missing-attributes-by-source` |
 | **PDC Administration** | Tag assessment, refresh status, repository health | ✅ D60 Pipeline Operations, `16-pipeline-*`, job consoles + variable manager (see *How to Configure*) |
 | **PDC Application Usage** | How is PDC being used by people? | ✅ D70 Application Reach, `14-app-*` |
-| **Data Temperature** *(Obsolescence)* | Which data is hot, warm, cold, frozen — and stale? | ✅ D80 Data Temperature, D81/D82 Data Temperature — Filtered, D83 Temperature Trends, `10-lifecycle-by-accessed-age`, `00-temperature-*`, `18-temperature-*` |
+| **Data Temperature** *(Obsolescence)* | Which data is hot, warm, cold, frozen — and stale? | ✅ D80 Data Temperature, D83 Temperature Trends, `10-lifecycle-by-accessed-age`, `00-temperature-*`, `18-temperature-*` |
 | **Redundant Data** | Where is duplicate / near‑duplicate content? | ✅ D90 Redundant Data Savings, `15-duplicate-*` (cube `75. Duplicate Savings`) |
 | **Lineage Analysis** | What flows where? Term‑to‑entity reach? | ✅ Entity↔Term cube (`72. Entity Term`) + 6‑level glossary hierarchy |
 | **Workflow / Collaboration** | Who owns what, who's accountable, who's the risk? | ✅ D95 Ownership Accountability, `10-owner-accountability`, `11-owner-risk-scatter` |
@@ -155,16 +155,6 @@ Application access reach by app, source, owner; type mix.
 Hot / warm / cold / frozen distribution by glossary level and file type.
 
 ![D80 Data Temperature](docs/screenshots/D80-Data-Temperature.png)
-
-#### D81 — Data Temperature — Filtered
-Filtered drilldown variant.
-
-![D81 Data Temperature Filtered](docs/screenshots/D81-Data-Temperature-Filtered.png)
-
-#### D82 — Data Temperature — Filtered v2
-Alternative filtered view (v2 layout).
-
-![D82 Data Temperature Filtered v2](docs/screenshots/D82-Data-Temperature-Filtered-v2.png)
 
 #### D83 — Temperature Trends
 Temperature mix and trend over time, by source.
