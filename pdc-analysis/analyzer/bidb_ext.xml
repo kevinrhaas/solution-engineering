@@ -532,6 +532,94 @@
       </Hierarchy>
     </Dimension>
 
+    <Dimension name="Accessed Age Band">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Accessed Age Band" uniqueMembers="false" column="accessed_age_band" type="String" description="Buckets assets by age since last access at scan time. (technical: uses accessed_age_band.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">12. Time Attributes - Accessed (Age)</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Modified Age Band">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Modified Age Band" uniqueMembers="false" column="modified_age_band" type="String" description="Buckets assets by age since last modification at scan time. (technical: uses modified_age_band.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">12. Time Attributes - Modified (Age)</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Created Age Band">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Created Age Band" uniqueMembers="false" column="created_age_band" type="String" description="Buckets assets by age since creation at scan time. (technical: uses created_age_band.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">12. Time Attributes - Created (Age)</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Scan Freshness Band">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Scan Freshness Band" uniqueMembers="false" column="scan_freshness_band" type="String" description="Buckets catalog assets by scan recency. (technical: uses scan_freshness_band.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">18. Catalog Operations - Freshness</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Metadata Update Freshness Band">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Metadata Update Freshness Band" uniqueMembers="false" column="metadata_update_freshness_band" type="String" description="Buckets catalog assets by metadata update recency. (technical: uses metadata_update_freshness_band.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">18. Catalog Operations - Freshness</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Statistics Freshness Band">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Statistics Freshness Band" uniqueMembers="false" column="statistics_freshness_band" type="String" description="Buckets catalog assets by statistics update recency. (technical: uses statistics_freshness_band.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">18. Catalog Operations - Freshness</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Governance Coverage Status">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Governance Coverage Status" uniqueMembers="false" column="governance_coverage_status" type="String" description="Shows whether an entity has at least one term assignment. (technical: uses governance_coverage_status.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">19. Governance Coverage</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Metadata Completeness Band">
+      <Hierarchy hasAll="true">
+        <Table  name="fact_entity_snapshot"/>
+        <Level name="Metadata Completeness Band" uniqueMembers="false" column="metadata_completeness_band" type="String" description="Buckets catalog assets by completeness of core metadata fields. (technical: uses metadata_completeness_band.)">
+          <Annotations>
+            <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+          </Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
     <!-- Bring over your attribute dims (Analyzer users love these) -->
     <DimensionUsage name="Name" source="Name" foreignKey="entity_key"/>
     <DimensionUsage name="Type" source="Type" foreignKey="entity_key"/>
@@ -556,6 +644,63 @@
       </Annotations>
     </Measure>
 
+    <Measure name="Governed Entity Count" column="governed_entity_count" aggregator="sum" formatString="#,###" description="Counts entities with at least one term assignment. (technical: uses governed_entity_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">19. Governance Coverage</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Ungoverned Entity Count" column="ungoverned_entity_count" aggregator="sum" formatString="#,###" description="Counts entities without any term assignment. (technical: uses ungoverned_entity_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">19. Governance Coverage</Annotation>
+      </Annotations>
+    </Measure>
+
+    <Measure name="Missing Owner Count" column="missing_owner_count" aggregator="sum" formatString="#,###" description="Counts entities missing owner metadata. (technical: uses missing_owner_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Missing Group Count" column="missing_group_count" aggregator="sum" formatString="#,###" description="Counts entities missing group metadata. (technical: uses missing_group_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Missing File Type Count" column="missing_filetype_count" aggregator="sum" formatString="#,###" description="Counts entities missing file type metadata. (technical: uses missing_filetype_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Missing Path Count" column="missing_path_count" aggregator="sum" formatString="#,###" description="Counts entities missing path metadata. (technical: uses missing_path_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Missing Created Date Count" column="missing_created_date_count" aggregator="sum" formatString="#,###" description="Counts entities missing created date metadata. (technical: uses missing_created_date_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Missing Modified Date Count" column="missing_modified_date_count" aggregator="sum" formatString="#,###" description="Counts entities missing modified date metadata. (technical: uses missing_modified_date_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Missing Accessed Date Count" column="missing_accessed_date_count" aggregator="sum" formatString="#,###" description="Counts entities missing accessed date metadata. (technical: uses missing_accessed_date_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Metadata Completed Fields" column="metadata_completed_field_count" aggregator="sum" formatString="#,###" description="Counts completed core metadata fields across entities. (technical: uses metadata_completed_field_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </Measure>
+    <Measure name="Metadata Expected Fields" column="metadata_expected_field_count" aggregator="sum" formatString="#,###" description="Counts expected core metadata fields across entities. (technical: uses metadata_expected_field_count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </Measure>
     <Measure name="Storage - Size Bytes" column="bytes" aggregator="sum" caption="Storage - Size Bytes" formatString="#,###" description="Raw storage size in bytes. (technical: uses bytes.)">
       <Annotations>
         <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
@@ -605,6 +750,22 @@
     </Measure>
 
     <!-- Calculated measures (ported from your original cube) -->
+    <CalculatedMember name="Governance Coverage %" dimension="Measures"
+      formula="IIF([Measures].[Entity Count] = 0, 0, [Measures].[Governed Entity Count] / [Measures].[Entity Count])"
+      formatString="0.00%" description="Percent of catalog entities with at least one term assignment. (technical: Governed Entity Count / Entity Count.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">19. Governance Coverage</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
+    <CalculatedMember name="Metadata Completeness %" dimension="Measures"
+      formula="IIF([Measures].[Metadata Expected Fields] = 0, 0, [Measures].[Metadata Completed Fields] / [Measures].[Metadata Expected Fields])"
+      formatString="0.00%" description="Percent completeness of core metadata fields. (technical: Metadata Completed Fields / Metadata Expected Fields.)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </CalculatedMember>
+
     <CalculatedMember name="Storage - Size GB" dimension="Measures" formula="[Measures].[Storage - Size Bytes] / 1073741824" formatString="#,###.00" description="Storage size in gigabytes for easier reading. (technical: [Measures].[Storage - Size Bytes] / 1073741824.)">
       <Annotations>
         <Annotation name="AnalyzerBusinessGroup">13. Metrics - Storage Size</Annotation>
@@ -1090,11 +1251,84 @@
     <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Modified Age Years" description="Years since last modification at scan time. (technical: uses Modified Age Years dimension.)"/>
     <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Created Age Months" description="Months since creation at scan time. (technical: uses Created Age Months dimension.)"/>
     <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Created Age Years" description="Years since creation at scan time. (technical: uses Created Age Years dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Accessed Age Band" description="Lifecycle bucket based on last access. (technical: uses Accessed Age Band dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Modified Age Band" description="Lifecycle bucket based on last modification. (technical: uses Modified Age Band dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Created Age Band" description="Lifecycle bucket based on creation date. (technical: uses Created Age Band dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Scan Freshness Band" description="Operational scan freshness bucket. (technical: uses Scan Freshness Band dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Metadata Update Freshness Band" description="Operational metadata update freshness bucket. (technical: uses Metadata Update Freshness Band dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Statistics Freshness Band" description="Operational statistics freshness bucket. (technical: uses Statistics Freshness Band dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Governance Coverage Status" description="Tagged vs untagged coverage status. (technical: uses Governance Coverage Status dimension.)"/>
+    <VirtualCubeDimension cubeName="71. Entity Snapshot" name="Metadata Completeness Band" description="Core metadata completeness bucket. (technical: uses Metadata Completeness Band dimension.)"/>
 
     <!-- Measures from Entity Snapshot -->
     <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Entity Count]" description="Counts catalog objects. (technical: uses [Measures].[Entity Count].)">
       <Annotations>
         <Annotation name="AnalyzerBusinessGroup">12. Metrics - Object Volume</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Governed Entity Count]" description="Counts entities with at least one term assignment. (technical: uses [Measures].[Governed Entity Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">19. Governance Coverage</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Ungoverned Entity Count]" description="Counts entities without any term assignment. (technical: uses [Measures].[Ungoverned Entity Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">19. Governance Coverage</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Governance Coverage %]" description="Percent of catalog entities with at least one term assignment. (technical: uses [Measures].[Governance Coverage %].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">19. Governance Coverage</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Missing Owner Count]" description="Counts entities missing owner metadata. (technical: uses [Measures].[Missing Owner Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Missing Group Count]" description="Counts entities missing group metadata. (technical: uses [Measures].[Missing Group Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Missing File Type Count]" description="Counts entities missing file type metadata. (technical: uses [Measures].[Missing File Type Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Missing Path Count]" description="Counts entities missing path metadata. (technical: uses [Measures].[Missing Path Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Missing Created Date Count]" description="Counts entities missing created date metadata. (technical: uses [Measures].[Missing Created Date Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Missing Modified Date Count]" description="Counts entities missing modified date metadata. (technical: uses [Measures].[Missing Modified Date Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Missing Accessed Date Count]" description="Counts entities missing accessed date metadata. (technical: uses [Measures].[Missing Accessed Date Count].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Metadata Completed Fields]" description="Counts completed core metadata fields. (technical: uses [Measures].[Metadata Completed Fields].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Metadata Expected Fields]" description="Counts expected core metadata fields. (technical: uses [Measures].[Metadata Expected Fields].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
+      </Annotations>
+    </VirtualCubeMeasure>
+    <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Metadata Completeness %]" description="Percent completeness of core metadata fields. (technical: uses [Measures].[Metadata Completeness %].)">
+      <Annotations>
+        <Annotation name="AnalyzerBusinessGroup">20. Metadata Quality</Annotation>
       </Annotations>
     </VirtualCubeMeasure>
     <VirtualCubeMeasure cubeName="71. Entity Snapshot" name="[Measures].[Storage - Size Bytes]" description="Total storage size in bytes. (technical: uses [Measures].[Storage - Size Bytes].)">

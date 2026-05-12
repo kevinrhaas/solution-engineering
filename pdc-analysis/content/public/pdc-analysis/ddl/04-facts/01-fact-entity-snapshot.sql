@@ -52,7 +52,124 @@ SELECT DISTINCT ON (stg.entity_nk, stg.scanned_ts::date)
     + date_part('month', age(stg.scanned_ts, stg.accessed_ts))::int,
     0
   ) AS accessed_age_months,
-  COALESCE(date_part('year', age(stg.scanned_ts, stg.accessed_ts))::int, 0) AS accessed_age_years
+  COALESCE(date_part('year', age(stg.scanned_ts, stg.accessed_ts))::int, 0) AS accessed_age_years,
+  -- Freshness and lifecycle bands derived from existing catalog timestamps
+  CASE
+    WHEN stg.accessed_ts IS NULL THEN '00. Unknown'
+    WHEN stg.accessed_ts::date >= stg.scanned_ts::date - INTERVAL '90 days' THEN '01. Active (0-90 days)'
+    WHEN stg.accessed_ts::date >= stg.scanned_ts::date - INTERVAL '365 days' THEN '02. Cooling (91-365 days)'
+    WHEN stg.accessed_ts::date >= stg.scanned_ts::date - INTERVAL '3 years' THEN '03. Cold (1-3 years)'
+    ELSE '04. Frozen (3+ years)'
+  END AS accessed_age_band,
+  CASE
+    WHEN stg.modified_ts IS NULL THEN '00. Unknown'
+    WHEN stg.modified_ts::date >= stg.scanned_ts::date - INTERVAL '90 days' THEN '01. Recently Modified (0-90 days)'
+    WHEN stg.modified_ts::date >= stg.scanned_ts::date - INTERVAL '365 days' THEN '02. Modified 91-365 days'
+    WHEN stg.modified_ts::date >= stg.scanned_ts::date - INTERVAL '3 years' THEN '03. Modified 1-3 years'
+    ELSE '04. Modified 3+ years ago'
+  END AS modified_age_band,
+  CASE
+    WHEN stg.created_ts IS NULL THEN '00. Unknown'
+    WHEN stg.created_ts::date >= stg.scanned_ts::date - INTERVAL '90 days' THEN '01. New (0-90 days)'
+    WHEN stg.created_ts::date >= stg.scanned_ts::date - INTERVAL '365 days' THEN '02. Created 91-365 days'
+    WHEN stg.created_ts::date >= stg.scanned_ts::date - INTERVAL '3 years' THEN '03. Created 1-3 years'
+    ELSE '04. Created 3+ years ago'
+  END AS created_age_band,
+  CASE
+    WHEN stg.scanned_ts IS NULL THEN '00. Unknown'
+    WHEN CURRENT_DATE - stg.scanned_ts::date <= 7 THEN '01. Current (0-7 days)'
+    WHEN CURRENT_DATE - stg.scanned_ts::date <= 30 THEN '02. Recent (8-30 days)'
+    WHEN CURRENT_DATE - stg.scanned_ts::date <= 90 THEN '03. Aging (31-90 days)'
+    ELSE '04. Stale (90+ days)'
+  END AS scan_freshness_band,
+  CASE
+    WHEN stg.last_update_ts IS NULL THEN '00. Unknown'
+    WHEN CURRENT_DATE - stg.last_update_ts::date <= 7 THEN '01. Current (0-7 days)'
+    WHEN CURRENT_DATE - stg.last_update_ts::date <= 30 THEN '02. Recent (8-30 days)'
+    WHEN CURRENT_DATE - stg.last_update_ts::date <= 90 THEN '03. Aging (31-90 days)'
+    ELSE '04. Stale (90+ days)'
+  END AS metadata_update_freshness_band,
+  CASE
+    WHEN stg.last_update_statistics_ts IS NULL THEN '00. Unknown'
+    WHEN CURRENT_DATE - stg.last_update_statistics_ts::date <= 7 THEN '01. Current (0-7 days)'
+    WHEN CURRENT_DATE - stg.last_update_statistics_ts::date <= 30 THEN '02. Recent (8-30 days)'
+    WHEN CURRENT_DATE - stg.last_update_statistics_ts::date <= 90 THEN '03. Aging (31-90 days)'
+    ELSE '04. Stale (90+ days)'
+  END AS statistics_freshness_band,
+  -- Governance and metadata quality indicators derived from existing entity metadata
+  CASE WHEN EXISTS (
+    SELECT 1
+    FROM mv_stg_entity_term stg_terms
+    WHERE stg_terms.entity_nk = stg.entity_nk
+      AND stg_terms.term_name IS NOT NULL
+  ) THEN '01. Tagged' ELSE '02. No Term Assignment' END AS governance_coverage_status,
+  CASE WHEN EXISTS (
+    SELECT 1
+    FROM mv_stg_entity_term stg_terms
+    WHERE stg_terms.entity_nk = stg.entity_nk
+      AND stg_terms.term_name IS NOT NULL
+  ) THEN 1 ELSE 0 END AS governed_entity_count,
+  CASE WHEN EXISTS (
+    SELECT 1
+    FROM mv_stg_entity_term stg_terms
+    WHERE stg_terms.entity_nk = stg.entity_nk
+      AND stg_terms.term_name IS NOT NULL
+  ) THEN 0 ELSE 1 END AS ungoverned_entity_count,
+  CASE WHEN stg.owner_name IS NULL OR trim(stg.owner_name) = '' THEN 1 ELSE 0 END AS missing_owner_count,
+  CASE WHEN stg.group_name IS NULL OR trim(stg.group_name) = '' THEN 1 ELSE 0 END AS missing_group_count,
+  CASE WHEN stg.filetype IS NULL OR trim(stg.filetype) = '' THEN 1 ELSE 0 END AS missing_filetype_count,
+  CASE WHEN stg.path IS NULL OR trim(stg.path) = '' THEN 1 ELSE 0 END AS missing_path_count,
+  CASE WHEN stg.created_ts IS NULL THEN 1 ELSE 0 END AS missing_created_date_count,
+  CASE WHEN stg.modified_ts IS NULL THEN 1 ELSE 0 END AS missing_modified_date_count,
+  CASE WHEN stg.accessed_ts IS NULL THEN 1 ELSE 0 END AS missing_accessed_date_count,
+  (
+    CASE WHEN stg.owner_name IS NULL OR trim(stg.owner_name) = '' THEN 0 ELSE 1 END +
+    CASE WHEN stg.group_name IS NULL OR trim(stg.group_name) = '' THEN 0 ELSE 1 END +
+    CASE WHEN stg.filetype IS NULL OR trim(stg.filetype) = '' THEN 0 ELSE 1 END +
+    CASE WHEN stg.path IS NULL OR trim(stg.path) = '' THEN 0 ELSE 1 END +
+    CASE WHEN stg.created_ts IS NULL THEN 0 ELSE 1 END +
+    CASE WHEN stg.modified_ts IS NULL THEN 0 ELSE 1 END +
+    CASE WHEN stg.accessed_ts IS NULL THEN 0 ELSE 1 END +
+    CASE WHEN stg.last_update_ts IS NULL THEN 0 ELSE 1 END +
+    CASE WHEN stg.last_update_statistics_ts IS NULL THEN 0 ELSE 1 END
+  ) AS metadata_completed_field_count,
+  9 AS metadata_expected_field_count,
+  CASE
+    WHEN (
+      CASE WHEN stg.owner_name IS NULL OR trim(stg.owner_name) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.group_name IS NULL OR trim(stg.group_name) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.filetype IS NULL OR trim(stg.filetype) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.path IS NULL OR trim(stg.path) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.created_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.modified_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.accessed_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.last_update_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.last_update_statistics_ts IS NULL THEN 0 ELSE 1 END
+    ) = 9 THEN '01. Complete'
+    WHEN (
+      CASE WHEN stg.owner_name IS NULL OR trim(stg.owner_name) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.group_name IS NULL OR trim(stg.group_name) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.filetype IS NULL OR trim(stg.filetype) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.path IS NULL OR trim(stg.path) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.created_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.modified_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.accessed_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.last_update_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.last_update_statistics_ts IS NULL THEN 0 ELSE 1 END
+    ) >= 7 THEN '02. Mostly Complete'
+    WHEN (
+      CASE WHEN stg.owner_name IS NULL OR trim(stg.owner_name) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.group_name IS NULL OR trim(stg.group_name) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.filetype IS NULL OR trim(stg.filetype) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.path IS NULL OR trim(stg.path) = '' THEN 0 ELSE 1 END +
+      CASE WHEN stg.created_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.modified_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.accessed_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.last_update_ts IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN stg.last_update_statistics_ts IS NULL THEN 0 ELSE 1 END
+    ) >= 5 THEN '03. Partially Complete'
+    ELSE '04. Low Completeness'
+  END AS metadata_completeness_band
 FROM mv_stg_entity_term stg
 LEFT JOIN entities_master_view emv ON stg.entity_nk = emv._id
 WHERE stg.entity_nk IS NOT NULL
@@ -71,3 +188,8 @@ CREATE INDEX IF NOT EXISTS idx_fes_accessed_date ON fact_entity_snapshot(accesse
 CREATE INDEX IF NOT EXISTS idx_fes_last_update_date ON fact_entity_snapshot(last_update_date_key);
 CREATE INDEX IF NOT EXISTS idx_fes_last_update_stats_date ON fact_entity_snapshot(last_update_statistics_date_key);
 CREATE INDEX IF NOT EXISTS idx_fes_composite_grain ON fact_entity_snapshot(entity_key, scanned_date_key);
+CREATE INDEX IF NOT EXISTS idx_fes_accessed_age_band ON fact_entity_snapshot(accessed_age_band);
+CREATE INDEX IF NOT EXISTS idx_fes_scan_freshness_band ON fact_entity_snapshot(scan_freshness_band);
+CREATE INDEX IF NOT EXISTS idx_fes_statistics_freshness_band ON fact_entity_snapshot(statistics_freshness_band);
+CREATE INDEX IF NOT EXISTS idx_fes_governance_status ON fact_entity_snapshot(governance_coverage_status);
+CREATE INDEX IF NOT EXISTS idx_fes_metadata_completeness_band ON fact_entity_snapshot(metadata_completeness_band);

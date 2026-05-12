@@ -16,4 +16,4 @@
 \set BIDB_EXT_PORT '5432'
 \set BIDB_EXT_USERNAME 'postgres'
 \set BIDB_EXT_PASSWORD 'Password1'
-\set BIDB_EXT_SCHEMA_NAME 'bidb_ext_demo'
+\set BIDB_EXT_SCHEMA_NAME 'bidb_ext_dev'

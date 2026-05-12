@@ -2,7 +2,7 @@
 -- PDC BUSINESS INTELLIGENCE DATABASE - MASTER DDL EXECUTION SCRIPT
 -- ============================================================================
 -- This script executes all modular DDL scripts in the correct order
--- Schema: bidb_ext_demo
+-- Schema: bidb_ext_dev
 -- Prerequisites: 
 --   - Foreign data wrapper configured (remote_bidb server)
 --   - entities_master_view and terms_view available
