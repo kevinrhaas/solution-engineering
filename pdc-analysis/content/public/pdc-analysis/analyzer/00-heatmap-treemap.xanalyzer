@@ -12,15 +12,7 @@
             <attribute formula="[Data Source].[Data Source Type]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="rows" gembarOrdinal="0"/>
             <attribute formula="[Business Glossary].[Level 3]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="rows" gembarOrdinal="1"/>
         </rowAttributes>
-        <filters defaultFiltersAvailable="false">
-            <filter formula="[Business Glossary].[Glossary]" viewFilterEnum="MULTIPLE" isDefaultFilter="false" isDefaultMetricFilter="false">
-                <predicates>
-                    <predicate ordinal="1" operatorEnum="EQUAL">
-                        <member formula="[Business Glossary].[Data Temperature]" caption="Data Temperature" pos="0"/>
-                    </predicate>
-                </predicates>
-            </filter>
-        </filters>
+        <filters defaultFiltersAvailable="false"/>
         <chartOptions vizApiVersion="3.0" chartType="CUSTOM" customChartType="pentaho/visual/models/Treemap" showMultiChart="false" legendPosition="RIGHT" showLegend="true" autoRange="true" displayUnits="UNITS_0" autoRangeSecondary="true" displayUnitsSecondary="UNITS_0" lineWidth="2" lineShape="CIRCLE" maxValues="250" backgroundColor="#ffffff" labelColor="#000000" labelSize="12" backgroundFill="NONE" maxChartsPerRow="3" multiChartMax="50" multiChartRangeScope="GLOBAL" emptyCellMode="GAP" sizeByNegativesMode="NEG_LOWEST" backgroundColorEnd="#ffffff" labelStyle="PLAIN" legendBackgroundColor="#ffffff" legendSize="12" legendColor="#000000" legendStyle="PLAIN" labelFontFamily="Default" legendFontFamily="Default" scatterReverseColors="false"/>
         <selectionFilters/>
         <selectionItems/>
