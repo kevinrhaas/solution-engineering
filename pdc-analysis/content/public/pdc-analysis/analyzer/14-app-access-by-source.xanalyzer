@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <reportRecord xmlns="http://www.pentaho.com">
-    <commonStorageAttributes createdBy="admin" updatedBy="admin" created="2026-05-11T00:00:00.000Z" update="2026-05-11T00:00:00.000Z">
+    <commonStorageAttributes createdBy="admin" updatedBy="admin" created="2026-05-12T00:00:00.000Z" update="2026-05-12T00:00:00.000Z">
         <path name="14-app-access-by-source" folder="/public/pdc-analysis/analyzer/14-app-access-by-source.xanalyzer"/>
     </commonStorageAttributes>
     <report catalog="PDC" cube="74. Entity Application" reportTypeEnum="JSON" showRowGrandTotal="false" showColumnGrandTotal="false" showSubTotals="true" totalsOnTopLeft="false" useNonVisualTotals="false" showEmptyCells="false" showEmptyEnum="SHOW_MEASURE" emptyCellDisplay="-" showDrillLinks="true" version="15" autoRefresh="true" freezeColumns="true" freezeRows="true">
         <measures>
             <measure formula="[Measures].[Access Count]" showSum="true" showAggregate="false" showAverage="false" showCount="false" showMax="false" showMin="false" measureTypeEnum="VALUE" sortOrderEnum="DESC" id="[MEASURE:0]" gembarId="measures" gembarOrdinal="0"/>
-            <measure formula="[Measures].[Accessed Size TB]" showSum="true" showAggregate="false" showAverage="false" showCount="false" showMax="false" showMin="false" measureTypeEnum="VALUE" sortOrderEnum="DESC" id="[MEASURE:1]" gembarId="measures" gembarOrdinal="1"/>
         </measures>
         <columnAttributes>
 

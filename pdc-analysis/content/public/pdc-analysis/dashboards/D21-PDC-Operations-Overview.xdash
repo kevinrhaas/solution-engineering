@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dashboard>
-<title>D21-PDC-Operations-Overview</title>
+<title>D21 PDC Operations Overview</title>
 <heading/>
 <enableWidgetPrinting>false</enableWidgetPrinting>
 <documentation>
 <author>admin</author>
-<description>End-to-end health: pipelines, governance breadth, app reach, redundancy.</description>
+<description>End-to-end health overview — single-metric charts.</description>
 <icon/>
 </documentation>
 <template-ref>xul/04-1-then-2.xul</template-ref>
@@ -13,10 +13,10 @@
 <layout>
 <overlay xmlns:pho="http://www.pentaho.com" pho:fixie="withme">
 <box id="Panel_1" pho:title="Pipeline Status Mix" flex="1" collapsed="false" type="titled-panel"/>
-<box id="Panel_2" pho:title="Pipeline Trend" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_2" pho:title="Pipeline Run Count Trend" flex="1" collapsed="false" type="titled-panel"/>
 <box id="Panel_3" pho:title="Policy Mix" flex="1" collapsed="false" type="titled-panel"/>
-<box id="Panel_4" pho:title="App Type Mix" flex="1" collapsed="false" type="titled-panel"/>
-<box id="Panel_5" pho:title="Duplicates by Resource" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_4" pho:title="Application Type Mix" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_5" pho:title="Duplicate File Count by Resource" flex="1" collapsed="false" type="titled-panel"/>
 <box id="Panel_6" pho:title="Temperature Mix" flex="1" collapsed="false" type="titled-panel"/>
 </overlay>
 </layout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dashboard>
-<title>D00-Sensitivity-Analysis</title>
+<title>D00 Data Sensitivity</title>
 <heading>Sensitivity Analysis</heading>
 <enableWidgetPrinting>false</enableWidgetPrinting>
 <documentation>
