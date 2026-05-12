@@ -52,6 +52,12 @@ SET search_path TO :"BIDB_EXT_SCHEMA_NAME", public;
 \ir 03-dimensions/05-dim-datasource.sql
 \ir 03-dimensions/06-dim-filetype.sql
 \ir 03-dimensions/07-dim-leaf-flag.sql
+\ir 03-dimensions/08-dim-policy.sql
+\ir 03-dimensions/09-dim-application.sql
+\ir 03-dimensions/10-dim-extension.sql
+\ir 03-dimensions/11-dim-temperature.sql
+\ir 03-dimensions/12-dim-currency.sql
+\ir 03-dimensions/13-dim-pipeline-status.sql
 
 -- ============================================================================
 -- PHASE 4: FACTS
@@ -60,6 +66,12 @@ SET search_path TO :"BIDB_EXT_SCHEMA_NAME", public;
 \echo '>>> PHASE 4: Facts - Creating fact tables...'
 \ir 04-facts/01-fact-entity-snapshot.sql
 \ir 04-facts/02-fact-entity-term.sql
+\ir 04-facts/03-fact-entity-policy.sql
+\ir 04-facts/04-fact-entity-application.sql
+\ir 04-facts/05-fact-duplicate.sql
+\ir 04-facts/06-fact-pipeline-run.sql
+\ir 04-facts/07-fact-extension-daily.sql
+\ir 04-facts/08-fact-temperature-daily.sql
 
 -- ============================================================================
 -- PHASE 5: REFRESH

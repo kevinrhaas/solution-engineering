@@ -361,6 +361,89 @@
   </Dimension>
 
   <!-- ===================================================== -->
+  <!-- NEW SHARED DIMENSIONS (Phase 4 expansion) -->
+  <!-- ===================================================== -->
+
+  <Dimension name="Policy">
+    <Hierarchy hasAll="true" primaryKey="policy_key" allMemberName="All Policies">
+      <Table name="dim_policy"/>
+      <Level name="Policy Type"  column="policy_type"    uniqueMembers="false" type="String" description="Top-level policy classification. (technical: uses policy_type.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">21. Policy</Annotation></Annotations>
+      </Level>
+      <Level name="Policy Level 1" column="policy_level_1" uniqueMembers="false" type="String" description="Policy hierarchy level 1. (technical: uses policy_level_1.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">21. Policy</Annotation></Annotations>
+      </Level>
+      <Level name="Policy Level 2" column="policy_level_2" uniqueMembers="false" type="String" description="Policy hierarchy level 2. (technical: uses policy_level_2.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">21. Policy</Annotation></Annotations>
+      </Level>
+      <Level name="Policy"          column="policy_key" nameColumn="policy_name" uniqueMembers="true" type="String" description="Specific governance policy. (technical: uses policy_key, policy_name.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">21. Policy</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Application">
+    <Hierarchy hasAll="true" primaryKey="application_key" allMemberName="All Applications">
+      <Table name="dim_application"/>
+      <Level name="Application Type" column="application_type" uniqueMembers="false" type="String" description="Application classification. (technical: uses application_type.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">22. Application</Annotation></Annotations>
+      </Level>
+      <Level name="Application"      column="application_key" nameColumn="application_name" uniqueMembers="true" type="String" description="Application accessing data. (technical: uses application_key, application_name.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">22. Application</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Extension">
+    <Hierarchy hasAll="true" primaryKey="extension_key" allMemberName="All Extensions">
+      <Table name="dim_extension"/>
+      <Level name="Extension Category" column="extension_category" uniqueMembers="false" type="String" description="File extension category bucket. (technical: uses extension_category.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">23. Extension</Annotation></Annotations>
+      </Level>
+      <Level name="Extension"          column="extension_key" nameColumn="extension_name" uniqueMembers="true" type="String" description="Specific file extension. (technical: uses extension_key, extension_name.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">23. Extension</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Temperature">
+    <Hierarchy hasAll="true" primaryKey="temperature_key" allMemberName="All Temperatures">
+      <Table name="dim_temperature"/>
+      <Level name="Temperature" column="temperature_key" nameColumn="temperature_name" ordinalColumn="temperature_sort" uniqueMembers="true" type="String" description="Hot / Warm / Cold / Frozen access frequency. (technical: uses temperature_key, temperature_name.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">24. Temperature</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Currency">
+    <Hierarchy hasAll="true" primaryKey="currency_key" allMemberName="All Currencies">
+      <Table name="dim_currency"/>
+      <Level name="Currency" column="currency_key" nameColumn="currency_symbol" uniqueMembers="true" type="String" description="ISO currency symbol. (technical: uses currency_key, currency_symbol.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">25. Currency</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Pipeline Status">
+    <Hierarchy hasAll="true" primaryKey="status_key" allMemberName="All Statuses">
+      <Table name="dim_pipeline_status"/>
+      <Level name="Status" column="status_key" nameColumn="status_name" uniqueMembers="true" type="String" description="Pipeline-run status. (technical: uses status_key, status_name.)">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">26. Pipeline Status</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <!-- Run Date - role-playing date for fact_pipeline_run / fact_extension_daily / fact_temperature_daily -->
+  <Dimension name="Run Date" type="TimeDimension">
+    <Hierarchy hasAll="true" primaryKey="date_key">
+      <Table name="dim_date"/>
+      <Level name="Run Year"       column="year"              type="Numeric" levelType="TimeYears"  uniqueMembers="false"/>
+      <Level name="Run Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false"/>
+      <Level name="Run Date"       column="date_key"          nameColumn="full_date"       type="Numeric" levelType="TimeDays"  uniqueMembers="true"/>
+    </Hierarchy>
+  </Dimension>
+
+  <!-- ===================================================== -->
   <!-- CUBE 1: Entity Snapshot (entity/day metrics) -->
   <!-- ===================================================== -->
 
@@ -1168,6 +1251,189 @@
       </Annotations>
     </CalculatedMember>
 
+  </Cube>
+
+  <!-- ===================================================== -->
+  <!-- CUBE 73: Entity Policy (governance breadth & cost) -->
+  <!-- ===================================================== -->
+  <Cube name="73. Entity Policy" cache="true" enabled="true">
+    <Table name="fact_entity_policy"/>
+    <DimensionUsage name="Entity"      source="Entity"      foreignKey="entity_key"/>
+    <DimensionUsage name="Data Source" source="Data Source" foreignKey="datasource_key"/>
+    <DimensionUsage name="Policy"      source="Policy"      foreignKey="policy_key"/>
+    <DimensionUsage name="Name"        source="Name"        foreignKey="entity_key"/>
+    <DimensionUsage name="Type"        source="Type"        foreignKey="entity_key"/>
+    <DimensionUsage name="Owner"       source="Owner"       foreignKey="entity_key"/>
+    <DimensionUsage name="Path"        source="Path"        foreignKey="entity_key"/>
+
+    <Measure name="Policy Assignment Count" column="assignment_count" aggregator="sum" formatString="#,###" description="Count of entity-policy assignments. (technical: assignment_count.)">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">21. Policy</Annotation></Annotations>
+    </Measure>
+    <Measure name="Governed Bytes"   column="governed_bytes"   aggregator="sum" formatString="#,###"     description="Bytes covered by policy. (technical: governed_bytes.)">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">21. Policy</Annotation></Annotations>
+    </Measure>
+    <Measure name="Governed Size TB" column="governed_size_tb" aggregator="sum" formatString="#,###.000" description="TB covered by policy. (technical: governed_size_tb.)">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">21. Policy</Annotation></Annotations>
+    </Measure>
+    <Measure name="Governed Cost USD" column="governed_cost_usd" aggregator="sum" formatString="$#,###.00" description="Annualized cost of governed storage. (technical: governed_cost_usd.)">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">21. Policy</Annotation></Annotations>
+    </Measure>
+    <CalculatedMember name="Distinct Policy Entities" dimension="Measures"
+      formula="Count(Filter([Entity].[Entity].Members, [Measures].[Policy Assignment Count] &gt; 0))"
+      formatString="#,###" description="Count of distinct entities under any policy.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">21. Policy</Annotation></Annotations>
+    </CalculatedMember>
+  </Cube>
+
+  <!-- ===================================================== -->
+  <!-- CUBE 74: Entity Application (app reach & cost) -->
+  <!-- ===================================================== -->
+  <Cube name="74. Entity Application" cache="true" enabled="true">
+    <Table name="fact_entity_application"/>
+    <DimensionUsage name="Entity"      source="Entity"      foreignKey="entity_key"/>
+    <DimensionUsage name="Data Source" source="Data Source" foreignKey="datasource_key"/>
+    <DimensionUsage name="Application" source="Application" foreignKey="application_key"/>
+    <DimensionUsage name="Name"        source="Name"        foreignKey="entity_key"/>
+    <DimensionUsage name="Type"        source="Type"        foreignKey="entity_key"/>
+    <DimensionUsage name="Owner"       source="Owner"       foreignKey="entity_key"/>
+    <DimensionUsage name="Path"        source="Path"        foreignKey="entity_key"/>
+
+    <Measure name="Access Count"        column="access_count"      aggregator="sum" formatString="#,###"      description="App-to-entity access edges. (technical: access_count.)">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">22. Application</Annotation></Annotations>
+    </Measure>
+    <Measure name="Accessed Bytes"      column="accessed_bytes"    aggregator="sum" formatString="#,###"      description="Bytes touched by applications. (technical: accessed_bytes.)">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">22. Application</Annotation></Annotations>
+    </Measure>
+    <Measure name="Accessed Size TB"    column="accessed_size_tb"  aggregator="sum" formatString="#,###.000"  description="TB touched by applications. (technical: accessed_size_tb.)">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">22. Application</Annotation></Annotations>
+    </Measure>
+    <Measure name="Accessed Cost USD"   column="accessed_cost_usd" aggregator="sum" formatString="$#,###.00"  description="Annualized cost of app-touched storage. (technical: accessed_cost_usd.)">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">22. Application</Annotation></Annotations>
+    </Measure>
+  </Cube>
+
+  <!-- ===================================================== -->
+  <!-- CUBE 75: Duplicate Savings -->
+  <!-- ===================================================== -->
+  <Cube name="75. Duplicate Savings" cache="true" enabled="true">
+    <Table name="fact_duplicate"/>
+    <DimensionUsage name="Data Source" source="Data Source" foreignKey="datasource_key"/>
+    <DimensionUsage name="Entity"      source="Entity"      foreignKey="entity_key"/>
+
+    <Dimension name="Duplicate Attributes" foreignKeyTable="fact_duplicate">
+      <Hierarchy hasAll="true" primaryKey="duplicate_group_key">
+        <Table name="fact_duplicate"/>
+        <Level name="Data Source Type" column="datasource_type_label" uniqueMembers="false" type="String" description="Source platform of the duplicate group.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">27. Duplicate Savings</Annotation></Annotations>
+        </Level>
+        <Level name="Resource Type"    column="resource_type_label"   uniqueMembers="false" type="String" description="Resource type of the duplicate group.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">27. Duplicate Savings</Annotation></Annotations>
+        </Level>
+        <Level name="Category"         column="category_label"        uniqueMembers="false" type="String" description="Category of the duplicate group.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">27. Duplicate Savings</Annotation></Annotations>
+        </Level>
+        <Level name="Original Path"    column="original_path"         uniqueMembers="false" type="String" description="Original path retained.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">27. Duplicate Savings</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+
+    <Measure name="Duplicate Group Count" column="duplicate_group_count" aggregator="sum" formatString="#,###"     description="Distinct duplicate groups.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">27. Duplicate Savings</Annotation></Annotations>
+    </Measure>
+    <Measure name="Duplicate File Count"  column="duplicate_file_count"  aggregator="sum" formatString="#,###"     description="Total redundant copies across groups.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">27. Duplicate Savings</Annotation></Annotations>
+    </Measure>
+    <Measure name="Savings Size TB"       column="savings_size_tb"       aggregator="sum" formatString="#,###.000" description="TB that could be reclaimed.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">27. Duplicate Savings</Annotation></Annotations>
+    </Measure>
+    <Measure name="Savings Cost USD"      column="savings_cost_usd"      aggregator="sum" formatString="$#,###.00" description="Annualized $ savings if duplicates removed.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">27. Duplicate Savings</Annotation></Annotations>
+    </Measure>
+  </Cube>
+
+  <!-- ===================================================== -->
+  <!-- CUBE 76: Pipeline Run -->
+  <!-- ===================================================== -->
+  <Cube name="76. Pipeline Run" cache="true" enabled="true">
+    <Table name="fact_pipeline_run"/>
+    <DimensionUsage name="Pipeline Status" source="Pipeline Status" foreignKey="status_key"/>
+
+    <Dimension name="Started Date" type="TimeDimension" foreignKey="started_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key">
+        <Table name="dim_date"/>
+        <Level name="Started Year"       column="year"              type="Numeric" levelType="TimeYears"  uniqueMembers="false"/>
+        <Level name="Started Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false"/>
+        <Level name="Started Date"       column="date_key"          nameColumn="full_date"       type="Numeric" levelType="TimeDays"  uniqueMembers="true"/>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Completed Date" type="TimeDimension" foreignKey="completed_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key">
+        <Table name="dim_date"/>
+        <Level name="Completed Year"       column="year"              type="Numeric" levelType="TimeYears"  uniqueMembers="false"/>
+        <Level name="Completed Year-Month" column="year_month_number" nameColumn="year_month_name" ordinalColumn="year_month_number" type="String" levelType="TimeMonths" uniqueMembers="false"/>
+        <Level name="Completed Date"       column="date_key"          nameColumn="full_date"       type="Numeric" levelType="TimeDays"  uniqueMembers="true"/>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Job">
+      <Hierarchy hasAll="true" allMemberName="All Jobs">
+        <Level name="View Name" column="view_name" uniqueMembers="false" type="String"/>
+        <Level name="Job ID"    column="job_id"    uniqueMembers="false"  type="String"/>
+      </Hierarchy>
+    </Dimension>
+
+    <Measure name="Run Count"        column="run_count"        aggregator="sum" formatString="#,###"      description="Pipeline runs.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Pipeline Status</Annotation></Annotations>
+    </Measure>
+    <Measure name="Runtime Seconds"  column="runtime_seconds"  aggregator="sum" formatString="#,###.0"    description="Total runtime in seconds.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Pipeline Status</Annotation></Annotations>
+    </Measure>
+    <Measure name="Success Runs"     column="success_count"   aggregator="sum" formatString="#,###"      description="Successful runs.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Pipeline Status</Annotation></Annotations>
+    </Measure>
+    <Measure name="Failure Runs"     column="failure_count"   aggregator="sum" formatString="#,###"      description="Failed runs.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Pipeline Status</Annotation></Annotations>
+    </Measure>
+    <CalculatedMember name="Success Rate %" dimension="Measures"
+      formula="IIF([Measures].[Run Count] = 0, 0, [Measures].[Success Runs] / [Measures].[Run Count])"
+      formatString="0.00%" description="Successful runs ÷ total runs.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Pipeline Status</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Average Runtime Seconds" dimension="Measures"
+      formula="IIF([Measures].[Run Count] = 0, 0, [Measures].[Runtime Seconds] / [Measures].[Run Count])"
+      formatString="#,###.00" description="Avg seconds per run.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">26. Pipeline Status</Annotation></Annotations>
+    </CalculatedMember>
+  </Cube>
+
+  <!-- ===================================================== -->
+  <!-- CUBE 77: Extension Trend -->
+  <!-- ===================================================== -->
+  <Cube name="77. Extension Trend" cache="true" enabled="true">
+    <Table name="fact_extension_daily"/>
+    <DimensionUsage name="Data Source"   source="Data Source" foreignKey="datasource_key"/>
+    <DimensionUsage name="Extension"     source="Extension"   foreignKey="extension_key"/>
+    <DimensionUsage name="Snapshot Date" source="Run Date"    foreignKey="snapshot_date_key"/>
+
+    <Measure name="Extension File Count" column="file_count" aggregator="sum" formatString="#,###" description="Files of this extension on this day.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">23. Extension</Annotation></Annotations>
+    </Measure>
+  </Cube>
+
+  <!-- ===================================================== -->
+  <!-- CUBE 78: Temperature Trend -->
+  <!-- ===================================================== -->
+  <Cube name="78. Temperature Trend" cache="true" enabled="true">
+    <Table name="fact_temperature_daily"/>
+    <DimensionUsage name="Data Source"   source="Data Source" foreignKey="datasource_key"/>
+    <DimensionUsage name="Temperature"   source="Temperature" foreignKey="temperature_key"/>
+    <DimensionUsage name="Snapshot Date" source="Run Date"    foreignKey="snapshot_date_key"/>
+
+    <Measure name="Temperature File Count" column="file_count" aggregator="sum" formatString="#,###" description="Files at this temperature on this day.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">24. Temperature</Annotation></Annotations>
+    </Measure>
   </Cube>
 
   <!-- ===================================================== -->

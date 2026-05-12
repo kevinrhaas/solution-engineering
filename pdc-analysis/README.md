@@ -18,9 +18,9 @@ The platform is organized around eleven analytical perspectives. Each dashboard 
 | **Data Source Usage** | Which sources contribute the most data and the most risk? | ✅ Cross‑cut on every D1x and `00-resource-type-data-source-*` |
 | **Data Quality** | How complete is the metadata? What's missing? | ✅ D11 Governance Health, `10-metadata-completeness`, `11-missing-attributes-by-source` |
 | **PDC Administration** | Tag assessment, refresh status, repository health | ✅ Job consoles + variable manager (see *How to Configure*) |
-| **PDC Application Usage** | How is PDC being used by people? | ⚠️ Roadmap — requires audit log ingestion |
+| **PDC Application Usage** | How is PDC being used by people? | ✅ D15 Application Reach, D17 Pipeline Operations, `14-app-*`, `16-pipeline-*` |
 | **Data Temperature** *(Obsolescence)* | Which data is hot, warm, cold, frozen — and stale? | ✅ D00/D01/D02 Data Temperature, `10-lifecycle-by-accessed-age`, `00-temperature-*` |
-| **Redundant Data** | Where is duplicate / near‑duplicate content? | ⚠️ Roadmap — requires fingerprinting facts |
+| **Redundant Data** | Where is duplicate / near‑duplicate content? | ✅ D16 Duplicate Savings, `15-duplicate-*` (cube `75. Duplicate Savings`) |
 | **Lineage Analysis** | What flows where? Term‑to‑entity reach? | ✅ Entity↔Term cube (`72. Entity Term`) + 6‑level glossary hierarchy |
 | **Workflow / Collaboration** | Who owns what, who's accountable, who's the risk? | ✅ D13 Ownership Accountability, `10-owner-accountability`, `11-owner-risk-scatter` |
 | **Cost Optimization / Planning** | What can be tiered or deleted? Sustainability impact? | ✅ D12 Storage & Sustainability, `11-co2e-by-data-source`, `10-lifecycle-by-accessed-age` |
@@ -449,6 +449,15 @@ All use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`.
 Every report and dashboard has a matching `.locale` file controlling display names and descriptions in the Pentaho UI.
 
 ## Version History
+
+**May 2026 — Strategic upgrade: 6 new cubes, 28 reports, 8 dashboards**
+- 13 new materialized views in `bidb_ext_dev`: dim_policy, dim_application, dim_extension, dim_temperature, dim_currency, dim_pipeline_status, fact_entity_policy, fact_entity_application, fact_duplicate, fact_pipeline_run, fact_extension_daily, fact_temperature_daily (plus extended `dim_entity` with cost fallback)
+- Mondrian cube schema extended: 7 new shared dimensions (Policy, Application, Extension, Temperature, Currency, Pipeline Status, Run Date) and 6 new cubes (`73. Entity Policy`, `74. Entity Application`, `75. Duplicate Savings`, `76. Pipeline Run`, `77. Extension Trend`, `78. Temperature Trend`)
+- 28 new analyzer reports (`12-*` cost/policy, `13-*` policy detail, `14-*` application reach, `15-*` redundancy, `16-*` pipeline ops, `17-*` extension trends, `18-*` temperature trends)
+- 8 new dashboards: D14 Policy Coverage, D15 Application Reach, D16 Duplicate Savings, D17 Pipeline Operations, D18 Extension Trends, D19 Temperature Trends, D20 Cost Optimization, D21 PDC Operations Overview
+- Closes Roadmap items: ✅ Redundant Data, ✅ PDC Application Usage
+- Cost-fallback pattern in `dim_entity`: `COALESCE(NULLIF(price,0)*fx, avg_by_source_type, global_avg, 0)` so cost rolls up even when source price is 0/null
+- All builds & tests target `bidb_ext_dev`; production cutover is a single `currentSchema` flip on the `PDC-BIDB-EXT` Mondrian datasource
 
 **May 2026 — Single‑grain dashboards & analytics‑category alignment**
 - README restructured: How to Use → How to Configure → Technical Reference; mapped content to the 11 PDC analytics categories
