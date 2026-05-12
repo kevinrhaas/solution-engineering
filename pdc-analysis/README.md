@@ -191,6 +191,7 @@ The dashboard panels follow a few deliberate rules. Knowing them helps you trust
 3. **Scatter / bubble for cross‑grain relationships.** When you see a bubble chart (e.g. **Owner Risk**), each axis intentionally encodes a *different* unit — that's what scatter is for.
 4. **Stacked bars only stack same‑grain things.** "Governance Mix" stacks governed + ungoverned counts. "Missing Attributes" stacks three count metrics at the same grain.
 5. **Naming convention.** Every panel title states the metric and the grain — e.g. *"Storage TB by Data Source"* — so you never have to guess.
+6. **Asset Mix is unfiltered.** The Asset Mix donut on D10 reflects the full estate (no date filter) so the structured/unstructured split represents *total* composition, not a single scan window.
 
 ## 1.4 Drill, slice, and pivot
 
@@ -552,7 +553,7 @@ All use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`.
 - `D12` — Storage Footprint & Sustainability
 - `D13` — Ownership Accountability
 
-Every report and dashboard has a matching `.locale` file controlling display names and descriptions in the Pentaho UI.
+Every report and dashboard has a matching `.locale` file controlling display names and descriptions in the Pentaho UI. These files are uploaded with `_PERM_HIDDEN=true` (handled automatically by `push-content.sh`) so they don't clutter the user-facing file browser. If you see them in **Browse Files**, toggle off **View → Show Hidden Files**.
 
 ## Version History
 

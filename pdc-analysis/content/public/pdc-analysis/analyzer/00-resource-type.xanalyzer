@@ -11,23 +11,7 @@
         <rowAttributes>
             <attribute formula="[Resource Type].[Resource Type]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="rows" gembarOrdinal="0"/>
         </rowAttributes>
-        <filters defaultFiltersAvailable="false">
-            <filter formula="[Scanned Date].[Scanned Year]" viewFilterEnum="MULTIPLE" isDefaultFilter="false" isDefaultMetricFilter="false">
-                <predicates>
-                    <predicate ordinal="1" operatorEnum="EQUAL">
-                        <member formula="[Scanned Date].[2026]" caption="2026" pos="0"/>
-                    </predicate>
-                </predicates>
-            </filter>
-            <filter formula="[Scanned Date].[Scanned Month]" viewFilterEnum="MULTIPLE" isDefaultFilter="false" isDefaultMetricFilter="false">
-                <predicates>
-                    <predicate ordinal="1" operatorEnum="EQUAL">
-                        <member formula="[Scanned Date].[2026].[1]" caption="1" pos="0"/>
-                        <member formula="[Scanned Date].[2026].[2]" caption="2" pos="0"/>
-                    </predicate>
-                </predicates>
-            </filter>
-        </filters>
+        <filters defaultFiltersAvailable="false"/>
         <chartOptions vizApiVersion="3.0" chartType="CUSTOM" customChartType="pentaho/visual/models/Donut" showMultiChart="false" legendPosition="RIGHT" showLegend="true" autoRange="true" displayUnits="UNITS_0" autoRangeSecondary="true" displayUnitsSecondary="UNITS_0" lineWidth="2" lineShape="CIRCLE" maxValues="100" backgroundColor="#ffffff" labelColor="#000000" labelSize="12" backgroundFill="NONE" maxChartsPerRow="3" multiChartMax="50" multiChartRangeScope="GLOBAL" emptyCellMode="GAP" sizeByNegativesMode="NEG_LOWEST" backgroundColorEnd="#ffffff" labelStyle="PLAIN" legendBackgroundColor="#ffffff" legendSize="12" legendColor="#000000" legendStyle="PLAIN" labelFontFamily="Default" legendFontFamily="Default" scatterReverseColors="false"/>
         <selectionFilters/>
         <selectionItems/>
