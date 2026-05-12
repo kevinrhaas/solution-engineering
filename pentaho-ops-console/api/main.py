@@ -13,7 +13,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .db import init_db
 from .db.seed import seed_from_files
-from .routes import jobs, profiles, provision, migrate, manage, config
+from .routes import jobs, profiles, provision, migrate, manage, config, marquez
 from .runner import runner
 
 logger = logging.getLogger(__name__)
@@ -54,6 +54,7 @@ app.include_router(provision.router)
 app.include_router(migrate.router)
 app.include_router(manage.router)
 app.include_router(config.router)
+app.include_router(marquez.router)
 
 
 @app.get("/api/health")
