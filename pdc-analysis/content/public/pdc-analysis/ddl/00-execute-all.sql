@@ -33,6 +33,9 @@ SET search_path TO :"BIDB_EXT_SCHEMA_NAME", public;
 \echo '>>> PHASE 1: Setup - Drop All Objects'
 \ir 01-setup/03-drop-all-objects.sql
 
+\echo '>>> PHASE 1: Setup - Lineage Staging Tables'
+\ir 01-setup/04-lineage-tables-setup.sql
+
 -- ============================================================================
 -- PHASE 2: STAGING
 -- ============================================================================
@@ -58,6 +61,9 @@ SET search_path TO :"BIDB_EXT_SCHEMA_NAME", public;
 \ir 03-dimensions/11-dim-temperature.sql
 \ir 03-dimensions/12-dim-currency.sql
 \ir 03-dimensions/13-dim-pipeline-status.sql
+\ir 03-dimensions/14-dim-lineage-event-type.sql
+\ir 03-dimensions/15-dim-lineage-job.sql
+\ir 03-dimensions/16-dim-lineage-endpoint.sql
 
 -- ============================================================================
 -- PHASE 4: FACTS
@@ -72,6 +78,8 @@ SET search_path TO :"BIDB_EXT_SCHEMA_NAME", public;
 \ir 04-facts/06-fact-pipeline-run.sql
 \ir 04-facts/07-fact-extension-daily.sql
 \ir 04-facts/08-fact-temperature-daily.sql
+\ir 04-facts/09-fact-lineage-event.sql
+\ir 04-facts/10-fact-lineage-connection.sql
 
 -- ============================================================================
 -- PHASE 5: REFRESH
@@ -89,9 +97,9 @@ SET search_path TO :"BIDB_EXT_SCHEMA_NAME", public;
 \echo '============================================================================'
 \echo ''
 \echo 'Summary:'
-\echo '  - Staging:    1 view'
-\echo '  - Dimensions: 7 tables'
-\echo '  - Facts:      2 tables'
+\echo '  - Staging:    1 MV + 2 physical tables (lineage)'
+\echo '  - Dimensions: 16 tables'
+\echo '  - Facts:      10 tables'
 \echo ''
 \echo 'Next steps:'
 \echo '  1. Verify row counts: SELECT COUNT(*) FROM fact_entity_snapshot;'

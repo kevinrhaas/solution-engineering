@@ -32,3 +32,12 @@ REFRESH MATERIALIZED VIEW fact_duplicate;
 REFRESH MATERIALIZED VIEW fact_pipeline_run;
 REFRESH MATERIALIZED VIEW fact_extension_daily;
 REFRESH MATERIALIZED VIEW fact_temperature_daily;
+
+-- Refresh lineage dimensions (depend only on stg_ physical tables, not on other MVs)
+REFRESH MATERIALIZED VIEW dim_lineage_event_type;
+REFRESH MATERIALIZED VIEW dim_lineage_job;
+REFRESH MATERIALIZED VIEW dim_lineage_endpoint;
+
+-- Refresh lineage facts (depend on lineage dims + stg_ physical tables)
+REFRESH MATERIALIZED VIEW fact_lineage_event;
+REFRESH MATERIALIZED VIEW fact_lineage_connection;

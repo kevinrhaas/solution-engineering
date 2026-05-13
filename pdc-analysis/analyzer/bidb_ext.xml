@@ -1757,4 +1757,211 @@
 
   <!-- Leave your Data Asset Summary cube as-is (not shown here) -->
 
+  <!-- ======================================================================
+       LINEAGE SHARED DIMENSIONS
+       ====================================================================== -->
+
+  <Dimension name="Lineage Event Type">
+    <Hierarchy hasAll="true" primaryKey="event_type_key" allMemberName="All Event Types">
+      <Table name="dim_lineage_event_type"/>
+      <Level name="Event Type" column="event_type_key" nameColumn="event_type_label"
+             ordinalColumn="event_type_sort" uniqueMembers="true" type="String"
+             description="The type of lineage event (Write, Read, Delete).">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Lineage Job">
+    <Hierarchy hasAll="true" primaryKey="lineage_job_key" allMemberName="All Jobs">
+      <Table name="dim_lineage_job"/>
+      <Level name="Integration" column="integration" uniqueMembers="false" type="String"
+             description="The integration platform (PDI, Spark, etc.).">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+      </Level>
+      <Level name="Job Type" column="job_type" uniqueMembers="false" type="String"
+             description="The type of job (Transformation, Job, etc.).">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+      </Level>
+      <Level name="Job Name" column="lineage_job_key" nameColumn="job_name"
+             uniqueMembers="true" type="String" description="The name of the job or transformation.">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Lineage Endpoint">
+    <Hierarchy hasAll="true" primaryKey="endpoint_key" allMemberName="All Endpoints">
+      <Table name="dim_lineage_endpoint"/>
+      <Level name="Namespace" column="endpoint_namespace" uniqueMembers="false" type="String"
+             description="The namespace of the data endpoint.">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+      </Level>
+      <Level name="Database" column="endpoint_db" uniqueMembers="false" type="String"
+             description="The database of the data endpoint.">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+      </Level>
+      <Level name="Schema" column="endpoint_schema" uniqueMembers="false" type="String"
+             description="The schema of the data endpoint.">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+      </Level>
+      <Level name="Table" column="endpoint_table" uniqueMembers="false" type="String"
+             description="The table of the data endpoint.">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+      </Level>
+      <Level name="Endpoint" column="endpoint_key" nameColumn="endpoint_name"
+             uniqueMembers="true" type="String" description="The full endpoint identifier.">
+        <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+      </Level>
+    </Hierarchy>
+  </Dimension>
+
+  <!-- ======================================================================
+       CUBE 79: LINEAGE EVENTS
+       Grain: one row per API lineage event
+       ====================================================================== -->
+
+  <Cube name="79. Lineage Events" cache="true" enabled="true">
+    <Table name="fact_lineage_event"/>
+    <DimensionUsage name="Lineage Event Type" source="Lineage Event Type"
+                    foreignKey="event_type_key"/>
+    <DimensionUsage name="Lineage Job" source="Lineage Job"
+                    foreignKey="lineage_job_key"/>
+    <Dimension name="Event Date" foreignKey="event_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key" allMemberName="All Dates">
+        <Table name="dim_date"/>
+        <Level name="Event Year" column="year" type="Numeric" levelType="TimeYears"
+               uniqueMembers="false" description="Year of the lineage event.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Event Year-Month" column="year_month_number" nameColumn="year_month_name"
+               ordinalColumn="year_month_number" type="String" levelType="TimeMonths"
+               uniqueMembers="false" description="Year-Month of the lineage event.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Event Date" column="date_key" nameColumn="full_date" type="Numeric"
+               levelType="TimeDays" uniqueMembers="true" description="Date of the lineage event.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Event Count"  column="event_count"  aggregator="sum"
+             formatString="#,##0" description="Number of lineage events."/>
+    <Measure name="Input Count"  column="input_count"  aggregator="sum"
+             formatString="#,##0" description="Total number of input entities across events."/>
+    <Measure name="Output Count" column="output_count" aggregator="sum"
+             formatString="#,##0" description="Total number of output entities across events."/>
+    <Measure name="Record Count" column="record_count" aggregator="sum"
+             formatString="#,##0" description="Total rows moved across all lineage events."/>
+    <CalculatedMember name="Average Records per Event" dimension="Measures"
+                      formula="IIF([Measures].[Event Count] = 0, 0, [Measures].[Record Count] / [Measures].[Event Count])"
+                      formatString="#,##0.0"
+                      description="Average row count moved per lineage event.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Avg Inputs per Event" dimension="Measures"
+                      formula="IIF([Measures].[Event Count] = 0, 0, [Measures].[Input Count] / [Measures].[Event Count])"
+                      formatString="#,##0.0"
+                      description="Average number of inputs per lineage event.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+    </CalculatedMember>
+    <CalculatedMember name="Avg Outputs per Event" dimension="Measures"
+                      formula="IIF([Measures].[Event Count] = 0, 0, [Measures].[Output Count] / [Measures].[Event Count])"
+                      formatString="#,##0.0"
+                      description="Average number of outputs per lineage event.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+    </CalculatedMember>
+  </Cube>
+
+  <!-- ======================================================================
+       CUBE 80: DATA LINEAGE CONNECTIONS
+       Grain: one row per source→destination endpoint pair per event
+       ====================================================================== -->
+
+  <Cube name="80. Data Lineage Connections" cache="true" enabled="true">
+    <Table name="fact_lineage_connection"/>
+    <Dimension name="Source Endpoint" foreignKey="source_endpoint_key">
+      <Hierarchy hasAll="true" primaryKey="endpoint_key" allMemberName="All Sources">
+        <Table name="dim_lineage_endpoint"/>
+        <Level name="Source Namespace" column="endpoint_namespace" uniqueMembers="false"
+               type="String" description="Namespace of the source data asset.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Source Database" column="endpoint_db" uniqueMembers="false" type="String"
+               description="Database of the source data asset.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Source Schema" column="endpoint_schema" uniqueMembers="false" type="String"
+               description="Schema of the source data asset.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Source Table" column="endpoint_table" uniqueMembers="false" type="String"
+               description="Table of the source data asset.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Source" column="endpoint_key" nameColumn="endpoint_name"
+               uniqueMembers="true" type="String" description="Source data endpoint.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension name="Destination Endpoint" foreignKey="dest_endpoint_key">
+      <Hierarchy hasAll="true" primaryKey="endpoint_key" allMemberName="All Destinations">
+        <Table name="dim_lineage_endpoint"/>
+        <Level name="Destination Namespace" column="endpoint_namespace" uniqueMembers="false"
+               type="String" description="Namespace of the destination data asset.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Destination Database" column="endpoint_db" uniqueMembers="false" type="String"
+               description="Database of the destination data asset.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Destination Schema" column="endpoint_schema" uniqueMembers="false" type="String"
+               description="Schema of the destination data asset.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Destination Table" column="endpoint_table" uniqueMembers="false" type="String"
+               description="Table of the destination data asset.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Destination" column="endpoint_key" nameColumn="endpoint_name"
+               uniqueMembers="true" type="String" description="Destination data endpoint.">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <DimensionUsage name="Lineage Event Type" source="Lineage Event Type"
+                    foreignKey="event_type_key"/>
+    <DimensionUsage name="Lineage Job" source="Lineage Job"
+                    foreignKey="lineage_job_key"/>
+    <Dimension name="Connection Date" foreignKey="event_date_key">
+      <Hierarchy hasAll="true" primaryKey="date_key" allMemberName="All Dates">
+        <Table name="dim_date"/>
+        <Level name="Connection Year" column="year" type="Numeric" levelType="TimeYears"
+               uniqueMembers="false">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Connection Year-Month" column="year_month_number" nameColumn="year_month_name"
+               ordinalColumn="year_month_number" type="String" levelType="TimeMonths"
+               uniqueMembers="false">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+        <Level name="Connection Date" column="date_key" nameColumn="full_date" type="Numeric"
+               levelType="TimeDays" uniqueMembers="true">
+          <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Connection Count" column="connection_count" aggregator="sum"
+             formatString="#,##0" description="Number of source-to-destination data connections."/>
+    <Measure name="Record Count"     column="record_count"     aggregator="sum"
+             formatString="#,##0" description="Total rows moved across these connections."/>
+    <CalculatedMember name="Avg Records per Connection" dimension="Measures"
+                      formula="IIF([Measures].[Connection Count] = 0, 0, [Measures].[Record Count] / [Measures].[Connection Count])"
+                      formatString="#,##0.0"
+                      description="Average rows moved per lineage connection.">
+      <Annotations><Annotation name="AnalyzerBusinessGroup">30. Lineage</Annotation></Annotations>
+    </CalculatedMember>
+  </Cube>
+
 </Schema>
