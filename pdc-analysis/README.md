@@ -165,7 +165,7 @@ Temperature mix and trend over time, by source.
 ### Data Lineage (D8x)
 
 #### D81 — Lineage Activity
-Event type mix (Read / Write / Other) and event & record count trend over time; top jobs by event volume. Answers: *what types of lineage activity are happening and when?*
+Event type mix (Read / Write / Other) and event & record count trend over time; top 25 jobs by event volume. Answers: *what types of lineage activity are happening and when?*
 
 ![D81 Lineage Activity](docs/screenshots/D81-Lineage-Activity.png)
 
@@ -175,7 +175,7 @@ Source → Destination connection matrix (scatter), top source namespaces and to
 ![D82 Data Flow Map](docs/screenshots/D82-Data-Flow-Map.png)
 
 #### D83 — Lineage Operations Summary
-KPI pivot by integration + job type (event count, record count, input / output counts), event count trend by type, and job volume heatgrid. Answers: *which jobs are the heaviest movers and what is the overall operational picture?*
+KPI pivot by integration + job type (event count, record count, input / output counts), event count trend by type, and top-25 job volume heatgrid. Answers: *which jobs are the heaviest movers and what is the overall operational picture?*
 
 ![D83 Lineage Operations Summary](docs/screenshots/D83-Lineage-Operations-Summary.png)
 
