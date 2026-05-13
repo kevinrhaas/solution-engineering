@@ -367,40 +367,121 @@ pdc-analysis/
 └── README.md
 ```
 
-## 3.2 Architecture
+## 3.2 Data Architecture
 
-### Three‑Cube Design
-- **`01. Data Asset Analysis`** (Virtual Cube) — unified entity + term analysis with full time context.
-- **`71. Entity Snapshot`** — entity‑grain fact table with storage metrics, child hierarchies, 6 role‑playing date dimensions.
+### 3.2.1 End‑to‑End Data Flow
+
+```
+   ┌────────────────────────┐       postgres_fdw         ┌──────────────────────────┐
+   │  PDC operational DB    │ ─────────────────────────▶ │  bidb_ext_dev (analytics)│
+   │  (schema: bidb_ext)    │   foreign server           │  PostgreSQL 17.7         │
+   │                        │   `remote_bidb`            │                          │
+   │  • catalog views       │                            │  • staging MV            │
+   │  • policy / app views  │                            │  • 13 dimension MVs      │
+   │  • pipeline_log        │                            │  • 8 fact MVs            │
+   └────────────────────────┘                            └────────────┬─────────────┘
+                                                                      │ Mondrian
+                                                                      ▼
+                                                         ┌──────────────────────────┐
+                                                         │  bidb_ext.xml (3 cubes)  │
+                                                         │  Analyzer + Dashboards   │
+                                                         └──────────────────────────┘
+```
+
+The analytics database is a **separate PostgreSQL schema (`bidb_ext_dev`)** that materializes a star‑schema warehouse from the live PDC catalog. Source tables/views live in the operational PDC database and are exposed through a **PostgreSQL foreign data wrapper** (`remote_bidb` server, set up by `01-setup/01-fdw-setup.sql`). Every analytics object is a **`MATERIALIZED VIEW`** so reports run against pre‑computed snapshots, not live OLTP queries. Refresh is orchestrated by `05-refresh/01-refresh-all.sql` and triggered from the Pentaho job `j-main-script.kjb` (or `j-refresh-only.kjb` to skip the rebuild).
+
+### 3.2.2 Three‑Cube Mondrian Design (`analyzer/bidb_ext.xml`)
+
+- **`01. Data Asset Analysis`** (Virtual Cube) — unified entity + term analysis with full time context, joined on conformed dimensions.
+- **`71. Entity Snapshot`** — entity‑grain fact with storage metrics, child hierarchies, and 6 role‑playing date dimensions.
 - **`72. Entity Term`** — many‑to‑many associative fact linking entities to glossary terms.
 
-### Dimensional Model (PostgreSQL 17.7, 10 materialized views)
+Additional fact tables (governance, application reach, duplication, pipeline ops, extension trends, temperature trends) plug into the same conformed dimensions and are surfaced through dedicated cubes / dashboards.
 
-**Fact tables**
-- `fact_entity_snapshot` — daily entity snapshots (storage + hierarchy)
-- `fact_entity_term` — entity‑to‑term associations with time context
+### 3.2.3 Source Tables & Views (PDC operational DB, accessed via FDW)
 
-**Dimensions**
-- `dim_date` — complete date range with Unknown handling (1900‑01‑01)
-- `dim_entity` — Name, Type, Path, FQDN, Owner, Group
-- `dim_term` — business glossary terms
-- `dim_glossary_term` — 6‑level business glossary hierarchy
-- `dim_datasource` — source system classification
-- `dim_filetype` — file type taxonomy
-- `dim_leaf_flag` — leaf‑term filter
+| Source object | Kind | What it provides |
+|---|---|---|
+| `entities_master_view` | catalog view | One row per catalog entity: identity, type, path, FQDN, owner, group, size, child counts, all 6 timestamps, cost‑per‑TB, currency, profile/quality stats (RowCount, NullCount, Cardinality, Hll), key flags (PK/FK/Nullable), document metadata (Title, Author, Application, Company, PageCount). |
+| `terms_view` | catalog view | Classification term assignments per entity (FQDN‑joined). |
+| `glossary_summary_view` | catalog view | Glossary node hierarchy used to derive 6‑level ragged hierarchy. |
+| `datasource_category_mapping` | reference | Maps `DataSourceType` → category for `dim_entity` rollups. |
+| `entities_custom_categorization` | reference | Customer‑defined categorization joined into `dim_entity`. |
+| `currency_exchange_rates` | reference | USD conversion factors used by cost measures and `dim_currency`. |
+| `policies_summary_view` | governance | Master list of policies (one per policy). |
+| `mv_policies_summary` | governance | Pre‑built MV with policy → glossary level hierarchy. |
+| `entities_policies_view` | governance | Entity ⨯ policy assignments (drives `fact_entity_policy`). |
+| `applications_summary_view` | usage | One row per discovered application (with `UsersWithAccess` jsonb array). |
+| `entities_applications_view` | usage | Entity ⨯ application access (drives `fact_entity_application`). |
+| `duplicate_files_view` | dedup | Raw duplicate file records used to attach an example entity to each group. |
+| `mv_duplicate_savings_by_original_view` | dedup | Pre‑aggregated duplicate‑group savings (size + cost). |
+| `entities_extension_count_view` | trends | Daily file counts by data source × extension. |
+| `entities_temperature_count_view` | trends | Daily file counts by data source × temperature band. |
+| `pipeline_log` | ops | One row per pipeline job_id × view × started_at (status, timestamps). |
 
-**Time‑based analysis**
-- 6 role‑playing date dimensions: Scanned, Created, Modified, Accessed, Last Update, Last Update Statistics
-- Age calculations (months/years) for staleness detection
-- Unknown date (1900‑01‑01) ensures drill‑through always returns rows
+### 3.2.4 Analytics Schema (`bidb_ext_dev`) — 22 Materialized Views
 
-### Business‑First Categorization
+**Staging (1)**
+
+| MV | Source(s) | Notes |
+|---|---|---|
+| `mv_stg_entity_term` | `entities_master_view` ⟕ `terms_view` ⟕ `glossary_summary_view` | Unified entity+term staging; resolves glossary path; foundation for most dims and facts. |
+
+**Dimensions (13)**
+
+| MV | Source(s) | Description |
+|---|---|---|
+| `dim_date` | derived from MIN/MAX timestamps in `mv_stg_entity_term` | Continuous date range + Unknown row (`1900‑01‑01`, key `19000101`) for missing timestamps. |
+| `dim_term` | `mv_stg_entity_term` | Classification terms (Hot/Cold/PII/…); includes "No Term Available" default member. |
+| `dim_glossary_term` | `glossary_summary_view` | 6‑level ragged business‑glossary hierarchy parsed from FQDN; includes "No Glossary Available" default. |
+| `dim_entity` | `mv_stg_entity_term` ⟕ `entities_master_view` ⟕ `datasource_category_mapping` ⟕ `currency_exchange_rates` ⟕ `entities_custom_categorization` (+ lateral fallbacks on `entities_master_view`) | Entity master with structural attrs, cost/currency in USD with 2‑level fallback, profile/quality, key flags, document metadata, custom & data‑source category. |
+| `dim_datasource` | `mv_stg_entity_term` | Data source type, name, id (conformed). |
+| `dim_filetype` | `mv_stg_entity_term` | File type taxonomy + "No File Type Available" default. |
+| `dim_leaf_flag` | static (2 rows) | true/false toggle for leaf‑term filtering. |
+| `dim_policy` | `policies_summary_view` ⟕ `mv_policies_summary` | One row per policy with 3‑level glossary hierarchy when present. |
+| `dim_application` | `applications_summary_view` | Discovered applications; counts cardinality of `UsersWithAccess` jsonb. |
+| `dim_extension` | `entities_extension_count_view` | Distinct file extensions for trend cube grain. |
+| `dim_temperature` | `entities_temperature_count_view` ∪ static canonical list | Stable temperature membership (Hot/Warm/Cold/Frozen) even on sparse days. |
+| `dim_currency` | `currency_exchange_rates` | Currency lookup with USD conversion rate. |
+| `dim_pipeline_status` | `pipeline_log` ∪ static canonical list | Pipeline run status with sort/order keys. |
+
+**Facts (8)**
+
+| MV | Grain | Source(s) | Key measures |
+|---|---|---|---|
+| `fact_entity_snapshot` | entity × scanned_date | `mv_stg_entity_term` ⟕ `entities_master_view` | Storage size, child counts, freshness/lifecycle bands, governance & metadata‑quality flags. Six date FKs (Scanned, Created, Modified, Accessed, Last Update, Last Update Statistics). |
+| `fact_entity_term` | entity × term | `mv_stg_entity_term` ⟕ `dim_glossary_term` ⟕ latest `fact_entity_snapshot` | Many‑to‑many entity↔term association; carries most‑recent storage for "GB by Term" analysis; links to `glossary_term_key` for hierarchy rollups. |
+| `fact_entity_policy` | entity × policy | `entities_policies_view` ⟕ `dim_entity` ⟕ `entities_master_view` | `assignment_count`, `governed_size_tb`, `governed_cost_usd`. |
+| `fact_entity_application` | entity × application | `entities_applications_view` ⟕ `dim_entity` ⟕ `entities_master_view` | `access_count`, `accessed_size_tb`, `accessed_cost_usd`. |
+| `fact_duplicate` | duplicate group | `mv_duplicate_savings_by_original_view` ⟕ `duplicate_files_view` (example) ⟕ `dim_entity` | `duplicate_group_count`, `duplicate_file_count`, `savings_size_tb`, `savings_cost_usd`. |
+| `fact_pipeline_run` | job_id × view_name × started_at | `pipeline_log` | `run_count`, `success_count`, `failure_count`, `runtime_seconds`; FKs to `dim_pipeline_status`, `dim_date` (started/completed). |
+| `fact_extension_daily` | data source × extension × date | `entities_extension_count_view` | `file_count`. Conformed FKs to `dim_datasource`, `dim_extension`, `dim_date`. |
+| `fact_temperature_daily` | data source × temperature × date | `entities_temperature_count_view` | `file_count`. Conformed FKs to `dim_datasource`, `dim_temperature`, `dim_date`. |
+
+### 3.2.5 Conformed Date Dimension & Time‑Based Analysis
+
+- 6 role‑playing date dimensions on `fact_entity_snapshot`: **Scanned, Created, Modified, Accessed, Last Update, Last Update Statistics**.
+- Age calculations (months/years) precomputed for staleness/temperature analysis.
+- Every fact's date FK uses `COALESCE(to_char(ts::date,'YYYYMMDD')::int, 19000101)` so the Unknown row always satisfies drill‑through.
+- `dim_date` covers `MIN(date) → MAX(date)` across all source timestamps + current date, regenerated every refresh.
+
+### 3.2.6 Refresh Strategy
+
+- All 22 objects are `MATERIALIZED VIEW`s — refreshed in dependency order by `05-refresh/01-refresh-all.sql`:
+  1. staging (`mv_stg_entity_term`)
+  2. dimensions (date first, then attribute dims)
+  3. facts (snapshot first, then term/policy/application/duplicate/pipeline/extension/temperature)
+- DDL is idempotent: `01-setup/03-drop-all-objects.sql` cleans the schema before rebuild; `j-refresh-only.kjb` skips the rebuild and just re‑refreshes data.
+- Indexes are created on every date FK and natural‑key column to keep Mondrian SQL within MOLAP‑like response times.
+
+### 3.2.7 Mondrian Categorization (cube editor)
+
 ```
-01-06: Business dimensions (Data Source, Entity attributes, Terms)
+01-06: Business dimensions (Data Source, Entity attributes, Terms, Policy, Application)
 05:    Time Attributes (date hierarchies)
 05:    Time Attributes — Year/Month Age (separate category for age metrics)
-11-15: Measures (Object Volume, Storage Size, Children, Total Children, Environmental Impact)
-70-79: Core/technical cubes
+11-15: Measures (Object Volume, Storage Size, Children, Total Children, Environmental Impact, Cost USD)
+70-79: Core/technical cubes (Entity Snapshot, Entity Term, Pipeline Run, Duplicate Savings, Extension/Temperature trends)
 ```
 
 ## 3.3 Pentaho Processing Harness
