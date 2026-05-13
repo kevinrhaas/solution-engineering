@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reportRecord xmlns="http://www.pentaho.com">
+    <commonStorageAttributes createdBy="clemens" updatedBy="clemens" created="2025-07-07T15:44:27.126+02:00" update="2025-07-07T16:57:33.347+02:00">
+        <path name="jobrun-status" folder="/public/lineage/jobrun-status.xanalyzer"/>
+    </commonStorageAttributes>
+    <report catalog="linnew" cube="linnew" reportTypeEnum="JSON" showRowGrandTotal="false" showColumnGrandTotal="false" showSubTotals="true" totalsOnTopLeft="false" useNonVisualTotals="false" showEmptyCells="false" showEmptyEnum="SHOW_MEASURE" emptyCellDisplay="-" showDrillLinks="false" version="15" autoRefresh="true" freezeColumns="true" freezeRows="true">
+        <measures>
+            <measure formula="[Measures].[Count]" showSum="true" showAggregate="false" showAverage="false" showCount="false" showMax="false" showMin="false" hideInChart="false" measureTypeEnum="VALUE" sortOrderEnum="NONE" id="[MEASURE:0]" gembarId="measures" gembarOrdinal="0"/>
+        </measures>
+        <columnAttributes/>
+        <rowAttributes>
+            <attribute formula="[JobName.Jobname].[Jobname]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="rows" gembarOrdinal="0"/>
+            <attribute formula="[EventType.Eventtype].[Eventtype]" showSubtotal="false" sortOrderEnum="ASC" wordWrap="false" gembarId="columns" gembarOrdinal="0"/>
+        </rowAttributes>
+        <filters defaultFiltersAvailable="false"/>
+        <chartOptions vizApiVersion="3.0" chartType="CUSTOM" customChartType="pentaho/visual/models/BarStacked" showMultiChart="false" legendPosition="RIGHT" showLegend="true" autoRange="true" displayUnits="UNITS_0" autoRangeSecondary="true" displayUnitsSecondary="UNITS_0" lineWidth="2" lineShape="CIRCLE" maxValues="250" backgroundColor="#d3d3d3" labelColor="#000000" labelSize="12" backgroundFill="SOLID" maxChartsPerRow="3" multiChartMax="50" multiChartRangeScope="GLOBAL" emptyCellMode="GAP" sizeByNegativesMode="NEG_LOWEST" backgroundColorEnd="#ffffff" labelStyle="PLAIN" legendBackgroundColor="#ffffff" legendSize="12" legendColor="#000000" legendStyle="PLAIN" labelFontFamily="Default" legendFontFamily="Default" scatterReverseColors="false"/>
+        <selectionFilters>
+            <selectionItem type="CategoryItem" op="EXCLUDE">
+                <selectionMember formula="[JobName.Jobname].[Jobname]" member="[JobName.Jobname].[/Applications/Pentaho-10.3.0.0-397/server/pentaho-server/pentaho-solutions/system/pentaho-geo/dataimport/import_country.ktr]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="EXCLUDE">
+                <selectionMember formula="[JobName.Jobname].[Jobname]" member="[JobName.Jobname].[/Applications/Pentaho-10.3.0.0-397/server/pentaho-server/pentaho-solutions/system/pentaho-geo/dataimport/import_custom.ktr]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="EXCLUDE">
+                <selectionMember formula="[JobName.Jobname].[Jobname]" member="[JobName.Jobname].[/Applications/Pentaho-10.3.0.0-397/server/pentaho-server/pentaho-solutions/system/pentaho-geo/dataimport/import_municipality.ktr]"/>
+            </selectionItem>
+            <selectionItem type="CategoryItem" op="EXCLUDE">
+                <selectionMember formula="[JobName.Jobname].[Jobname]" member="[JobName.Jobname].[/Applications/Pentaho-10.3.0.0-397/server/pentaho-server/pentaho-solutions/system/pentaho-geo/dataimport/import_us_postalcode.ktr]"/>
+            </selectionItem>
+        </selectionFilters>
+        <selectionItems/>
+        <pageSetup excelPageSize="LETTER" pdfPageSize="LETTER" excelOrientation="LANDSCAPE" pdfOrientation="LANDSCAPE" excelScalingType="PERCENT" excelScalingPercent="100" excelScalingPageWide="1" excelScalingPageTall="1" excelMergePivotCells="true" csvIncludeSubtotals="true" csvFormatNumbers="true"/>
+        <drillColumns/>
+    </report>
+    <uiAttributes showFieldList="true" showFieldLayout="true" showFilterPanel="true" fieldListView="CMDVIEWTYPE">
+        <rowFieldWidths actualWidths="577">
+            <labelWidth index="0">
+                <width>-367</width>
+            </labelWidth>
+            <labelWidth index="1">
+                <width>-40</width>
+            </labelWidth>
+        </rowFieldWidths>
+        <columnDataFieldWidths actualWidths="120">
+            <labelWidth index="0">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="1">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="2">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="3">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="4">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="5">
+                <width>0</width>
+            </labelWidth>
+            <labelWidth index="6">
+                <width>0</width>
+            </labelWidth>
+        </columnDataFieldWidths>
+        <pluginData>[{"labelsOption":"center"}]</pluginData>
+    </uiAttributes>
+</reportRecord>

@@ -372,54 +372,28 @@ pdc-analysis/
 ### 3.2.1 End‑to‑End Data Flow
 
 ```
-   ┌────────────────────────┐       postgres_fdw         ┌──────────────────────────┐
-   │  PDC operational DB    │ ─────────────────────────▶ │  bidb_ext_dev (analytics)│
-   │  (schema: bidb_ext)    │   foreign server           │  PostgreSQL 17.7         │
-   │                        │   `remote_bidb`            │                          │
-   │  • catalog views       │                            │  • staging MV            │
-   │  • policy / app views  │                            │  • 13 dimension MVs      │
-   │  • pipeline_log        │                            │  • 8 fact MVs            │
-   └────────────────────────┘                            └────────────┬─────────────┘
-                                                                      │ Mondrian
-                                                                      ▼
-                                                         ┌──────────────────────────┐
-                                                         │  bidb_ext.xml (3 cubes)  │
-                                                         │  Analyzer + Dashboards   │
-                                                         └──────────────────────────┘
+  ┌────────────────────────┐       postgres_fdw         ┌──────────────────────────┐
+  │  PDC operational DB    │ ─────────────────────────▶ │  bidb_ext_dev (analytics)│
+  │  (schema: bidb_ext)    │   foreign server           │  PostgreSQL 17.7         │
+  │                        │   `remote_bidb`            │                          │
+  │  • catalog views       │                            │  • staging MV            │
+  │  • policy / app views  │                            │  • 13 dimension MVs      │
+  │  • trend / ops views   │                            │  • 8 fact MVs            │
+  └────────────────────────┘                            └────────────┬─────────────┘
+                                               │ Mondrian
+                                               ▼
+                                      ┌──────────────────────────┐
+                                      │  bidb_ext.xml            │
+                                      │  8 physical cubes +      │
+                                      │  1 virtual cube          │
+                                      └────────────┬─────────────┘
+                                               ▼
+                                      Analyzer reports + dashboards
 ```
 
 The analytics database is a **separate PostgreSQL schema (`bidb_ext_dev`)** that materializes a star‑schema warehouse from the live PDC catalog. Source tables/views live in the operational PDC database and are exposed through a **PostgreSQL foreign data wrapper** (`remote_bidb` server, set up by `01-setup/01-fdw-setup.sql`). Every analytics object is a **`MATERIALIZED VIEW`** so reports run against pre‑computed snapshots, not live OLTP queries. Refresh is orchestrated by `05-refresh/01-refresh-all.sql` and triggered from the Pentaho job `j-main-script.kjb` (or `j-refresh-only.kjb` to skip the rebuild).
 
-### 3.2.2 Three‑Cube Mondrian Design (`analyzer/bidb_ext.xml`)
-
-- **`01. Data Asset Analysis`** (Virtual Cube) — unified entity + term analysis with full time context, joined on conformed dimensions.
-- **`71. Entity Snapshot`** — entity‑grain fact with storage metrics, child hierarchies, and 6 role‑playing date dimensions.
-- **`72. Entity Term`** — many‑to‑many associative fact linking entities to glossary terms.
-
-Additional fact tables (governance, application reach, duplication, pipeline ops, extension trends, temperature trends) plug into the same conformed dimensions and are surfaced through dedicated cubes / dashboards.
-
-### 3.2.3 Source Tables & Views (PDC operational DB, accessed via FDW)
-
-| Source object | Kind | What it provides |
-|---|---|---|
-| `entities_master_view` | catalog view | One row per catalog entity: identity, type, path, FQDN, owner, group, size, child counts, all 6 timestamps, cost‑per‑TB, currency, profile/quality stats (RowCount, NullCount, Cardinality, Hll), key flags (PK/FK/Nullable), document metadata (Title, Author, Application, Company, PageCount). |
-| `terms_view` | catalog view | Classification term assignments per entity (FQDN‑joined). |
-| `glossary_summary_view` | catalog view | Glossary node hierarchy used to derive 6‑level ragged hierarchy. |
-| `datasource_category_mapping` | reference | Maps `DataSourceType` → category for `dim_entity` rollups. |
-| `entities_custom_categorization` | reference | Customer‑defined categorization joined into `dim_entity`. |
-| `currency_exchange_rates` | reference | USD conversion factors used by cost measures and `dim_currency`. |
-| `policies_summary_view` | governance | Master list of policies (one per policy). |
-| `mv_policies_summary` | governance | Pre‑built MV with policy → glossary level hierarchy. |
-| `entities_policies_view` | governance | Entity ⨯ policy assignments (drives `fact_entity_policy`). |
-| `applications_summary_view` | usage | One row per discovered application (with `UsersWithAccess` jsonb array). |
-| `entities_applications_view` | usage | Entity ⨯ application access (drives `fact_entity_application`). |
-| `duplicate_files_view` | dedup | Raw duplicate file records used to attach an example entity to each group. |
-| `mv_duplicate_savings_by_original_view` | dedup | Pre‑aggregated duplicate‑group savings (size + cost). |
-| `entities_extension_count_view` | trends | Daily file counts by data source × extension. |
-| `entities_temperature_count_view` | trends | Daily file counts by data source × temperature band. |
-| `pipeline_log` | ops | One row per pipeline job_id × view × started_at (status, timestamps). |
-
-### 3.2.4 Analytics Schema (`bidb_ext_dev`) — 22 Materialized Views
+### 3.2.2 Analytics Schema (`bidb_ext_dev`) — 22 Materialized Views
 
 **Staging (1)**
 
@@ -458,6 +432,73 @@ Additional fact tables (governance, application reach, duplication, pipeline ops
 | `fact_extension_daily` | data source × extension × date | `entities_extension_count_view` | `file_count`. Conformed FKs to `dim_datasource`, `dim_extension`, `dim_date`. |
 | `fact_temperature_daily` | data source × temperature × date | `entities_temperature_count_view` | `file_count`. Conformed FKs to `dim_datasource`, `dim_temperature`, `dim_date`. |
 
+### 3.2.3 Physical Star Schema Reference
+
+```
+mv_stg_entity_term          - Staging (entities + terms + glossary context)
+
+dim_date                    - Date dimension with Unknown row
+dim_entity                  - Entity attributes, hierarchy, profile stats, cost, categories
+dim_term                    - Classification terms
+dim_glossary_term           - 6-level business glossary hierarchy
+dim_datasource              - Source systems
+dim_filetype                - File type taxonomy
+dim_leaf_flag               - Leaf-term filter (true/false)
+dim_policy                  - Policy master + policy glossary hierarchy
+dim_application             - Discovered applications and user reach
+dim_extension               - File-extension lookup
+dim_temperature             - Hot/Warm/Cold/Frozen temperature lookup
+dim_currency                - Currency + USD conversion rates
+dim_pipeline_status         - Pipeline status lookup
+
+fact_entity_snapshot        - Entity daily snapshots
+fact_entity_term            - Entity-term associations
+fact_entity_policy          - Entity-policy assignments
+fact_entity_application     - Entity-application access
+fact_duplicate              - Duplicate-group savings
+fact_pipeline_run           - Pipeline execution history
+fact_extension_daily        - Daily file counts by data source + extension
+fact_temperature_daily      - Daily file counts by data source + temperature
+```
+
+**Date Foreign Keys**
+```sql
+-- Entity Snapshot: 6 role-playing date dimensions
+scanned_date_key, created_date_key, modified_date_key,
+accessed_date_key, last_update_date_key, last_update_statistics_date_key
+
+-- Entity Term: 4 role-playing date dimensions
+created_date_key, modified_date_key, accessed_date_key, scanned_date_key
+
+-- Pipeline Run: 2 role-playing date dimensions
+started_date_key, completed_date_key
+
+-- Extension / Temperature trends: 1 snapshot date dimension
+snapshot_date_key
+```
+All use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`.
+
+### 3.2.4 Source Tables & Views (PDC operational DB, accessed via FDW)
+
+| Source object | Kind | What it provides |
+|---|---|---|
+| `entities_master_view` | catalog view | One row per catalog entity: identity, type, path, FQDN, owner, group, size, child counts, all 6 timestamps, cost‑per‑TB, currency, profile/quality stats (RowCount, NullCount, Cardinality, Hll), key flags (PK/FK/Nullable), document metadata (Title, Author, Application, Company, PageCount). |
+| `terms_view` | catalog view | Classification term assignments per entity (FQDN‑joined). |
+| `glossary_summary_view` | catalog view | Glossary node hierarchy used to derive 6‑level ragged hierarchy. |
+| `datasource_category_mapping` | reference | Maps `DataSourceType` → category for `dim_entity` rollups. |
+| `entities_custom_categorization` | reference | Customer‑defined categorization joined into `dim_entity`. |
+| `currency_exchange_rates` | reference | USD conversion factors used by cost measures and `dim_currency`. |
+| `policies_summary_view` | governance | Master list of policies (one per policy). |
+| `mv_policies_summary` | governance | Pre‑built MV with policy → glossary level hierarchy. |
+| `entities_policies_view` | governance | Entity ⨯ policy assignments (drives `fact_entity_policy`). |
+| `applications_summary_view` | usage | One row per discovered application (with `UsersWithAccess` jsonb array). |
+| `entities_applications_view` | usage | Entity ⨯ application access (drives `fact_entity_application`). |
+| `duplicate_files_view` | dedup | Raw duplicate file records used to attach an example entity to each group. |
+| `mv_duplicate_savings_by_original_view` | dedup | Pre‑aggregated duplicate‑group savings (size + cost). |
+| `entities_extension_count_view` | trends | Daily file counts by data source × extension. |
+| `entities_temperature_count_view` | trends | Daily file counts by data source × temperature band. |
+| `pipeline_log` | ops | One row per pipeline job_id × view × started_at (status, timestamps). |
+
 ### 3.2.5 Conformed Date Dimension & Time‑Based Analysis
 
 - 6 role‑playing date dimensions on `fact_entity_snapshot`: **Scanned, Created, Modified, Accessed, Last Update, Last Update Statistics**.
@@ -465,7 +506,25 @@ Additional fact tables (governance, application reach, duplication, pipeline ops
 - Every fact's date FK uses `COALESCE(to_char(ts::date,'YYYYMMDD')::int, 19000101)` so the Unknown row always satisfies drill‑through.
 - `dim_date` covers `MIN(date) → MAX(date)` across all source timestamps + current date, regenerated every refresh.
 
-### 3.2.6 Refresh Strategy
+### 3.2.6 Mondrian Semantic Model (`analyzer/bidb_ext.xml`)
+
+The current Mondrian schema is **not a three‑cube design**. It contains **8 physical cubes** plus **1 virtual cube**:
+
+| Cube | Backing fact MV | Purpose |
+|---|---|---|
+| `71. Entity Snapshot` | `fact_entity_snapshot` | Core entity-grain inventory, storage, lifecycle, metadata quality, governance coverage, and environmental measures. |
+| `72. Entity Term` | `fact_entity_term` | Many-to-many entity↔term analysis with glossary rollups and term-attributed storage. |
+| `73. Entity Policy` | `fact_entity_policy` | Policy adherence / governed-capacity analysis. |
+| `74. Entity Application` | `fact_entity_application` | Application reach and app-attributed storage/cost analysis. |
+| `75. Duplicate Savings` | `fact_duplicate` | Redundant data savings by duplicate group. |
+| `76. Pipeline Run` | `fact_pipeline_run` | PDC analytics pipeline operations, runtime, and success/failure tracking. |
+| `77. Extension Trend` | `fact_extension_daily` | Daily file-extension trends by data source. |
+| `78. Temperature Trend` | `fact_temperature_daily` | Daily hot/warm/cold/frozen temperature trends by data source. |
+| `01. Data Asset Analysis` | virtual over `71. Entity Snapshot` + `72. Entity Term` | Business-facing blended cube for core asset + term analysis using conformed dimensions. |
+
+Conformed dimensions (`dim_date`, `dim_entity`, `dim_datasource`, `dim_glossary_term`, etc.) keep Analyzer reports consistent across cubes. The dedicated physical cubes keep each report at a single fact grain, while the virtual cube exposes the primary asset/term measures together for the executive and cross-cut dashboards.
+
+### 3.2.7 Refresh Strategy
 
 - All 22 objects are `MATERIALIZED VIEW`s — refreshed in dependency order by `05-refresh/01-refresh-all.sql`:
   1. staging (`mv_stg_entity_term`)
@@ -474,7 +533,7 @@ Additional fact tables (governance, application reach, duplication, pipeline ops
 - DDL is idempotent: `01-setup/03-drop-all-objects.sql` cleans the schema before rebuild; `j-refresh-only.kjb` skips the rebuild and just re‑refreshes data.
 - Indexes are created on every date FK and natural‑key column to keep Mondrian SQL within MOLAP‑like response times.
 
-### 3.2.7 Mondrian Categorization (cube editor)
+### 3.2.8 Mondrian Categorization (cube editor)
 
 ```
 01-06: Business dimensions (Data Source, Entity attributes, Terms, Policy, Application)
@@ -496,7 +555,7 @@ j-main-script.kjb
 `t-execute-repo-file.ktr` iterates a configurable data grid of SQL file paths, fetches each file via the BA Server `generic-files` API, performs `${VAR}` substitution, splits multi‑statement SQL on semicolons (dollar‑quote aware), and executes each statement against PostgreSQL. Adding/removing SQL is a data‑grid edit — no code changes.
 
 **Outputs:**
-- 10 materialized views (1 staging, 2 facts, 7 dimensions)
+- 22 materialized views (1 staging, 13 dimensions, 8 facts)
 - Date dimension covering MIN→MAX of all date fields + current
 - Unknown date row (1900‑01‑01, key=19000101) for missing timestamps
 - All fact date FKs use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`
@@ -555,33 +614,7 @@ Export and import Analysis, DSW, Metadata, and JDBC definitions. Organized direc
 ### `pull-home-files.sh` / `push-home-files.sh`
 File‑by‑file `/home` directory transfer to bypass the 403 restriction on `/home` zip exports in older Pentaho versions. Falls back from `/inline` to `/download` on failure. Auto‑extracts `.ktr`/`.kjb` export bundles before re‑upload (avoids HTTP 500 on Pentaho 11).
 
-## 3.5 Database Schema Reference
-
-```
-mv_stg_entity_term          - Staging (entities + terms)
-dim_date                    - Date dimension with Unknown
-dim_entity                  - Entity attributes (name, type, path, FQDN, owner)
-dim_term                    - Business glossary terms
-dim_glossary_term           - 6-level business glossary hierarchy
-dim_datasource              - Source systems
-dim_filetype                - File type taxonomy
-dim_leaf_flag               - Leaf-term filter (true/false)
-fact_entity_term            - Entity-term associations
-fact_entity_snapshot        - Entity daily snapshots
-```
-
-**Date Foreign Keys**
-```sql
--- Entity Snapshot: 6 date dimensions
-scanned_date_key, created_date_key, modified_date_key,
-accessed_date_key, last_update_date_key, last_update_statistics_date_key
-
--- Entity Term: 4 date dimensions
-created_date_key, modified_date_key, accessed_date_key, scanned_date_key
-```
-All use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`.
-
-## 3.6 Design notes
+## 3.5 Design notes
 
 **Date dimension** — complete range (MIN→MAX of all date fields + current) with Unknown=1900‑01‑01; 6 role‑playing usages off a single physical table; **no** `TimeDimension` type (so Analyzer categorizes properly via annotations); drill‑through never INNER‑JOIN‑fails on NULL.
 
@@ -591,7 +624,7 @@ All use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`.
 
 **Single‑grain chart rule** — every `10-*` and `11-*` Analyzer report carries one metric (or same‑grain group). Mixed metrics live in pivot tables (`10-exec-kpis`) or in scatter/bubble (`11-owner-risk-scatter`) where each axis encodes a different unit on purpose.
 
-## 3.7 Troubleshooting
+## 3.6 Troubleshooting
 
 **Drill‑through returns 0 rows**
 - Check date keys: `SELECT COUNT(accessed_date_key) FROM fact_entity_term;`
@@ -619,7 +652,7 @@ All use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`.
 - Confirm `.locale` files were uploaded alongside `.xanalyzer` / `.xdash`
 - Use `upload.sh` for recursive directory uploads
 
-## 3.8 Content Inventory
+## 3.7 Content Inventory
 
 **Analyzer reports** (`content/public/pdc-analysis/analyzer/`)
 - `00-*` — temperature, sensitivity, resource type, paths, scatter, sunburst, top‑10 (overall, structured, unstructured, by data source, by file type)
