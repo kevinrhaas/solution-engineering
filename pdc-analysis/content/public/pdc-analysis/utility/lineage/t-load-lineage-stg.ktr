@@ -2,7 +2,10 @@
 <transformation>
   <info>
     <name>t-load-lineage-stg</name>
-    <description>Parse flat lineage events JSON from API page and insert into stg_lineage_event. Called by t_PDC_get_lineage via TransExecutor (one invocation per page). Connection table expansion is done in j-lineage-main via SQL.</description>
+    <description>Parse OpenLineage events JSON from PDC API page and insert into stg_lineage_event.
+Called by t_PDC_get_lineage via TransExecutor (one invocation per API page).
+Input: full page JSON string in field "events" (response format: {statusCode,message,data:{events:[],pageInfo:{}}}).
+Connection table expansion is done in j-lineage-main via SQL CROSS JOIN LATERAL unnest().</description>
     <extended_description />
     <trans_version />
     <trans_type>Normal</trans_type>
@@ -95,6 +98,8 @@
     <hop><from>JSON parse events</from><to>map fields</to><enabled>Y</enabled></hop>
     <hop><from>map fields</from><to>stg_lineage_event</to><enabled>Y</enabled></hop>
   </order>
+
+  <!-- Step 1: Receive the full API page JSON from the parent transformation (t_PDC_get_lineage) -->
   <step>
     <name>events</name>
     <type>RowsFromResult</type>
@@ -111,6 +116,13 @@
     <remotesteps><input></input><output></output></remotesteps>
     <GUI><xloc>64</xloc><yloc>112</yloc><draw>Y</draw></GUI>
   </step>
+
+  <!-- Step 2: Parse OpenLineage JSON. One output row per event.
+       API format: {statusCode, message, data:{events:[{_id, eventTime, eventType, run:{runId},
+         job:{name, facets:{jobType:{integration, jobType, processingType}}},
+         inputs:[{namespace, name}], outputs:[{namespace, name}]}],
+         pageInfo:{hasNextPage, totalCount}}}
+       inputs / outputs are extracted as raw JSON strings for processing in the JavaScript step. -->
   <step>
     <name>JSON parse events</name>
     <type>JsonInput</type>
@@ -133,73 +145,67 @@
     <rownum_field />
     <file></file>
     <fields>
+      <!-- Scalar fields from OpenLineage event structure -->
       <field>
-        <name>event_nk</name><path>$.events[*].id</path><type>String</type>
+        <name>event_nk</name><path>$.data.events[*]._id</path><type>String</type>
         <format /><currency /><decimal /><group />
         <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
       </field>
       <field>
-        <name>event_time</name><path>$.events[*].eventTime</path><type>String</type>
+        <name>event_time_str</name><path>$.data.events[*].eventTime</path><type>String</type>
         <format /><currency /><decimal /><group />
         <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
       </field>
       <field>
-        <name>event_type</name><path>$.events[*].eventType</path><type>String</type>
+        <name>event_type</name><path>$.data.events[*].eventType</path><type>String</type>
+        <format /><currency /><decimal /><group />
+        <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
+      </field>
+      <!-- run can be null for some events — ignoreMissingPath=Y handles this -->
+      <field>
+        <name>run_id</name><path>$.data.events[*].run.runId</path><type>String</type>
         <format /><currency /><decimal /><group />
         <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
       </field>
       <field>
-        <name>run_id</name><path>$.events[*].runid</path><type>String</type>
+        <name>job_name</name><path>$.data.events[*].job.name</path><type>String</type>
         <format /><currency /><decimal /><group />
         <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
       </field>
       <field>
-        <name>job_name</name><path>$.events[*].jobName</path><type>String</type>
+        <name>processing_type</name><path>$.data.events[*].job.facets.jobType.processingType</path><type>String</type>
         <format /><currency /><decimal /><group />
         <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
       </field>
       <field>
-        <name>processing_type</name><path>$.events[*].processingType</path><type>String</type>
+        <name>integration</name><path>$.data.events[*].job.facets.jobType.integration</path><type>String</type>
         <format /><currency /><decimal /><group />
         <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
       </field>
       <field>
-        <name>integration</name><path>$.events[*].integration</path><type>String</type>
+        <name>job_type</name><path>$.data.events[*].job.facets.jobType.jobType</path><type>String</type>
+        <format /><currency /><decimal /><group />
+        <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
+      </field>
+      <!-- First input/output namespace (most events have a single namespace per direction) -->
+      <field>
+        <name>in_namespace</name><path>$.data.events[*].inputs[0].namespace</path><type>String</type>
         <format /><currency /><decimal /><group />
         <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
       </field>
       <field>
-        <name>job_type</name><path>$.events[*].jobType</path><type>String</type>
+        <name>out_namespace</name><path>$.data.events[*].outputs[0].namespace</path><type>String</type>
+        <format /><currency /><decimal /><group />
+        <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
+      </field>
+      <!-- Full inputs/outputs arrays as JSON strings — parsed into pipe-delimited lists in the JS step -->
+      <field>
+        <name>inputs_json</name><path>$.data.events[*].inputs</path><type>String</type>
         <format /><currency /><decimal /><group />
         <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
       </field>
       <field>
-        <name>in_namespace</name><path>$.events[*].inNamespace</path><type>String</type>
-        <format /><currency /><decimal /><group />
-        <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
-      </field>
-      <field>
-        <name>in_names</name><path>$.events[*].inNames</path><type>String</type>
-        <format /><currency /><decimal /><group />
-        <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
-      </field>
-      <field>
-        <name>out_namespace</name><path>$.events[*].outNamespace</path><type>String</type>
-        <format /><currency /><decimal /><group />
-        <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
-      </field>
-      <field>
-        <name>out_names</name><path>$.events[*].outNames</path><type>String</type>
-        <format /><currency /><decimal /><group />
-        <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
-      </field>
-      <field>
-        <name>record_count</name><path>$.events[*].count</path><type>Number</type>
-        <format /><currency /><decimal /><group />
-        <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
-      </field>
-      <field>
-        <name>event_date_str</name><path>$.events[*].eventDate</path><type>String</type>
+        <name>outputs_json</name><path>$.data.events[*].outputs</path><type>String</type>
         <format /><currency /><decimal /><group />
         <length>-1</length><precision>-1</precision><trim_type>none</trim_type><repeat>N</repeat>
       </field>
@@ -216,6 +222,9 @@
     <remotesteps><input></input><output></output></remotesteps>
     <GUI><xloc>224</xloc><yloc>112</yloc><draw>Y</draw></GUI>
   </step>
+
+  <!-- Step 3: Derive pipe-delimited in_names/out_names from the inputs/outputs JSON arrays,
+       compute counts, and parse event_time into a Date for event_date. -->
   <step>
     <name>map fields</name>
     <type>ScriptValueMod</type>
@@ -230,32 +239,76 @@
         <jsScript_itemName>map_fields</jsScript_itemName>
         <jsScript_itemType>0</jsScript_itemType>
         <jsScript_item><![CDATA[
-// Compute input_count and output_count from pipe-delimited strings
+// Parse inputs_json array and build pipe-delimited in_names + input_count
+var in_names = '';
 var input_count = 0;
+if (inputs_json != null && inputs_json.length() > 2) {
+  try {
+    var arr = eval('(' + inputs_json + ')');
+    if (arr && arr.length) {
+      input_count = arr.length;
+      for (var i = 0; i < arr.length; i++) {
+        if (i > 0) in_names += '|';
+        in_names += (arr[i].name != null ? arr[i].name : '');
+      }
+    }
+  } catch(e) { /* leave in_names empty on parse error */ }
+}
+
+// Parse outputs_json array and build pipe-delimited out_names + output_count
+var out_names = '';
 var output_count = 0;
-if (in_names != null && in_names.length() > 0) {
-  var parts = in_names.split("\\|");
-  input_count = parts.length;
+if (outputs_json != null && outputs_json.length() > 2) {
+  try {
+    var arr2 = eval('(' + outputs_json + ')');
+    if (arr2 && arr2.length) {
+      output_count = arr2.length;
+      for (var i = 0; i < arr2.length; i++) {
+        if (i > 0) out_names += '|';
+        out_names += (arr2[i].name != null ? arr2[i].name : '');
+      }
+    }
+  } catch(e) { /* leave out_names empty on parse error */ }
 }
-if (out_names != null && out_names.length() > 0) {
-  var parts2 = out_names.split("\\|");
-  output_count = parts2.length;
-}
-// Parse event_date from event_date_str
+
+// Parse event_date from eventTime ISO string (e.g. "2026-05-07T19:08:23.61Z")
 var event_date = null;
-if (event_date_str != null && event_date_str.length() > 0) {
+if (event_time_str != null && event_time_str.length() > 9) {
   try {
     var fmt = new java.text.SimpleDateFormat("yyyy-MM-dd");
-    event_date = fmt.parse(event_date_str.substring(0, 10));
-  } catch(e) {
-    event_date = null;
-  }
+    event_date = fmt.parse(event_time_str.substring(0, 10));
+  } catch(e) { event_date = null; }
+}
+
+// Parse event_time to full timestamp
+var event_time = null;
+if (event_time_str != null && event_time_str.length() > 18) {
+  try {
+    var tsFmt = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    event_time = tsFmt.parse(event_time_str.substring(0, 19));
+  } catch(e) { event_time = null; }
 }
 ]]>
         </jsScript_item>
       </jsScript_item>
     </jsScript>
     <fields>
+      <field>
+        <name>in_names</name>
+        <rename>in_names</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>out_names</name>
+        <rename>out_names</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
       <field>
         <name>input_count</name>
         <rename>input_count</rename>
@@ -280,12 +333,23 @@ if (event_date_str != null && event_date_str.length() > 0) {
         <precision>-1</precision>
         <replace>N</replace>
       </field>
+      <field>
+        <name>event_time</name>
+        <rename>event_time</rename>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
     </fields>
     <attributes />
     <cluster_schema />
     <remotesteps><input></input><output></output></remotesteps>
     <GUI><xloc>400</xloc><yloc>112</yloc><draw>Y</draw></GUI>
   </step>
+
+  <!-- Step 4: Insert into stg_lineage_event. Duplicate events (same event_nk) are rejected
+       via the unique index on event_nk — set ignore_errors=Y to skip them silently. -->
   <step>
     <name>stg_lineage_event</name>
     <type>TableOutput</type>
@@ -299,7 +363,7 @@ if (event_date_str != null && event_date_str.length() > 0) {
     <table>stg_lineage_event</table>
     <commit>1000</commit>
     <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
+    <ignore_errors>Y</ignore_errors>
     <use_batch>Y</use_batch>
     <specify_fields>Y</specify_fields>
     <partitioning_enabled>N</partitioning_enabled>
@@ -326,7 +390,6 @@ if (event_date_str != null && event_date_str.length() > 0) {
       <field><column_name>out_names</column_name><stream_name>out_names</stream_name></field>
       <field><column_name>input_count</column_name><stream_name>input_count</stream_name></field>
       <field><column_name>output_count</column_name><stream_name>output_count</stream_name></field>
-      <field><column_name>record_count</column_name><stream_name>record_count</stream_name></field>
       <field><column_name>event_date</column_name><stream_name>event_date</stream_name></field>
     </fields>
     <attributes />
@@ -334,6 +397,7 @@ if (event_date_str != null && event_date_str.length() > 0) {
     <remotesteps><input></input><output></output></remotesteps>
     <GUI><xloc>576</xloc><yloc>112</yloc><draw>Y</draw></GUI>
   </step>
+
   <step_error_handling>
   </step_error_handling>
   <slave-step-copy-partition-distribution>

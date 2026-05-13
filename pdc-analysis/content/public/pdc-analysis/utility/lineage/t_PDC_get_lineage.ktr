@@ -1109,7 +1109,7 @@
     <proxyPort />
     <preemptive>N</preemptive>
     <trustStoreFile />
-    <ignoreSsl>N</ignoreSsl>
+    <ignoreSsl>Y</ignoreSsl>
     <trustStorePassword>Encrypted </trustStorePassword>
     <headers>
       <header>
