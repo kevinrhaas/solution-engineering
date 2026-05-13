@@ -229,7 +229,7 @@ Every panel is a live Analyzer report — right‑click any cell to drill, chang
 
 ### Step 1 — Build the warehouse
 
-Two options, both produce the same 10 materialized views.
+Two options, both produce the same 22 materialized views.
 
 **A. Pentaho‑driven (preferred, repeatable):**
 
@@ -332,7 +332,7 @@ Migrates `/public` content, `/home` user files, and datasource definitions (Anal
 ```
 pdc-analysis/
 ├── analyzer/
-│   ├── bidb_ext.xml                    # Production Mondrian schema (3-cube architecture)
+│   ├── bidb_ext.xml                    # Production Mondrian schema (8 physical cubes + 1 virtual cube)
 │   ├── deprecated/                     # Archived schema versions
 │   └── archive/                        # Legacy cube definitions
 ├── content/
@@ -380,15 +380,15 @@ pdc-analysis/
   │  • policy / app views  │                            │  • 13 dimension MVs      │
   │  • trend / ops views   │                            │  • 8 fact MVs            │
   └────────────────────────┘                            └────────────┬─────────────┘
-                                               │ Mondrian
-                                               ▼
-                                      ┌──────────────────────────┐
-                                      │  bidb_ext.xml            │
-                                      │  8 physical cubes +      │
-                                      │  1 virtual cube          │
-                                      └────────────┬─────────────┘
-                                               ▼
-                                      Analyzer reports + dashboards
+                                                                      │ Mondrian
+                                                                      ▼
+                                                         ┌──────────────────────────┐
+                                                         │  bidb_ext.xml            │
+                                                         │  8 physical cubes +      │
+                                                         │  1 virtual cube          │
+                                                         └────────────┬─────────────┘
+                                                                      ▼
+                                                         Analyzer reports + dashboards
 ```
 
 The analytics database is a **separate PostgreSQL schema (`bidb_ext_dev`)** that materializes a star‑schema warehouse from the live PDC catalog. Source tables/views live in the operational PDC database and are exposed through a **PostgreSQL foreign data wrapper** (`remote_bidb` server, set up by `01-setup/01-fdw-setup.sql`). Every analytics object is a **`MATERIALIZED VIEW`** so reports run against pre‑computed snapshots, not live OLTP queries. Refresh is orchestrated by `05-refresh/01-refresh-all.sql` and triggered from the Pentaho job `j-main-script.kjb` (or `j-refresh-only.kjb` to skip the rebuild).
