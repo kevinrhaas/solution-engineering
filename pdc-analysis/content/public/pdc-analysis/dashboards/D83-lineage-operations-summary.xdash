@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dashboard>
+<title>D83 Lineage Operations Summary</title>
+<heading/>
+<enableWidgetPrinting>false</enableWidgetPrinting>
+<documentation>
+<author>admin</author>
+<description>Executive KPI summary across lineage activity and data movement. Answers: what are the total lineage volumes by integration, how do event types trend over time, and which jobs move the most data per run?</description>
+<icon/>
+</documentation>
+<template-ref>xul/04-1-then-2.xul</template-ref>
+<theme-ref>0-Ruby</theme-ref>
+<layout>
+<overlay xmlns:pho="http://www.pentaho.com" pho:fixie="withme">
+<box id="Panel_1" pho:title="Lineage KPI Summary by Integration" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_2" pho:title="Event Count Trend by Type" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_3" pho:title="Job Volume Heatgrid" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_4" pho:title="Connection &amp; Record Trend" flex="1" collapsed="false" type="titled-panel"/>
+</overlay>
+</layout>
+<parameters>
+</parameters>
+<widgetJavascript><![CDATA[]]></widgetJavascript>
+<widgets>
+<widget jsonType="object"><xactionPath jsonType="string">/public/pdc-analysis/analyzer/19-lineage-kpi-pivot.xanalyzer</xactionPath><localizedName jsonType="string">19-lineage-kpi-pivot</localizedName><refreshPeriod jsonType="string">0</refreshPeriod><GUID jsonType="string">19011</GUID><type jsonType="string">AnalyzerComponent</type><path jsonType="string">/public/pdc-analysis/analyzer/19-lineage-kpi-pivot.xanalyzer</path><isDirty jsonType="string">false</isDirty><htmlObject jsonType="string">content-area-Panel_1</htmlObject><solution jsonType="string"/><name jsonType="string">widget1</name><action jsonType="string">19-lineage-kpi-pivot.xanalyzer</action><iframe jsonType="string">true</iframe><parameters jsonType="object"/><outputParameters jsonType="object"/></widget>
+<widget jsonType="object"><xactionPath jsonType="string">/public/pdc-analysis/analyzer/19-lineage-type-trend.xanalyzer</xactionPath><localizedName jsonType="string">19-lineage-type-trend</localizedName><refreshPeriod jsonType="string">0</refreshPeriod><GUID jsonType="string">19012</GUID><type jsonType="string">AnalyzerComponent</type><path jsonType="string">/public/pdc-analysis/analyzer/19-lineage-type-trend.xanalyzer</path><isDirty jsonType="string">false</isDirty><htmlObject jsonType="string">content-area-Panel_2</htmlObject><solution jsonType="string"/><name jsonType="string">widget2</name><action jsonType="string">19-lineage-type-trend.xanalyzer</action><iframe jsonType="string">true</iframe><parameters jsonType="object"/><outputParameters jsonType="object"/></widget>
+<widget jsonType="object"><xactionPath jsonType="string">/public/pdc-analysis/analyzer/19-lineage-job-heatgrid.xanalyzer</xactionPath><localizedName jsonType="string">19-lineage-job-heatgrid</localizedName><refreshPeriod jsonType="string">0</refreshPeriod><GUID jsonType="string">19013</GUID><type jsonType="string">AnalyzerComponent</type><path jsonType="string">/public/pdc-analysis/analyzer/19-lineage-job-heatgrid.xanalyzer</path><isDirty jsonType="string">false</isDirty><htmlObject jsonType="string">content-area-Panel_3</htmlObject><solution jsonType="string"/><name jsonType="string">widget3</name><action jsonType="string">19-lineage-job-heatgrid.xanalyzer</action><iframe jsonType="string">true</iframe><parameters jsonType="object"/><outputParameters jsonType="object"/></widget>
+<widget jsonType="object"><xactionPath jsonType="string">/public/pdc-analysis/analyzer/19-lineage-connection-trend.xanalyzer</xactionPath><localizedName jsonType="string">19-lineage-connection-trend</localizedName><refreshPeriod jsonType="string">0</refreshPeriod><GUID jsonType="string">19014</GUID><type jsonType="string">AnalyzerComponent</type><path jsonType="string">/public/pdc-analysis/analyzer/19-lineage-connection-trend.xanalyzer</path><isDirty jsonType="string">false</isDirty><htmlObject jsonType="string">content-area-Panel_4</htmlObject><solution jsonType="string"/><name jsonType="string">widget4</name><action jsonType="string">19-lineage-connection-trend.xanalyzer</action><iframe jsonType="string">true</iframe><parameters jsonType="object"/><outputParameters jsonType="object"/></widget>
+</widgets>
+</dashboard>

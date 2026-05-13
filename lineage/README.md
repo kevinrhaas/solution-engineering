@@ -753,6 +753,97 @@ PDC_LINEAGE_PAGE_SIZE=100
 
 ---
 
+---
+
+## Layer 7: Analytics Layer — Analyzer Reports & Dashboards
+
+The analytics layer delivers 13 Analyzer reports organized into 3 executive dashboards that surface
+lineage insights across cubes 79 and 80. All files follow the existing `pdc-analysis` naming conventions
+(prefix `19-*` for reports, `D8x` for dashboards) and are deployed alongside the existing reports in
+`content/public/pdc-analysis/`.
+
+---
+
+### Dashboard D81: Lineage Activity Overview
+
+**Purpose:** Volume, trends, and composition of lineage events across jobs and integrations.
+
+**Business questions answered:**
+- What proportion of lineage events are writes vs. reads?
+- Is lineage activity growing month-over-month?
+- Which jobs generate the most lineage events and move the most data?
+- Which integration platforms (PDI, Spark, etc.) dominate?
+- Are data flows expanding — are jobs touching more sources and destinations over time?
+
+| Report file | Chart type | Cube | Rows | Columns | Measures |
+|-------------|-----------|------|------|---------|---------|
+| `19-lineage-event-type-mix.xanalyzer` | Donut | 79 | Event Type | — | Event Count |
+| `19-lineage-event-trend.xanalyzer` | Line | 79 | Event Year-Month | — | Event Count, Record Count |
+| `19-lineage-top-jobs.xanalyzer` | BarHorizontal | 79 | Job Name (top 25, DESC) | — | Event Count, Record Count |
+| `19-lineage-integration-heatgrid.xanalyzer` | HeatGrid | 79 | Integration → Job Type | — | Event Count, Record Count, Avg Records/Event |
+| `19-lineage-io-trend.xanalyzer` | Line | 79 | Event Year-Month | — | Input Count, Output Count, Event Count |
+
+---
+
+### Dashboard D82: Data Flow Map
+
+**Purpose:** Source-to-destination connection topology — which data assets flow where and how much data
+moves across each link.
+
+**Business questions answered:**
+- Which source namespaces produce the most outbound data connections?
+- Which destination namespaces consume the most data?
+- What does the full source → destination flow matrix look like?
+- Are the number of connections and volume of records moved growing over time?
+- What operation types (write, read, delete) drive the connections?
+
+| Report file | Chart type | Cube | Rows | Columns | Measures |
+|-------------|-----------|------|------|---------|---------|
+| `19-lineage-flow-heatgrid.xanalyzer` | HeatGrid (matrix) | 80 | Source Namespace | Destination Namespace | Connection Count |
+| `19-lineage-top-sources.xanalyzer` | BarHorizontal | 80 | Source Namespace (DESC) | — | Connection Count, Record Count |
+| `19-lineage-top-destinations.xanalyzer` | BarHorizontal | 80 | Destination Namespace (DESC) | — | Connection Count, Record Count |
+| `19-lineage-connection-trend.xanalyzer` | Line | 80 | Connection Year-Month | — | Connection Count, Record Count |
+| `19-lineage-connection-by-type.xanalyzer` | Donut | 80 | Event Type | — | Connection Count |
+
+**Key design note:** `19-lineage-flow-heatgrid.xanalyzer` uses both row and column attributes — Source
+Namespace on rows, Destination Namespace on columns, Connection Count as the heat value — producing a
+true source→destination matrix that is the visual centerpiece of lineage impact analysis.
+
+---
+
+### Dashboard D83: Lineage Operations Summary
+
+**Purpose:** Executive KPI summary across lineage activity and data movement, combining pivot-table
+detail with trend and heat visualizations.
+
+**Business questions answered:**
+- What are the total event and record volumes broken down by integration and job type?
+- How does the mix of write vs. read events change over time?
+- Which individual jobs move the most data per run (highest avg records per event)?
+- Are connection volumes and record volumes trending together or diverging?
+
+| Report file | Chart type | Cube | Rows | Columns | Measures |
+|-------------|-----------|------|------|---------|---------|
+| `19-lineage-kpi-pivot.xanalyzer` | Pivot table | 79 | Integration → Job Type | — | Event Count, Record Count, Input Count, Output Count, Avg Records/Event |
+| `19-lineage-type-trend.xanalyzer` | Line (multi-series) | 79 | Event Year-Month | Event Type | Event Count |
+| `19-lineage-job-heatgrid.xanalyzer` | HeatGrid | 79 | Job Name (top 50, DESC) | — | Event Count, Record Count, Avg Records/Event |
+| `19-lineage-connection-trend.xanalyzer` | Line | 80 | Connection Year-Month | — | Connection Count, Record Count |
+
+**Key design note:** `19-lineage-type-trend.xanalyzer` places Event Type in `columnAttributes`,
+producing one line series per event type (Write, Read, Delete) over time — immediately revealing if
+delete operations are rising relative to writes, a potential data governance signal.
+
+---
+
+### Deploying the Analytics Layer
+
+1. Run `push-content.sh` to upload the new `19-*` analyzer reports and `D8x` dashboards to the PDC server.
+2. Run `push-cube.sh` to publish the updated `bidb_ext.xml` (which includes cubes 79 and 80).
+3. In PDC Analyzer, navigate to **Public > pdc-analysis > dashboards** and open **D81**, **D82**, **D83**.
+4. Confirm each panel renders without "No data" errors (requires the lineage stg tables to be populated first).
+
+---
+
 ## Summary: New Files
 
 | File | Type | Purpose |
@@ -771,6 +862,22 @@ PDC_LINEAGE_PAGE_SIZE=100
 | `utility/lineage/t_PDC_get_lineage.ktr` | PDI | Copied from this folder |
 | `utility/lineage/t_PAGENO%2B%2B.ktr` | PDI | Copied from this folder |
 | `utility/lineage/page-iterator.kjb` | PDI | Modified — point to new transformation |
+| `analyzer/19-lineage-event-type-mix.xanalyzer` | Analyzer | Donut: Event Count by Event Type |
+| `analyzer/19-lineage-event-trend.xanalyzer` | Analyzer | Line: Event Count + Record Count over time |
+| `analyzer/19-lineage-top-jobs.xanalyzer` | Analyzer | BarHorizontal: Top 25 jobs by Event/Record Count |
+| `analyzer/19-lineage-integration-heatgrid.xanalyzer` | Analyzer | HeatGrid: Volume by Integration × Job Type |
+| `analyzer/19-lineage-io-trend.xanalyzer` | Analyzer | Line: Input/Output Count trend over time |
+| `analyzer/19-lineage-flow-heatgrid.xanalyzer` | Analyzer | HeatGrid matrix: Source × Destination flow map |
+| `analyzer/19-lineage-top-sources.xanalyzer` | Analyzer | BarHorizontal: Top source namespaces |
+| `analyzer/19-lineage-top-destinations.xanalyzer` | Analyzer | BarHorizontal: Top destination namespaces |
+| `analyzer/19-lineage-connection-trend.xanalyzer` | Analyzer | Line: Connection + Record Count trend |
+| `analyzer/19-lineage-connection-by-type.xanalyzer` | Analyzer | Donut: Connection mix by Event Type |
+| `analyzer/19-lineage-kpi-pivot.xanalyzer` | Analyzer | Pivot: KPIs by Integration × Job Type |
+| `analyzer/19-lineage-type-trend.xanalyzer` | Analyzer | Line multi-series: Events by Type over time |
+| `analyzer/19-lineage-job-heatgrid.xanalyzer` | Analyzer | HeatGrid: Volume + Avg Records by Job Name |
+| `dashboards/D81-lineage-activity.xdash` | Dashboard | 5-panel: Lineage Activity Overview |
+| `dashboards/D82-data-flow-map.xdash` | Dashboard | 5-panel: Data Flow Map |
+| `dashboards/D83-lineage-operations-summary.xdash` | Dashboard | 4-panel: Operations KPI Summary |
 
 ## Summary: Modified Files
 

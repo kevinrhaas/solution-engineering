@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dashboard>
+<title>D82 Data Flow Map</title>
+<heading/>
+<enableWidgetPrinting>false</enableWidgetPrinting>
+<documentation>
+<author>admin</author>
+<description>Source-to-destination connection topology — which data assets flow where and how much data moves. Answers: which namespaces produce and consume data, how connections trend over time, and what operation types drive connections.</description>
+<icon/>
+</documentation>
+<template-ref>xul/04-1-then-2.xul</template-ref>
+<theme-ref>0-Ruby</theme-ref>
+<layout>
+<overlay xmlns:pho="http://www.pentaho.com" pho:fixie="withme">
+<box id="Panel_1" pho:title="Source → Destination Flow Matrix" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_2" pho:title="Top Source Namespaces" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_3" pho:title="Top Destination Namespaces" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_4" pho:title="Connection &amp; Record Count Trend" flex="1" collapsed="false" type="titled-panel"/>
+<box id="Panel_5" pho:title="Connection Mix by Event Type" flex="1" collapsed="false" type="titled-panel"/>
+</overlay>
+</layout>
+<parameters>
+</parameters>
+<widgetJavascript><![CDATA[]]></widgetJavascript>
+<widgets>
+<widget jsonType="object"><xactionPath jsonType="string">/public/pdc-analysis/analyzer/19-lineage-flow-heatgrid.xanalyzer</xactionPath><localizedName jsonType="string">19-lineage-flow-heatgrid</localizedName><refreshPeriod jsonType="string">0</refreshPeriod><GUID jsonType="string">19006</GUID><type jsonType="string">AnalyzerComponent</type><path jsonType="string">/public/pdc-analysis/analyzer/19-lineage-flow-heatgrid.xanalyzer</path><isDirty jsonType="string">false</isDirty><htmlObject jsonType="string">content-area-Panel_1</htmlObject><solution jsonType="string"/><name jsonType="string">widget1</name><action jsonType="string">19-lineage-flow-heatgrid.xanalyzer</action><iframe jsonType="string">true</iframe><parameters jsonType="object"/><outputParameters jsonType="object"/></widget>
+<widget jsonType="object"><xactionPath jsonType="string">/public/pdc-analysis/analyzer/19-lineage-top-sources.xanalyzer</xactionPath><localizedName jsonType="string">19-lineage-top-sources</localizedName><refreshPeriod jsonType="string">0</refreshPeriod><GUID jsonType="string">19007</GUID><type jsonType="string">AnalyzerComponent</type><path jsonType="string">/public/pdc-analysis/analyzer/19-lineage-top-sources.xanalyzer</path><isDirty jsonType="string">false</isDirty><htmlObject jsonType="string">content-area-Panel_2</htmlObject><solution jsonType="string"/><name jsonType="string">widget2</name><action jsonType="string">19-lineage-top-sources.xanalyzer</action><iframe jsonType="string">true</iframe><parameters jsonType="object"/><outputParameters jsonType="object"/></widget>
+<widget jsonType="object"><xactionPath jsonType="string">/public/pdc-analysis/analyzer/19-lineage-top-destinations.xanalyzer</xactionPath><localizedName jsonType="string">19-lineage-top-destinations</localizedName><refreshPeriod jsonType="string">0</refreshPeriod><GUID jsonType="string">19008</GUID><type jsonType="string">AnalyzerComponent</type><path jsonType="string">/public/pdc-analysis/analyzer/19-lineage-top-destinations.xanalyzer</path><isDirty jsonType="string">false</isDirty><htmlObject jsonType="string">content-area-Panel_3</htmlObject><solution jsonType="string"/><name jsonType="string">widget3</name><action jsonType="string">19-lineage-top-destinations.xanalyzer</action><iframe jsonType="string">true</iframe><parameters jsonType="object"/><outputParameters jsonType="object"/></widget>
+<widget jsonType="object"><xactionPath jsonType="string">/public/pdc-analysis/analyzer/19-lineage-connection-trend.xanalyzer</xactionPath><localizedName jsonType="string">19-lineage-connection-trend</localizedName><refreshPeriod jsonType="string">0</refreshPeriod><GUID jsonType="string">19009</GUID><type jsonType="string">AnalyzerComponent</type><path jsonType="string">/public/pdc-analysis/analyzer/19-lineage-connection-trend.xanalyzer</path><isDirty jsonType="string">false</isDirty><htmlObject jsonType="string">content-area-Panel_4</htmlObject><solution jsonType="string"/><name jsonType="string">widget4</name><action jsonType="string">19-lineage-connection-trend.xanalyzer</action><iframe jsonType="string">true</iframe><parameters jsonType="object"/><outputParameters jsonType="object"/></widget>
+<widget jsonType="object"><xactionPath jsonType="string">/public/pdc-analysis/analyzer/19-lineage-connection-by-type.xanalyzer</xactionPath><localizedName jsonType="string">19-lineage-connection-by-type</localizedName><refreshPeriod jsonType="string">0</refreshPeriod><GUID jsonType="string">19010</GUID><type jsonType="string">AnalyzerComponent</type><path jsonType="string">/public/pdc-analysis/analyzer/19-lineage-connection-by-type.xanalyzer</path><isDirty jsonType="string">false</isDirty><htmlObject jsonType="string">content-area-Panel_5</htmlObject><solution jsonType="string"/><name jsonType="string">widget5</name><action jsonType="string">19-lineage-connection-by-type.xanalyzer</action><iframe jsonType="string">true</iframe><parameters jsonType="object"/><outputParameters jsonType="object"/></widget>
+</widgets>
+</dashboard>
