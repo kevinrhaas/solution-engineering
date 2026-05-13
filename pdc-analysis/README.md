@@ -8,7 +8,7 @@ Pentaho Data Catalog (PDC) supports assessment and optimization of your data est
 
 ## Analytics Categories
 
-The platform is organized around eleven analytical perspectives. Each dashboard or report below maps to one or more of these categories.
+The platform is organized around twelve analytical perspectives. Each dashboard or report below maps to one or more of these categories.
 
 | Category | What it answers | Coverage |
 |---|---|---|
@@ -19,9 +19,10 @@ The platform is organized around eleven analytical perspectives. Each dashboard 
 | **Data Quality** | How complete is the metadata? What's missing? | ✅ D31 Governance Health, `10-metadata-completeness`, `11-missing-attributes-by-source` |
 | **PDC Administration** | Tag assessment, refresh status, repository health | ✅ D60 Pipeline Operations, `16-pipeline-*`, job consoles + variable manager (see *How to Configure*) |
 | **PDC Application Usage** | How is PDC being used by people? | ✅ D70 Application Reach, `14-app-*` |
-| **Data Temperature** *(Obsolescence)* | Which data is hot, warm, cold, frozen — and stale? | ✅ D80 Data Temperature, D83 Temperature Trends, `10-lifecycle-by-accessed-age`, `00-temperature-*`, `18-temperature-*` |
+| **Data Temperature** *(Obsolescence)* | Which data is hot, warm, cold, frozen — and stale? | ✅ D80 Data Temperature, D84 Temperature Trends, `10-lifecycle-by-accessed-age`, `00-temperature-*`, `18-temperature-*` |
 | **Redundant Data** | Where is duplicate / near‑duplicate content? | ✅ D90 Redundant Data Savings, `15-duplicate-*` (cube `75. Duplicate Savings`) |
-| **Lineage Analysis** | What flows where? Term‑to‑entity reach? | ✅ Entity↔Term cube (`72. Entity Term`) + 6‑level glossary hierarchy |
+| **Data Lineage** | What jobs move data where? Which sources feed which destinations? How often, what volumes? | ✅ D81 Lineage Activity, D82 Data Flow Map, D83 Lineage Operations Summary — cubes `79. Lineage Events` + `80. Data Lineage Connections` |
+| **Lineage / Term Reach** | Which entities carry which terms? Term‑to‑entity reach? | ✅ Entity↔Term cube (`72. Entity Term`) + 6‑level glossary hierarchy |
 | **Workflow / Collaboration** | Who owns what, who's accountable, who's the risk? | ✅ D95 Ownership Accountability, `10-owner-accountability`, `11-owner-risk-scatter` |
 | **Cost Optimization / Planning** | What can be tiered or deleted? Sustainability impact? | ✅ D98 Cost Optimization, D10 Storage & Sustainability, `12-policy-cost-*`, `15-duplicate-savings-*`, `11-co2e-by-data-source`, `10-lifecycle-by-accessed-age` |
 
@@ -46,7 +47,7 @@ Open Pentaho User Console: **`http://<server>/pentaho/Home`** → **Browse Files
 
 Double‑click any `.xdash` file to open it. Each dashboard is a single page of related panels.
 
-The dashboard catalog is organized by the eleven analytics categories from the framework above. The tens digit of every dashboard ID maps to a category:
+The dashboard catalog is organized by the twelve analytics categories from the framework above. The tens digit of every dashboard ID maps to a category:
 
 | Tens | Category |
 |---|---|
@@ -57,7 +58,7 @@ The dashboard catalog is organized by the eleven analytics categories from the f
 | **D4x** | Data Source Usage |
 | **D6x** | PDC Administration |
 | **D7x** | PDC Application Usage |
-| **D8x** | Data Temperature (Obsolescence) |
+| **D8x** | Data Temperature (Obsolescence) + Data Lineage |
 | **D9x** | Redundant Data, Workflow / Collaboration, Cost Optimization, Cross‑cut |
 
 ### Executive Roll‑up
@@ -156,10 +157,27 @@ Hot / warm / cold / frozen distribution by glossary level and file type.
 
 ![D80 Data Temperature](docs/screenshots/D80-Data-Temperature.png)
 
-#### D83 — Temperature Trends
+#### D84 — Temperature Trends
 Temperature mix and trend over time, by source.
 
-![D83 Temperature Trends](docs/screenshots/D83-Temperature-Trends.png)
+![D84 Temperature Trends](docs/screenshots/D83-Temperature-Trends.png)
+
+### Data Lineage (D8x)
+
+#### D81 — Lineage Activity
+Event type mix (Read / Write / Other) and event & record count trend over time; top jobs by event volume. Answers: *what types of lineage activity are happening and when?*
+
+![D81 Lineage Activity](docs/screenshots/D81-Lineage-Activity.png)
+
+#### D82 — Data Flow Map
+Source → Destination connection matrix (scatter), top source namespaces and top destination namespaces by connection and record count. Answers: *what is flowing where?*
+
+![D82 Data Flow Map](docs/screenshots/D82-Data-Flow-Map.png)
+
+#### D83 — Lineage Operations Summary
+KPI pivot by integration + job type (event count, record count, input / output counts), event count trend by type, and job volume heatgrid. Answers: *which jobs are the heaviest movers and what is the overall operational picture?*
+
+![D83 Lineage Operations Summary](docs/screenshots/D83-Lineage-Operations-Summary.png)
 
 ### Redundant Data (D9x)
 
@@ -209,7 +227,8 @@ Every panel is a live Analyzer report — right‑click any cell to drill, chang
 |---|---|---|
 | **Daily steward** | D31 Governance Health, D95 Ownership Accountability | New ungoverned entities, missing‑owner spikes |
 | **Weekly architect** | D10 Storage & Sustainability, D14 Top Heavies, D90 Redundant Data | Growth deltas, archival candidates, savings opportunities |
-| **Weekly ops** | D60 Pipeline Operations | Failed runs, runtime drift |
+| **Weekly ops** | D60 Pipeline Operations, D83 Lineage Operations Summary | Failed runs, runtime drift; job volume trends |
+| **Weekly lineage** | D81 Lineage Activity, D82 Data Flow Map | New sources or destinations, unexpected data flows |
 | **Monthly exec** | D00 Executive Value Command Center, D99 PDC Operations Overview | Trend in coverage %, completeness %, total TB & CO₂e, cross‑cut health |
 
 ---
@@ -229,7 +248,7 @@ Every panel is a live Analyzer report — right‑click any cell to drill, chang
 
 ### Step 1 — Build the warehouse
 
-Two options, both produce the same 22 materialized views.
+Two options, both produce the same 27 materialized views (plus the 2 lineage staging tables, which are created with `CREATE TABLE IF NOT EXISTS` and populated separately by the lineage ETL).
 
 **A. Pentaho‑driven (preferred, repeatable):**
 
@@ -332,7 +351,7 @@ Migrates `/public` content, `/home` user files, and datasource definitions (Anal
 ```
 pdc-analysis/
 ├── analyzer/
-│   ├── bidb_ext.xml                    # Production Mondrian schema (8 physical cubes + 1 virtual cube)
+│   ├── bidb_ext.xml                    # Production Mondrian schema (10 physical cubes + 1 virtual cube)
 │   ├── deprecated/                     # Archived schema versions
 │   └── archive/                        # Legacy cube definitions
 ├── content/
@@ -341,22 +360,28 @@ pdc-analysis/
 │       ├── dashboards/                 # 14 dashboards (.xdash + .locale)
 │       ├── ddl/                        # SQL scripts (deployed to Pentaho repository)
 │       │   ├── 00-execute-all.sql      # Master DDL script (psql \ir orchestration)
-│       │   ├── 01-setup/               # FDW, utilities, cleanup
+│       │   ├── 01-setup/               # FDW, utilities, cleanup; lineage physical tables
 │       │   ├── 02-staging/             # Staging materialized views
-│       │   ├── 03-dimensions/          # 7 dimension tables
-│       │   ├── 04-facts/               # 2 fact tables
+│       │   ├── 03-dimensions/          # 16 dimension MVs (incl. 3 lineage dims)
+│       │   ├── 04-facts/               # 10 fact MVs (incl. 2 lineage facts)
 │       │   ├── 05-refresh/             # Materialized view refresh
 │       │   └── README.md               # Detailed DDL documentation
 │       └── utility/
 │           ├── sample-job-console.html          # Web UI for running jobs
 │           ├── sample-variable-manager.html     # Web UI for managing runtime variables
 │           ├── properties/pdc_analysis.properties  # Runtime config (connection strings, creds)
-│           └── main/
-│               ├── j-main-script.kjb            # Main orchestration job
-│               ├── j-set-system-var.kjb         # Loads variables from properties file
-│               ├── j-refresh-only.kjb           # Refresh-only job (skip DDL rebuild)
-│               ├── t-execute-repo-file.ktr      # Dynamic SQL executor
-│               └── t-set-variables-from-properties.ktr
+│           ├── main/
+│           │   ├── j-main-script.kjb            # Main orchestration job
+│           │   ├── j-set-system-var.kjb         # Loads variables from properties file
+│           │   ├── j-refresh-only.kjb           # Refresh-only job (skip DDL rebuild)
+│           │   ├── t-execute-repo-file.ktr      # Dynamic SQL executor
+│           │   └── t-set-variables-from-properties.ktr
+│           └── lineage/
+│               ├── j-lineage-main.kjb           # Lineage ETL orchestrator (truncate + load + refresh)
+│               ├── page-iterator.kjb            # Paginator: loops t_PDC_get_lineage until !hasNextPage
+│               ├── t_PDC_authenticate.ktr       # Keycloak OAuth2 token fetch
+│               ├── t_PDC_get_lineage.ktr        # Single-page lineage API fetch
+│               └── t-load-lineage-stg.ktr       # JSON parse + stg table loader
 ├── archive/content-backup/             # Timestamped backups from sync scripts (gitignored)
 ├── utility/
 │   ├── migrate-server.sh, download.sh, upload.sh
@@ -377,31 +402,34 @@ pdc-analysis/
   │  (schema: bidb_ext)    │   foreign server           │  PostgreSQL 17.7         │
   │                        │   `remote_bidb`            │                          │
   │  • catalog views       │                            │  • staging MV            │
-  │  • policy / app views  │                            │  • 13 dimension MVs      │
-  │  • trend / ops views   │                            │  • 8 fact MVs            │
+  │  • policy / app views  │                            │  • 16 dimension MVs      │
+  │  • trend / ops views   │                            │  • 10 fact MVs           │
   └────────────────────────┘                            └────────────┬─────────────┘
                                                                       │ Mondrian
-                                                                      ▼
-                                                         ┌──────────────────────────┐
-                                                         │  bidb_ext.xml            │
-                                                         │  8 physical cubes +      │
-                                                         │  1 virtual cube          │
-                                                         └────────────┬─────────────┘
-                                                                      ▼
-                                                         Analyzer reports + dashboards
+  ┌────────────────────────┐       REST API             │             ▼
+  │  PDC Lineage API       │ ─────────────────────────▶ │  bidb_ext.xml            │
+  │  (OpenLineage format)  │   j-lineage-main.kjb       │  10 physical cubes +     │
+  │  Keycloak OAuth2 auth  │   → stg_lineage_event      │  1 virtual cube          │
+  │  GET /lineage/api/     │   → stg_lineage_connection └────────────┬─────────────┘
+  │    events?perPage=100  │                                          ▼
+  └────────────────────────┘                             Analyzer reports + dashboards
 ```
 
 The analytics database is a **separate PostgreSQL schema (`bidb_ext_dev`)** that materializes a star‑schema warehouse from the live PDC catalog. Source tables/views live in the operational PDC database and are exposed through a **PostgreSQL foreign data wrapper** (`remote_bidb` server, set up by `01-setup/01-fdw-setup.sql`). Every analytics object is a **`MATERIALIZED VIEW`** so reports run against pre‑computed snapshots, not live OLTP queries. Refresh is orchestrated by `05-refresh/01-refresh-all.sql` and triggered from the Pentaho job `j-main-script.kjb` (or `j-refresh-only.kjb` to skip the rebuild).
 
-### 3.2.2 Analytics Schema (`bidb_ext_dev`) — 22 Materialized Views
+**Lineage data** flows through a separate path: `j-lineage-main.kjb` authenticates against Keycloak, paginates the OpenLineage events REST API, parses JSON, explodes input×output pairs into connection rows, and truncate‑reloads `stg_lineage_event` and `stg_lineage_connection` — **physical tables** (not MVs) that survive schema rebuilds. The job then refreshes the three lineage dimension MVs and two lineage fact MVs.
 
-**Staging (1)**
+### 3.2.2 Analytics Schema (`bidb_ext_dev`) — 27 Materialized Views + 2 Physical Tables
 
-| MV | Source(s) | Notes |
-|---|---|---|
-| `mv_stg_entity_term` | `entities_master_view` ⟕ `terms_view` ⟕ `glossary_summary_view` | Unified entity+term staging; resolves glossary path; foundation for most dims and facts. |
+**Staging (1 MV + 2 physical tables)**
 
-**Dimensions (13)**
+| Object | Kind | Source(s) | Notes |
+|---|---|---|---|
+| `mv_stg_entity_term` | MV | `entities_master_view` ⟕ `terms_view` ⟕ `glossary_summary_view` | Unified entity+term staging; resolves glossary path; foundation for most dims and facts. |
+| `stg_lineage_event` | TABLE | PDC Lineage REST API (via ETL) | One row per lineage event; persists across schema rebuilds. Loaded by `j-lineage-main.kjb`. |
+| `stg_lineage_connection` | TABLE | PDC Lineage REST API (via ETL) | One row per input×output pair per event (cartesian product). |
+
+**Dimensions (16)**
 
 | MV | Source(s) | Description |
 |---|---|---|
@@ -418,8 +446,11 @@ The analytics database is a **separate PostgreSQL schema (`bidb_ext_dev`)** that
 | `dim_temperature` | `entities_temperature_count_view` ∪ static canonical list | Stable temperature membership (Hot/Warm/Cold/Frozen) even on sparse days. |
 | `dim_currency` | `currency_exchange_rates` | Currency lookup with USD conversion rate. |
 | `dim_pipeline_status` | `pipeline_log` ∪ static canonical list | Pipeline run status with sort/order keys. |
+| `dim_lineage_event_type` | `stg_lineage_event` ∪ static canonical list | Event type lookup (Write/Read/Delete/Unknown); includes sort and boolean flags. |
+| `dim_lineage_job` | `stg_lineage_event` | Integration × job_type × job_name × processing_type hierarchy. |
+| `dim_lineage_endpoint` | `stg_lineage_connection` | Unique data endpoints (sources ∪ destinations); includes `entity_key` (MD5 of name) matching `dim_entity.entity_key` for cross-cube joins. |
 
-**Facts (8)**
+**Facts (10)**
 
 | MV | Grain | Source(s) | Key measures |
 |---|---|---|---|
@@ -431,12 +462,20 @@ The analytics database is a **separate PostgreSQL schema (`bidb_ext_dev`)** that
 | `fact_pipeline_run` | job_id × view_name × started_at | `pipeline_log` | `run_count`, `success_count`, `failure_count`, `runtime_seconds`; FKs to `dim_pipeline_status`, `dim_date` (started/completed). |
 | `fact_extension_daily` | data source × extension × date | `entities_extension_count_view` | `file_count`. Conformed FKs to `dim_datasource`, `dim_extension`, `dim_date`. |
 | `fact_temperature_daily` | data source × temperature × date | `entities_temperature_count_view` | `file_count`. Conformed FKs to `dim_datasource`, `dim_temperature`, `dim_date`. |
+| `fact_lineage_event` | lineage event | `stg_lineage_event` | `event_count`, `input_count`, `output_count`, `record_count`. FKs to `dim_lineage_event_type`, `dim_lineage_job`, `dim_date`. |
+| `fact_lineage_connection` | source × destination × event | `stg_lineage_connection` ⟕ `stg_lineage_event` | `connection_count`, `record_count`. Role-playing endpoint FKs (`source_endpoint_key`, `dest_endpoint_key` both → `dim_lineage_endpoint`). Also carries `source_entity_key`/`dest_entity_key` (MD5 of name) for optional join to `dim_entity`. |
 
 ### 3.2.3 Physical Star Schema Reference
 
 ```
+-- Staging (MV)
 mv_stg_entity_term          - Staging (entities + terms + glossary context)
 
+-- Lineage staging (physical tables — survive schema rebuilds)
+stg_lineage_event           - One row per PDC lineage API event
+stg_lineage_connection      - One row per input×output pair per event
+
+-- Dimensions (MVs)
 dim_date                    - Date dimension with Unknown row
 dim_entity                  - Entity attributes, hierarchy, profile stats, cost, categories
 dim_term                    - Classification terms
@@ -450,7 +489,11 @@ dim_extension               - File-extension lookup
 dim_temperature             - Hot/Warm/Cold/Frozen temperature lookup
 dim_currency                - Currency + USD conversion rates
 dim_pipeline_status         - Pipeline status lookup
+dim_lineage_event_type      - Lineage event type (Write/Read/Delete) + sort/flag cols
+dim_lineage_job             - Lineage job identity (integration × job_type × job_name)
+dim_lineage_endpoint        - Unique data endpoints (sources ∪ destinations)
 
+-- Facts (MVs)
 fact_entity_snapshot        - Entity daily snapshots
 fact_entity_term            - Entity-term associations
 fact_entity_policy          - Entity-policy assignments
@@ -459,6 +502,8 @@ fact_duplicate              - Duplicate-group savings
 fact_pipeline_run           - Pipeline execution history
 fact_extension_daily        - Daily file counts by data source + extension
 fact_temperature_daily      - Daily file counts by data source + temperature
+fact_lineage_event          - One row per lineage event (event count, record count)
+fact_lineage_connection     - One row per source→destination edge per event
 ```
 
 **Date Foreign Keys**
@@ -475,6 +520,9 @@ started_date_key, completed_date_key
 
 -- Extension / Temperature trends: 1 snapshot date dimension
 snapshot_date_key
+
+-- Lineage facts: 1 event date dimension each
+event_date_key   -- fact_lineage_event and fact_lineage_connection
 ```
 All use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`.
 
@@ -508,7 +556,7 @@ All use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`.
 
 ### 3.2.6 Mondrian Semantic Model (`analyzer/bidb_ext.xml`)
 
-The current Mondrian schema is **not a three‑cube design**. It contains **8 physical cubes** plus **1 virtual cube**:
+The current Mondrian schema is **not a three‑cube design**. It contains **10 physical cubes** plus **1 virtual cube**:
 
 | Cube | Backing fact MV | Purpose |
 |---|---|---|
@@ -520,17 +568,22 @@ The current Mondrian schema is **not a three‑cube design**. It contains **8 ph
 | `76. Pipeline Run` | `fact_pipeline_run` | PDC analytics pipeline operations, runtime, and success/failure tracking. |
 | `77. Extension Trend` | `fact_extension_daily` | Daily file-extension trends by data source. |
 | `78. Temperature Trend` | `fact_temperature_daily` | Daily hot/warm/cold/frozen temperature trends by data source. |
+| `79. Lineage Events` | `fact_lineage_event` | Event-level lineage activity: event counts, input/output counts, record counts by type/job/date. |
+| `80. Data Lineage Connections` | `fact_lineage_connection` | Source→destination data flow edges with role-playing Source Endpoint and Destination Endpoint dimensions. |
 | `01. Data Asset Analysis` | virtual over `71. Entity Snapshot` + `72. Entity Term` | Business-facing blended cube for core asset + term analysis using conformed dimensions. |
 
 Conformed dimensions (`dim_date`, `dim_entity`, `dim_datasource`, `dim_glossary_term`, etc.) keep Analyzer reports consistent across cubes. The dedicated physical cubes keep each report at a single fact grain, while the virtual cube exposes the primary asset/term measures together for the executive and cross-cut dashboards.
 
+> **Mondrian schema ordering constraint**: All regular `<Cube>` elements **must** appear before any `<VirtualCube>` in the XML. Mondrian silently ignores any `<Cube>` defined after a `<VirtualCube>` — the cube loads without error but never appears in Analyzer's data source selector. In `bidb_ext.xml`, cubes 71–80 appear at lines ~506–1641 and the virtual cube follows at lines ~1648–end.
+
 ### 3.2.7 Refresh Strategy
 
-- All 22 objects are `MATERIALIZED VIEW`s — refreshed in dependency order by `05-refresh/01-refresh-all.sql`:
+- **27 MV objects** are refreshed in dependency order by `05-refresh/01-refresh-all.sql`:
   1. staging (`mv_stg_entity_term`)
-  2. dimensions (date first, then attribute dims)
-  3. facts (snapshot first, then term/policy/application/duplicate/pipeline/extension/temperature)
-- DDL is idempotent: `01-setup/03-drop-all-objects.sql` cleans the schema before rebuild; `j-refresh-only.kjb` skips the rebuild and just re‑refreshes data.
+  2. dimensions (date first, then attribute dims, then lineage dims)
+  3. facts (snapshot first, then term/policy/application/duplicate/pipeline/extension/temperature, then lineage facts)
+- **2 physical tables** (`stg_lineage_event`, `stg_lineage_connection`) are populated by `j-lineage-main.kjb` (truncate + reload from PDC API); they are **not** dropped by `03-drop-all-objects.sql` and are not touched by `j-refresh-only.kjb`.
+- DDL is idempotent: `01-setup/03-drop-all-objects.sql` cleans all MVs before rebuild; `j-refresh-only.kjb` skips the rebuild and just re‑refreshes data.
 - Indexes are created on every date FK and natural‑key column to keep Mondrian SQL within MOLAP‑like response times.
 
 ### 3.2.8 Mondrian Categorization (cube editor)
@@ -555,7 +608,8 @@ j-main-script.kjb
 `t-execute-repo-file.ktr` iterates a configurable data grid of SQL file paths, fetches each file via the BA Server `generic-files` API, performs `${VAR}` substitution, splits multi‑statement SQL on semicolons (dollar‑quote aware), and executes each statement against PostgreSQL. Adding/removing SQL is a data‑grid edit — no code changes.
 
 **Outputs:**
-- 22 materialized views (1 staging, 13 dimensions, 8 facts)
+- 27 materialized views (1 staging, 16 dimensions, 10 facts)
+- 2 physical tables for lineage staging (populated by ETL, not by this harness)
 - Date dimension covering MIN→MAX of all date fields + current
 - Unknown date row (1900‑01‑01, key=19000101) for missing timestamps
 - All fact date FKs use `COALESCE(to_char(ts::date, 'YYYYMMDD')::int, 19000101)`
@@ -624,6 +678,12 @@ File‑by‑file `/home` directory transfer to bypass the 403 restriction on `/h
 
 **Single‑grain chart rule** — every `10-*` and `11-*` Analyzer report carries one metric (or same‑grain group). Mixed metrics live in pivot tables (`10-exec-kpis`) or in scatter/bubble (`11-owner-risk-scatter`) where each axis encodes a different unit on purpose.
 
+**Lineage endpoint cross-cube key** — `dim_lineage_endpoint.entity_key` is `md5(lower(trim(endpoint_name)))`, identical to `dim_entity.entity_key`. This lets analysts correlate lineage connections with catalog entities without a bridge table, joining directly on the MD5 key.
+
+**Lineage role-playing endpoints** — `fact_lineage_connection` contains two endpoint FKs (`source_endpoint_key`, `dest_endpoint_key`) that both reference `dim_lineage_endpoint`. In the Mondrian schema these are two separate inline `<Dimension>` blocks (not `<DimensionUsage>`) so they appear as distinct fields ("Source Endpoint", "Destination Endpoint") in Analyzer.
+
+**Mondrian VirtualCube ordering** — Mondrian silently drops any `<Cube>` element that appears after a `<VirtualCube>` in the schema XML. All regular cubes must be declared first. See Troubleshooting for detection steps.
+
 ## 3.6 Troubleshooting
 
 **Drill‑through returns 0 rows**
@@ -652,6 +712,11 @@ File‑by‑file `/home` directory transfer to bypass the 403 restriction on `/h
 - Confirm `.locale` files were uploaded alongside `.xanalyzer` / `.xdash`
 - Use `upload.sh` for recursive directory uploads
 
+**Cube appears in XML but not in Analyzer's data source selector**
+- Most likely cause: the `<Cube>` element is defined *after* a `<VirtualCube>` in the schema XML. Mondrian silently ignores regular cubes that follow a virtual cube — no error is logged.
+- Detect it: query the XMLA endpoint. The SOAP `MDSCHEMA_CUBES` request against `DataSourceInfo=PDC` (the Schema name, not the JNDI pool name) returns only the cubes Mondrian actually loaded. Compare against your XML to find the missing ones.
+- Fix: reorder the XML so all `<Cube>` elements precede the `<VirtualCube>`, then re-push with `push-cube.sh`.
+
 ## 3.7 Content Inventory
 
 **Analyzer reports** (`content/public/pdc-analysis/analyzer/`)
@@ -670,6 +735,16 @@ File‑by‑file `/home` directory transfer to bypass the 403 restriction on `/h
 Every report and dashboard has a matching `.locale` file controlling display names and descriptions in the Pentaho UI. These files are uploaded with `_PERM_HIDDEN=true` (handled automatically by `push-content.sh`) so they don't clutter the user-facing file browser. If you see them in **Browse Files**, toggle off **View → Show Hidden Files**.
 
 ## Version History
+
+**May 2026 — Data Lineage: 2 new cubes, 5 new schema objects, 3 new dashboards**
+- 2 new physical staging tables (`stg_lineage_event`, `stg_lineage_connection`) — loaded via REST API, survive schema rebuilds
+- 3 new dimension MVs: `dim_lineage_event_type`, `dim_lineage_job`, `dim_lineage_endpoint` (with cross-cube `entity_key`)
+- 2 new fact MVs: `fact_lineage_event` (event grain) and `fact_lineage_connection` (source→dest edge grain with role-playing endpoints)
+- Mondrian schema extended: 3 new shared dimensions (Lineage Event Type, Lineage Job, Lineage Endpoint) and 2 new cubes (`79. Lineage Events`, `80. Data Lineage Connections`) in business group "30. Lineage"
+- 3 new dashboards: D81 Lineage Activity, D82 Data Flow Map, D83 Lineage Operations Summary
+- New ETL job `j-lineage-main.kjb` + supporting transformations under `utility/lineage/`
+- Analytics coverage: 27 MVs (up from 22), 10 physical cubes + 1 virtual cube (up from 8+1)
+- **Root cause documented**: Mondrian silently drops `<Cube>` elements that follow a `<VirtualCube>` in the XML; fixed by reordering cubes 79 and 80 before the virtual cube
 
 **May 2026 — Strategic upgrade: 6 new cubes, 28 reports, 8 dashboards**
 - 13 new materialized views in `bidb_ext_dev`: dim_policy, dim_application, dim_extension, dim_temperature, dim_currency, dim_pipeline_status, fact_entity_policy, fact_entity_application, fact_duplicate, fact_pipeline_run, fact_extension_daily, fact_temperature_daily (plus extended `dim_entity` with cost fallback)
